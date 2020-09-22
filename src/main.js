@@ -3,12 +3,18 @@ import './styles/style.scss';
 
 import Phaser from 'phaser';
 
-import simpleScene from './js/scenes/simple-scene';
+import Openning from './js/scenes/openning';
 
-const gameConfig = {
-  width: 680,
-  height: 400,
-  scene: simpleScene,
-};
-
-new Phaser.Game(gameConfig);
+export default new Phaser.Game({
+  type: Phaser.AUTO,
+  width: 800,
+  height: 600,
+  scene: [Openning],
+  physics: {
+    default: 'arcade',
+    arcade: {
+      gravity: { y: 200 },
+      debug: false,
+    },
+  },
+});
