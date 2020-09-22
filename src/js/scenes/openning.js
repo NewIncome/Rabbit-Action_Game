@@ -34,7 +34,7 @@ export default class Openning extends Phaser.Scene {
       },
     }).setOrigin(0.5, 0.5);
     // To Make the Name of Files Being loaded
-    const assetText = this.make.text({
+    this.assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 50,
       text: '',
@@ -63,22 +63,28 @@ export default class Openning extends Phaser.Scene {
     });
 
     this.load.on('fileprogress', (file) => {
-
-      assetText.setText(`Loading asset: ${file.key}`);
+      this.assetText.setText(`Loading asset: ${file.key}`);
     });
     // 'complete' will only be emitted once all files are done loading
     this.load.on('complete', () => {
-
       progressBar.destroy();
       progressBox.destroy();
       loadingText.destroy();
       percentText.destroy();
-      assetText.destroy();
+      this.assetText.destroy();
     });
   }
 
   create() {
     this.add.sprite(400, 300, 'rabbit');
     // this.add.image(400, 300, 'rock-b');
+  }
+
+  update() {
+    this.input.on('pointerdown', () => {
+      if (!this.assetText.active) {
+        this.scene.start('game');
+      }
+    });
   }
 }
