@@ -9,8 +9,8 @@ import Game from './js/scenes/game';
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
-  width: 1130,
-  height: 800,
+  width: 1030,
+  height: 700,
   scene: [
     // Openning,
     Game],
@@ -18,7 +18,7 @@ export default new Phaser.Game({
     default: 'arcade',
     arcade: {
       gravity: { y: 200 },
-      debug: false,
+      debug: true,
     },
   },
 });

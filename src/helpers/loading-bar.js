@@ -10,8 +10,8 @@ export default function preLoadBar(scene, asset, key) {
   // To Make Loading... text
   const { width } = scene.cameras.main;
   const { height } = scene.cameras.main;
-
-  progressBox.fillRect(width / 3, height / 2.15, 320, 50);
+  console.log(`WxH: ${width}x${height}`);
+  progressBox.fillRect(width / 2.8, height / 2.15, 320, 50);
 
   const loadingText = scene.make.text({
     x: width / 2,
@@ -43,17 +43,17 @@ export default function preLoadBar(scene, asset, key) {
     },
   }).setOrigin(0.5, 0.5);
 
-  for (let i = 0; i < 500; i += 1) {
-    scene.load.image(`${key} ${Math.round(i / 5)}`,
-      '../assets/bg&objects/Background.png');
-  }
+  // for (let i = 0; i < 500; i += 1) {
+  //   scene.load.image(`${key} ${Math.round(i / 5)}`,
+  //     '../assets/bg&objects/Background.png');
+  // }
 
   // Event listeners from Phaser's LoaderPlugin
   scene.load.on('progress', (value) => {
     // gives a value between 0-1
     progressBar.clear();
     progressBar.fillStyle(0xffffff, 1);
-    progressBar.fillRect(width / 2.9, height / 2.1, 300 * value, 30);
+    progressBar.fillRect(width / 2.65, height / 2.1, 300 * value, 30);
     percentText.setText(`${Math.round(value * 100)}%`);
   });
 
