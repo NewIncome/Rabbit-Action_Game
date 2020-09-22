@@ -14,9 +14,9 @@ const GndCreate = (() => {
 
   const layerXextRepeater = (x, y, scene, tTile, mTile, bTile, landSize, n) => {
     for (let i = 0; i < (n * 50); i += 50) {
-      scene.add.image(x + i, y, tTile).setScale(0.2);
-      repeatTileOnX(x + i, y, scene, mTile, landSize);
-      scene.add.image(x + i, y + ((landSize + 1) * 50), bTile).setScale(0.2);
+      scene.add.image(x, y, tTile).setScale(0.2);
+      repeatTileOnY(x, y, scene, mTile, landSize);
+      scene.add.image(x, y + ((landSize + 1) * 50), bTile).setScale(0.2);
     }
   };
 
@@ -58,23 +58,27 @@ const GndCreate = (() => {
   // };
 
   // ---------- MEDIUM Lands ----------
-  const makeMdLand1 = (xPos, yPos, scene) => {
-    scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
-    repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 2);
-    scene.add.image(xPos, yPos + 150, 'tile-md-b').setScale(0.2);
+  const makeMdLand = (xPos, yPos, scene, size) => {
+    layerXextRepeater(xPos, yPos, scene, 'tile-md-t', 'tile-md-m', 'tile-md-b', size, 1);
   };
 
-  const makeMdLand2 = (xPos, yPos, scene) => {
-    scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
-    repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 3);
-    scene.add.image(xPos, yPos + 200, 'tile-md-b').setScale(0.2);
-  };
+  // const makeMdLand1 = (xPos, yPos, scene, size = 2) => {
+  //   scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
+  //   repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 2);
+  //   scene.add.image(xPos, yPos + 150, 'tile-md-b').setScale(0.2);
+  // };
 
-  const makeMdLand3 = (xPos, yPos, scene) => {
-    scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
-    repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 4);
-    scene.add.image(xPos, yPos + 250, 'tile-md-b').setScale(0.2);
-  };
+  // const makeMdLand2 = (xPos, yPos, scene) => {
+  //   scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
+  //   repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 3);
+  //   scene.add.image(xPos, yPos + 200, 'tile-md-b').setScale(0.2);
+  // };
+
+  // const makeMdLand3 = (xPos, yPos, scene) => {
+  //   scene.add.image(xPos, yPos, 'tile-md-t').setScale(0.2);
+  //   repeatTileOnY(xPos, yPos, scene, 'tile-md-m', 4);
+  //   scene.add.image(xPos, yPos + 250, 'tile-md-b').setScale(0.2);
+  // };
 
   // ---------- LARGE Lands ----------
   const makeLgLand1 = (xPos, yPos, scene, size = 3) => {
@@ -106,9 +110,10 @@ const GndCreate = (() => {
     // makeFlatLand1,
     // makeFlatLand2,
     // makeFlatLand3,
-    makeMdLand1,
-    makeMdLand2,
-    makeMdLand3,
+    makeMdLand,
+    // makeMdLand1,
+    // makeMdLand2,
+    // makeMdLand3,
     makeLgLand1,
     makeLgLand2,
     makeLgLand3,

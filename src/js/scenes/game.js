@@ -50,9 +50,9 @@ export default class Game extends Phaser.Scene {
     GndCreate.makeFlatLand(400, 550, this, 3);
     GndCreate.makeFlatLand(400, 600, this, 4);
 
-    GndCreate.makeMdLand1(200, 100, this);
-    GndCreate.makeMdLand2(250, 100, this);
-    GndCreate.makeMdLand3(300, 100, this);
+    GndCreate.makeMdLand(200, 100, this, 2);
+    GndCreate.makeMdLand(250, 100, this, 3);
+    GndCreate.makeMdLand(300, 100, this, 4);
 
     GndCreate.makeLgLand1(400, 50, this);
     GndCreate.makeLgLand2(450, 100, this);
