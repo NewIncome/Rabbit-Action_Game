@@ -1,10 +1,14 @@
-import Phaser, { GameObjects } from 'phaser';
+import Phaser, { Cameras, GameObjects } from 'phaser';
 
-import preLoadBar from '../../helpers/loading-bar';
+import preLoadBar from '../helpers/loading-bar';
 
-import tileLoader from '../../helpers/groundLoader';
+import tileLoader from '../helpers/groundLoader';
 
-import GndCreate from '../../helpers/groundMaker';
+import GndCreate from '../helpers/groundMaker';
+
+import rabbitLoad from '../characters/rabbit';
+
+import gEnemy from '../characters/enemy1';
 
 
 export default class Game extends Phaser.Scene {
@@ -39,25 +43,20 @@ export default class Game extends Phaser.Scene {
     this.load.image('smRock', '../assets/bg&objects/Objects/Object_3.png');
 
     // ---------- Loading Animated Objects ----------
-    this.load.spritesheet('rabbit-nrm-n-hit',
-      '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
-      { frameWidth: 45, frameHeight: 76 });
-    this.load.spritesheet('rabbit-right-run',
-      '../assets/player&enemies/rabbit-sprite_r-2(run).png',
-      { frameWidth: 51, frameHeight: 65 });
-    this.load.spritesheet('rabbit-right-jump',
-      '../assets/player&enemies/rabbit-sprite_r-3(jump).png',
-      { frameWidth: 61, frameHeight: 78 });
-    this.load.spritesheet('rabbit-left-run',
-      '../assets/player&enemies/rabbit-sprite_l-1 (run).png',
-      { frameWidth: 65, frameHeight: 66 });
-    this.load.spritesheet('rabbit-left-jump',
-      '../assets/player&enemies/rabbit-sprite_l-2 (jump).png',
-      { frameWidth: 42, frameHeight: 77 });
+    rabbitLoad(this);
+    gEnemy.load(this);
   }
 
+  // enemyMove(enemy, ground) {
+  //   this.add.text(ground.x,
+  //     ground.y + 50,
+  //     `gndWidth: ${ground.width}, groundX: ${ground.x}, groundY: ${ground.y}`);
+  //   // this.enemy.size
+  // }
+
   create() {
-    this.add.image(400, 300, 'game-bg').setScale(0.4);
+    this.add.image(400, 300, 'game-bg').setScale(0.4)
+      .setScrollFactor(0, 0);
 
     this.earthGrounds = this.physics.add.staticGroup();
 
@@ -86,14 +85,44 @@ export default class Game extends Phaser.Scene {
 
     this.add.image(700, 505, 'flower').setScale(0.5);
 
+
+    // ---------- Create Enemies & Player ----------
+    this.enemy1 = this.physics.add.sprite(650, 200, 'enemy1').setScale(0.2);
+
+    // gEnemy.createAll(this, 6);
+    this.gEnemies = this.physics.add.group({
+      key: 'enemy1' || 'enemy1-lft',
+      repeat: 4,
+      setXY: {
+        x: 150,
+        y: 400,
+        stepX: 200,
+        stepY: -100,
+      },
+      // setScale: 2,
+    });
+
     this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
 
+    this.player.setCollideWorldBounds(true);
+    this.physics.world.setBounds(0, -700, 1030, 1600);
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
 
+    this.physics.add.collider(this.enemy1, this.earthGrounds);
+
+    this.physics.add.collider(this.gEnemies, this.earthGrounds);
+    // this.physics.add.collider(this.gEnemies, this.earthGrounds, enemyMove, null, this);
+
+    // this.camera = new Cameras(0, 0, this.scale.width, this.scale.height);
+    this.cameras.main.startFollow(this.player);
+    this.cameras.main.setDeadzone(this.scale.width);
+    this.cameras.main.centerOnX(this.scale.width / 2);
+
+    this.add.text(200, 400, `camera X: ${this.cameras.main.centerX}`);
     // ---------- Movement ----------
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -143,6 +172,31 @@ export default class Game extends Phaser.Scene {
         { start: 5, end: 0 }),
       frameRate: 10,
       repeat: -1,
+    });
+
+    this.anims.create({
+      key: 'walkLft-s',
+      frames: this.anims.generateFrameNumbers('enemy1-lft',
+        { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'walkRgt-s',
+      frames: this.anims.generateFrameNumbers('enemy1',
+        { start: 1, end: 2 }),
+      frameRate: 2,
+      repeat: -1,
+    });
+
+    // ---------- Constant movement ----------
+    this.enemy1.anims.play('walkLft-s', true);
+
+    this.gEnemies.children.iterate((child, i) => {
+      child.setScale(0.2);
+      if (i % 2 === 0) {
+        child.anims.play('walkRgt-s', true);
+      } else child.anims.play('walkLft-s', true);
     });
   }
 
