@@ -39,9 +39,21 @@ export default class Game extends Phaser.Scene {
     this.load.image('smRock', '../assets/bg&objects/Objects/Object_3.png');
 
     // ---------- Loading Animated Objects ----------
-    this.load.spritesheet('rabbit',
-      '../assets/player&enemies/rabbit-sprite.png',
-      { frameWidth: 54, frameHeight: 90 });
+    this.load.spritesheet('rabbit-nrm-n-hit',
+      '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
+      { frameWidth: 45, frameHeight: 76 });
+    this.load.spritesheet('rabbit-right-run',
+      '../assets/player&enemies/rabbit-sprite_r-2(run).png',
+      { frameWidth: 51, frameHeight: 65 });
+    this.load.spritesheet('rabbit-right-jump',
+      '../assets/player&enemies/rabbit-sprite_r-3(jump).png',
+      { frameWidth: 61, frameHeight: 78 });
+    this.load.spritesheet('rabbit-left-run',
+      '../assets/player&enemies/rabbit-sprite_l-1 (run).png',
+      { frameWidth: 65, frameHeight: 66 });
+    this.load.spritesheet('rabbit-left-jump',
+      '../assets/player&enemies/rabbit-sprite_l-2 (jump).png',
+      { frameWidth: 42, frameHeight: 77 });
   }
 
   create() {
@@ -74,7 +86,7 @@ export default class Game extends Phaser.Scene {
 
     this.add.image(700, 505, 'flower').setScale(0.5);
 
-    this.player = this.physics.add.sprite(70, 300, 'rabbit');
+    this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
 
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
@@ -84,23 +96,83 @@ export default class Game extends Phaser.Scene {
 
     // ---------- Movement ----------
     this.cursors = this.input.keyboard.createCursorKeys();
+
+    this.anims.create({
+      key: 'left-run',
+      frames: this.anims.generateFrameNumbers('rabbit-left-run',
+        { start: 5, end: 0 }),
+      frameRate: 14,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'normal', // normal stance
+      // frames: [{ key: 'rabbit-nrm-n-hit', frame: 4 }],
+      // frameRate: 20,
+      frames: this.anims.generateFrameNumbers('rabbit-nrm-n-hit',
+        { start: 0, end: 3 }),
+      frameRate: 5,
+      repeat: 1,
+    });
+    this.anims.create({
+      key: 'right-run',
+      frames: this.anims.generateFrameNumbers('rabbit-right-run',
+        { start: 0, end: 5 }),
+      frameRate: 14,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'jump-s-l', // simple jump
+      frames: [{ key: 'rabbit-left-jump', frame: 2 }],
+      frameRate: 10,
+    });
+    this.anims.create({
+      key: 'jump-s-r', // simple jump
+      frames: [{ key: 'rabbit-right-jump', frame: 3 }],
+      frameRate: 10,
+    });
+    this.anims.create({
+      key: 'jump-right',
+      frames: this.anims.generateFrameNumbers('rabbit-right-jump',
+        { start: 0, end: 5 }),
+      frameRate: 10,
+      repeat: -1,
+    });
+    this.anims.create({
+      key: 'jump-left',
+      frames: this.anims.generateFrameNumbers('rabbit-left-jump',
+        { start: 5, end: 0 }),
+      frameRate: 10,
+      repeat: -1,
+    });
   }
 
   update() {
     // ---------- Cursor Movement ----------
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-160);
-      // this.player.anims.play('left', true);
+      this.player.anims.play('left-run', true);
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(160);
-      // this.player.anims.play('right', true);
+      this.player.anims.play('right-run', true);
     } else {
       this.player.body.setVelocityX(0);
+      this.player.anims.play('normal', true);
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       this.player.body.setVelocityY(-350);
-      // this.player.anims.play('up', true);
+      this.player.anims.play('jump-s-r');
     }
+    if (this.cursors.up.isDown && this.cursors.left.isDown) this.player.anims.play('jump-s-l');
+    else if (this.cursors.up.isDown && this.cursors.right.isDown) this.player.anims.play('jump-s-r');
+    else if (this.cursors.up.isDown && !this.cursors.right.isDown && !this.cursors.right.isDown) {
+      this.player.anims.play('jump-s-r');
+    }
+    //  else if (this.cursors.up.isDown) {
+    //   if (this.cursors.left.isDown) {
+    //     this.player.anims.play('jump-left', true);
+    //   } else if (this.cursors.right.isDown) {
+    //     this.player.anims.play('jump-right', true);
+    //   }
   }
 }
