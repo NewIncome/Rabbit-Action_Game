@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser, { GameObjects } from 'phaser';
 
 import preLoadBar from '../../helpers/loading-bar';
 
@@ -47,33 +47,71 @@ export default class Game extends Phaser.Scene {
   create() {
     this.add.image(400, 300, 'game-bg').setScale(0.4);
 
+    this.earthGrounds = this.physics.add.staticGroup();
+
+    this.earthGrounds.create(600, 400, 'tile-md-t');
+
+    this.earthGrounds.create(600, 450, 'tile-lg-tl');
+
+    // .setSize(35, 28) // working for 'tile-flat-l'
+    // .setDisplayOrigin(680, 690);
+    // this.earthGrounds.create(700, 500, 'tile-lg-tr').setScale(0.4)
+    // .setSize(68, 58).setDisplayOrigin(276, 375); // working for t-r-corner
+
     // Creating background objects
     this.add.image(750, 150, 'lessLgt-tree').setScale(0.5);
-    this.add.image(50, 20, 'lgRock').setScale(0.7);
+    this.earthGrounds.create(50, 20, 'lgRock');
 
     // Creating the Land
-    GndCreate.makeLgLand2(-100, 100, this);
+    GndCreate.makeLgLand2(-100, 100, this.earthGrounds);
     this.add.image(150, 300, 'light-tree').setScale(0.9);
-    GndCreate.makeLgLand1(350, 30, this);
-    GndCreate.makeLgLand2(550, 600, this);
-    GndCreate.makeLgLand3(0, 500, this); // 450~
-    GndCreate.makeMdLand(900, 170, this, 2); // Md
-    GndCreate.makeLgLand2(650, 270, this);
+    // GndCreate.makeLgLand1(350, 30, this.earthGrounds);
+    // GndCreate.makeLgLand2(550, 600, this.earthGrounds);
+    GndCreate.makeLgLand3(0, 500, this.earthGrounds); // 45.earthGrounds0~
+    // GndCreate.makeMdLand(900, 170, this.earthGrounds, 2); // .earthGroundsMd
+    // GndCreate.makeLgLand2(650, 270, this.earthGrounds);
 
-    // this.add.image(100, 200, 'land-s');
-    // this.add.image(100, 400, 'land-lg');
-    this.add.image(570, 410, 'land-flat');
+    // // this.add.image(100, 200, 'land-s');
+    // // this.add.image(100, 400, 'land-lg');
+    // this.earthGrounds.create(570, 410, 'land-flat');
 
-    this.add.image(900, 417, 'smRock').setScale(0.8);
+    // this.add.image(900, 417, 'smRock').setScale(0.8);
 
-    GndCreate.makeFlatLand(640, 120, this, 2);
-    GndCreate.makeFlatLand(660, 490, this, 5);
-    GndCreate.makeFlatLand(820, 400, this, 4);
+    // GndCreate.makeFlatLand(640, 120, this.earthGrounds, 2);
+    // GndCreate.makeFlatLand(730, 490, this.earthGrounds, 4);
+    GndCreate.makeFlatLand(820, 400, this.earthGrounds, 4);
 
-    GndCreate.makeMdLand(270, 120, this, 2);
+    // GndCreate.makeMdLand(270, 120, this.earthGrounds, 2);
 
     this.add.image(700, 530, 'flower').setScale(0.5);
 
-    const player = this.add.sprite(100, 600, 'rabbit');
+    this.player = this.physics.add.sprite(70, 300, 'rabbit');
+
+    this.add.text(400, 450, `${this.player.body.width}, ${this.player.body.height}`);
+
+    // ---------- Collisions ----------
+    this.physics.add.collider(this.player, this.earthGrounds);
+    this.player.body.checkCollision.up = false;
+    this.player.body.checkCollision.left = false;
+    this.player.body.checkCollision.right = false;
+
+    // ---------- Movement ----------
+    this.cursors = this.input.keyboard.createCursorKeys();
+  }
+
+  update() {
+    // ---------- Cursor Movement ----------
+    if (this.cursors.left.isDown) {
+      this.player.body.setVelocityX(-160);
+      // this.player.anims.play('left', true);
+    } else if (this.cursors.right.isDown) {
+      this.player.body.setVelocityX(160);
+      // this.player.anims.play('right', true);
+    } else if (this.cursors.up.isDown && this.player.body.touching.down) {
+      this.player.body.setVelocityY(-300);
+      // this.player.anims.play('up', true);
+    } else {  
+      this.player.body.setVelocityX(0);
+    }
   }
 }

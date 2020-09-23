@@ -2,29 +2,29 @@ const GndCreate = (() => {
   // helper functions to minimize code
   const repeatTileOnX = (x, y, scene, tile, n) => {
     for (let i = 50; i <= n * 50; i += 50) {
-      scene.add.image(x + i, y, tile).setScale(0.2);
+      scene.create(x + i, y, tile);
     }
   };
 
   const repeatTileOnY = (x, y, scene, tile, n) => {
     for (let i = 50; i <= n * 50; i += 50) {
-      scene.add.image(x, y + i, tile).setScale(0.2);
+      scene.create(x, y + i, tile);
     }
   };
 
   const layerXextRepeater = (x, y, scene, tTile, mTile, bTile, landSize, n) => {
     for (let i = 0; i < (n * 50); i += 50) {
-      scene.add.image(x, y, tTile).setScale(0.2);
+      scene.create(x, y, tTile);
       repeatTileOnY(x, y, scene, mTile, landSize);
-      scene.add.image(x, y + ((landSize + 1) * 50), bTile).setScale(0.2);
+      scene.create(x, y + ((landSize + 1) * 50), bTile);
     }
   };
 
   const layerYextRepeater = (x, y, scene, lTile, mTile, rTile, landSize, n) => {
     for (let i = 0; i < (n * 50); i += 50) {
-      scene.add.image(x, y + i, lTile).setScale(0.2);
+      scene.create(x, y + i, lTile);
       repeatTileOnX(x, y + i, scene, mTile, landSize);
-      scene.add.image(x + ((landSize + 1) * 50), y + i, rTile).setScale(0.2);
+      scene.create(x + ((landSize + 1) * 50), y + i, rTile);
     }
   };
 
