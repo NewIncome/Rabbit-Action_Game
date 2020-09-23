@@ -49,48 +49,35 @@ export default class Game extends Phaser.Scene {
 
     this.earthGrounds = this.physics.add.staticGroup();
 
-    this.earthGrounds.create(600, 400, 'tile-md-t');
-
-    this.earthGrounds.create(600, 450, 'tile-lg-tl');
-
-    // .setSize(35, 28) // working for 'tile-flat-l'
-    // .setDisplayOrigin(680, 690);
-    // this.earthGrounds.create(700, 500, 'tile-lg-tr').setScale(0.4)
-    // .setSize(68, 58).setDisplayOrigin(276, 375); // working for t-r-corner
-
     // Creating background objects
     this.add.image(750, 150, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 20, 'lgRock');
 
     // Creating the Land
-    GndCreate.makeLgLand2(-100, 100, this.earthGrounds);
+    GndCreate.makeLgLand2(-100, 100, this, this.earthGrounds);
     this.add.image(150, 300, 'light-tree').setScale(0.9);
-    // GndCreate.makeLgLand1(350, 30, this.earthGrounds);
-    // GndCreate.makeLgLand2(550, 600, this.earthGrounds);
-    GndCreate.makeLgLand3(0, 500, this.earthGrounds); // 45.earthGrounds0~
-    // GndCreate.makeMdLand(900, 170, this.earthGrounds, 2); // .earthGroundsMd
-    // GndCreate.makeLgLand2(650, 270, this.earthGrounds);
+    GndCreate.makeLgLand1(350, 30, this, this.earthGrounds);
+    GndCreate.makeLgLand2(550, 600, this, this.earthGrounds);
+    GndCreate.makeLgLand3(0, 500, this, this.earthGrounds); // 45.earthGrounds0~
+    GndCreate.makeMdLand(900, 170, this, this.earthGrounds, 2); // .earthGroundsMd
+    GndCreate.makeLgLand2(650, 270, this, this.earthGrounds);
 
-    // // this.add.image(100, 200, 'land-s');
-    // // this.add.image(100, 400, 'land-lg');
-    // this.earthGrounds.create(570, 410, 'land-flat');
+    this.earthGrounds.create(570, 410, 'land-flat');
 
-    // this.add.image(900, 417, 'smRock').setScale(0.8);
+    this.add.image(900, 417, 'smRock').setScale(0.8);
 
-    // GndCreate.makeFlatLand(640, 120, this.earthGrounds, 2);
-    // GndCreate.makeFlatLand(730, 490, this.earthGrounds, 4);
-    GndCreate.makeFlatLand(820, 400, this.earthGrounds, 4);
+    GndCreate.makeFlatLand(640, 120, this, this.earthGrounds, 2);
+    GndCreate.makeFlatLand(730, 490, this, this.earthGrounds, 4);
+    GndCreate.makeFlatLand(820, 400, this, this.earthGrounds, 4);
 
-    // GndCreate.makeMdLand(270, 120, this.earthGrounds, 2);
+    // GndCreate.makeMdLand(270, 120, this, this.earthGrounds, 2);
 
     this.add.image(700, 530, 'flower').setScale(0.5);
 
     this.player = this.physics.add.sprite(70, 300, 'rabbit');
 
-    this.add.text(400, 450, `${this.player.body.width}, ${this.player.body.height}`);
-
     // ---------- Collisions ----------
-    this.physics.add.collider(this.player, this.earthGrounds);
+    this.physics.add.collider(this.player, this, this.earthGrounds);
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
