@@ -47,13 +47,6 @@ export default class Game extends Phaser.Scene {
     gEnemy.load(this);
   }
 
-  // enemyMove(enemy, ground) {
-  //   this.add.text(ground.x,
-  //     ground.y + 50,
-  //     `gndWidth: ${ground.width}, groundX: ${ground.x}, groundY: ${ground.y}`);
-  //   // this.enemy.size
-  // }
-
   create() {
     this.add.image(400, 300, 'game-bg').setScale(0.4)
       .setScrollFactor(0, 0);
@@ -77,7 +70,7 @@ export default class Game extends Phaser.Scene {
 
     this.add.image(900, 380, 'smRock').setScale(0.8);
 
-    GndCreate.makeFlatLand(640, 120, this, this.earthGrounds, 2);
+    GndCreate.makeFlatLand(670, 120, this, this.earthGrounds, 2);
     GndCreate.makeFlatLand(730, 490, this, this.earthGrounds, 4);
     GndCreate.makeFlatLand(820, 400, this, this.earthGrounds, 4);
 
@@ -87,20 +80,7 @@ export default class Game extends Phaser.Scene {
 
 
     // ---------- Create Enemies & Player ----------
-    this.enemy1 = this.physics.add.sprite(650, 200, 'enemy1').setScale(0.2);
-
-    // gEnemy.createAll(this, 6);
-    this.gEnemies = this.physics.add.group({
-      key: 'enemy1' || 'enemy1-lft',
-      repeat: 4,
-      setXY: {
-        x: 150,
-        y: 400,
-        stepX: 200,
-        stepY: -100,
-      },
-      // setScale: 2,
-    });
+    gEnemy.createAll(this, 4);
 
     this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
 
@@ -112,12 +92,19 @@ export default class Game extends Phaser.Scene {
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
 
-    this.physics.add.collider(this.enemy1, this.earthGrounds);
-
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
-    // this.physics.add.collider(this.gEnemies, this.earthGrounds, enemyMove, null, this);
+    // this.gEnemies.children.iterate((child) => {
+    //   this.add.text(child.x, 380, `EnemyChild: ${child.body.width}`);
+    //   this.physics.add.collider(child, this.earthGrounds, (enemy, gnd) => {
+    //     console.log(gnd);
+    //     this.add.text(450, 450, 'entered collider!!!');
+    //     this.add.text(450, 450, `Enemy: ${enemy}, ground: ${gnd}`);
+    //     this.add.text(enemy.x,
+    //       enemy.y - 50,
+    //       `gndWidth: ${gnd.width}, groundX: ${gnd.x}, groundY: ${gnd.y}`);
+    //   }, null, this);
+    // });
 
-    // this.camera = new Cameras(0, 0, this.scale.width, this.scale.height);
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
     this.cameras.main.centerOnX(this.scale.width / 2);
@@ -188,16 +175,6 @@ export default class Game extends Phaser.Scene {
       frameRate: 2,
       repeat: -1,
     });
-
-    // ---------- Constant movement ----------
-    this.enemy1.anims.play('walkLft-s', true);
-
-    this.gEnemies.children.iterate((child, i) => {
-      child.setScale(0.2);
-      if (i % 2 === 0) {
-        child.anims.play('walkRgt-s', true);
-      } else child.anims.play('walkLft-s', true);
-    });
   }
 
   update() {
@@ -228,5 +205,9 @@ export default class Game extends Phaser.Scene {
     //   } else if (this.cursors.right.isDown) {
     //     this.player.anims.play('jump-right', true);
     //   }
+
+    gEnemy.keepWalking(this.gEnemies);
+
+    gEnemy.reapear(this.gEnemies);
   }
 }
