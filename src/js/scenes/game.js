@@ -55,7 +55,8 @@ export default class Game extends Phaser.Scene {
 
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
-    this.earthGrounds.create(50, 32, 'lgRock');
+    this.earthGrounds.create(50, 32, 'lgRock')
+      .setSize(120, 75);
 
     // Creating the Land
     GndCreate.makeLgLand2(-100, 100, this, this.earthGrounds);
@@ -199,12 +200,6 @@ export default class Game extends Phaser.Scene {
     else if (this.cursors.up.isDown && !this.cursors.right.isDown && !this.cursors.right.isDown) {
       this.player.anims.play('jump-s-r');
     }
-    //  else if (this.cursors.up.isDown) {
-    //   if (this.cursors.left.isDown) {
-    //     this.player.anims.play('jump-left', true);
-    //   } else if (this.cursors.right.isDown) {
-    //     this.player.anims.play('jump-right', true);
-    //   }
 
     gEnemy.keepWalking(this.gEnemies);
 
