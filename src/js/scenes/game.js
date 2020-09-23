@@ -50,34 +50,34 @@ export default class Game extends Phaser.Scene {
     this.earthGrounds = this.physics.add.staticGroup();
 
     // Creating background objects
-    this.add.image(750, 150, 'lessLgt-tree').setScale(0.5);
-    this.earthGrounds.create(50, 20, 'lgRock');
+    this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
+    this.earthGrounds.create(50, 32, 'lgRock');
 
     // Creating the Land
     GndCreate.makeLgLand2(-100, 100, this, this.earthGrounds);
-    this.add.image(150, 300, 'light-tree').setScale(0.9);
+    this.add.image(150, 280, 'light-tree').setScale(0.9);
     GndCreate.makeLgLand1(350, 30, this, this.earthGrounds);
     GndCreate.makeLgLand2(550, 600, this, this.earthGrounds);
     GndCreate.makeLgLand3(0, 500, this, this.earthGrounds); // 45.earthGrounds0~
     GndCreate.makeMdLand(900, 170, this, this.earthGrounds, 2); // .earthGroundsMd
     GndCreate.makeLgLand2(650, 270, this, this.earthGrounds);
 
-    this.earthGrounds.create(570, 410, 'land-flat');
+    this.earthGrounds.create(570, 340, 'land-flat');
 
-    this.add.image(900, 417, 'smRock').setScale(0.8);
+    this.add.image(900, 380, 'smRock').setScale(0.8);
 
     GndCreate.makeFlatLand(640, 120, this, this.earthGrounds, 2);
     GndCreate.makeFlatLand(730, 490, this, this.earthGrounds, 4);
     GndCreate.makeFlatLand(820, 400, this, this.earthGrounds, 4);
 
-    // GndCreate.makeMdLand(270, 120, this, this.earthGrounds, 2);
+    GndCreate.makeMdLand(320, 120, this, this.earthGrounds, 2);
 
-    this.add.image(700, 530, 'flower').setScale(0.5);
+    this.add.image(700, 505, 'flower').setScale(0.5);
 
     this.player = this.physics.add.sprite(70, 300, 'rabbit');
 
     // ---------- Collisions ----------
-    this.physics.add.collider(this.player, this, this.earthGrounds);
+    this.physics.add.collider(this.player, this.earthGrounds);
     this.player.body.checkCollision.up = false;
     this.player.body.checkCollision.left = false;
     this.player.body.checkCollision.right = false;
@@ -94,11 +94,13 @@ export default class Game extends Phaser.Scene {
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(160);
       // this.player.anims.play('right', true);
-    } else if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.body.setVelocityY(-300);
-      // this.player.anims.play('up', true);
-    } else {  
+    } else {
       this.player.body.setVelocityX(0);
+    }
+
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      this.player.body.setVelocityY(-350);
+      // this.player.anims.play('up', true);
     }
   }
 }
