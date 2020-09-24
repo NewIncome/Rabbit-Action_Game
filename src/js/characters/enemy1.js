@@ -26,7 +26,6 @@ const gEnemy = (() => {
   const keepWalking = (group) => {
     group.children.iterate((child, i) => {
       child.setScale(0.2);
-      console.log('inside iteration');
       if (child.body.speed.x === 0) {
         if (i % 2 === 0) {
           child.anims.play('walkRgt-s', true);

@@ -89,14 +89,15 @@ export default class Game extends Phaser.Scene {
     gEnemy.createAll(this, 2);
 
     this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
+    this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
     this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
     this.player.body.checkCollision.up = false;
-    // this.player.body.checkCollision.left = false;
-    // this.player.body.checkCollision.right = false;
+    this.player.body.checkCollision.left = false;
+    this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
     // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
@@ -124,7 +125,6 @@ export default class Game extends Phaser.Scene {
     // gEnemy.hitWall(this.gEnemies);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      console.log('inside overlap');
       if (this.spaceKey.isDown) {
         console.log('it HIT!!');
         enemy.anims.play('enemy-hit');
@@ -135,7 +135,6 @@ export default class Game extends Phaser.Scene {
 
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
-    // this.player.checkCollision(() => { console.log("collided!"); });
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
@@ -254,6 +253,9 @@ export default class Game extends Phaser.Scene {
 
     gEnemy.reappear(this.gEnemies);
 
+    this.playerSpeed.x = this.player.x;
+    this.playerSpeed.y = this.player.y - 50;
+    this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
     this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive()}`;
   }
 }
