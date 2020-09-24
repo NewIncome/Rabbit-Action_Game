@@ -53,6 +53,10 @@ export default class Game extends Phaser.Scene {
 
     this.earthGrounds = this.physics.add.staticGroup();
 
+    this.spaceKey = this.input.keyboard.addKey('SPACE');
+    this.sideFlag = 'right';
+
+    this.add.image(200, 400, 'rabbit-righ-punch').setFrame(4);
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 32, 'lgRock')
@@ -94,17 +98,15 @@ export default class Game extends Phaser.Scene {
     this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
-    // this.gEnemies.children.iterate((child) => {
-    //   this.add.text(child.x, 380, `EnemyChild: ${child.body.width}`);
-    //   this.physics.add.collider(child, this.earthGrounds, (enemy, gnd) => {
-    //     console.log(gnd);
-    //     this.add.text(450, 450, 'entered collider!!!');
-    //     this.add.text(450, 450, `Enemy: ${enemy}, ground: ${gnd}`);
-    //     this.add.text(enemy.x,
-    //       enemy.y - 50,
-    //       `gndWidth: ${gnd.width}, groundX: ${gnd.x}, groundY: ${gnd.y}`);
-    //   }, null, this);
-    // });
+    // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
+    //   console.log('Enemy:');
+    //   console.log(enemy);
+    //   console.log('Ground:');
+    //   console.log(gnd);
+    // }, null, this);
+    // gEnemy.hitWall(this.gEnemies);
+
+    // this.player.checkCollision(() => { console.log("collided!"); });
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
@@ -118,13 +120,18 @@ export default class Game extends Phaser.Scene {
       key: 'left-run',
       frames: this.anims.generateFrameNumbers('rabbit-left-run',
         { start: 5, end: 0 }),
-      frameRate: 14,
+      frameRate: 12,
       repeat: -1,
     });
     this.anims.create({
-      key: 'normal', // normal stance
-      // frames: [{ key: 'rabbit-nrm-n-hit', frame: 4 }],
-      // frameRate: 20,
+      key: 'normal-l',
+      frames: this.anims.generateFrameNumbers('rabbit-nrm-n-hit-left',
+        { start: 0, end: 3 }),
+      frameRate: 5,
+      repeat: 1,
+    });
+    this.anims.create({
+      key: 'normal-r',
       frames: this.anims.generateFrameNumbers('rabbit-nrm-n-hit',
         { start: 0, end: 3 }),
       frameRate: 5,
@@ -134,7 +141,7 @@ export default class Game extends Phaser.Scene {
       key: 'right-run',
       frames: this.anims.generateFrameNumbers('rabbit-right-run',
         { start: 0, end: 5 }),
-      frameRate: 14,
+      frameRate: 12,
       repeat: -1,
     });
     this.anims.create({
@@ -148,20 +155,19 @@ export default class Game extends Phaser.Scene {
       frameRate: 10,
     });
     this.anims.create({
-      key: 'jump-right',
-      frames: this.anims.generateFrameNumbers('rabbit-right-jump',
-        { start: 0, end: 5 }),
-      frameRate: 10,
-      repeat: -1,
+      key: 'punch-left',
+      frames: [{ key: 'rabbit-left-punch', frame: 0 }],
+      frameRate: 1,
+      repeat: 0,
     });
     this.anims.create({
-      key: 'jump-left',
-      frames: this.anims.generateFrameNumbers('rabbit-left-jump',
-        { start: 5, end: 0 }),
+      key: 'punch-right',
+      frames: this.anims.generateFrameNumbers('rabbit-righ-punch',
+        { start: 4, end: 0 }),
+      // frames: [{ key: 'rabbit-right-punch', frame: 4 }],
       frameRate: 10,
-      repeat: -1,
+      repeat: 1,
     });
-
     this.anims.create({
       key: 'walkLft-s',
       frames: this.anims.generateFrameNumbers('enemy1-lft',
@@ -176,6 +182,12 @@ export default class Game extends Phaser.Scene {
       frameRate: 2,
       repeat: -1,
     });
+
+    this.anims.create({
+      key: 'enemy-hit',
+      frames: [{ key: 'enemy1', frame: 2 }],
+      frameRate: 10,
+    });
   }
 
   update() {
@@ -183,12 +195,20 @@ export default class Game extends Phaser.Scene {
     if (this.cursors.left.isDown) {
       this.player.body.setVelocityX(-160);
       this.player.anims.play('left-run', true);
+      this.sideFlag = 'left';
     } else if (this.cursors.right.isDown) {
       this.player.body.setVelocityX(160);
       this.player.anims.play('right-run', true);
+      this.sideFlag = 'right';
     } else {
       this.player.body.setVelocityX(0);
-      this.player.anims.play('normal', true);
+      if (this.sideFlag === 'left') {
+        this.player.anims.play('normal-l', true);
+      } else this.player.anims.play('normal-r', true);
+    }
+
+    if (this.spaceKey.isDown) {
+      this.player.anims.play('punch-right');
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
@@ -201,8 +221,18 @@ export default class Game extends Phaser.Scene {
       this.player.anims.play('jump-s-r');
     }
 
+    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
+      console.log('inside overlap');
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.anims.play('enemy-hit');
+        enemy.setVelocityY(-50);
+        enemy.disableBody(true, true);
+      }
+    }, null, this);
+
     gEnemy.keepWalking(this.gEnemies);
 
-    gEnemy.reapear(this.gEnemies);
+    gEnemy.reappear(this.gEnemies);
   }
 }

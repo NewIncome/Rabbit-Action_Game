@@ -26,17 +26,27 @@ const gEnemy = (() => {
   const keepWalking = (group) => {
     group.children.iterate((child, i) => {
       child.setScale(0.2);
-      if (i % 2 === 0) {
-        child.anims.play('walkRgt-s', true);
-        child.setVelocityX(60);
-      } else {
+      if (child.body.speed.x === 0) {
+        if (i % 2 === 0) {
+          child.anims.play('walkRgt-s', true);
+          child.setVelocityX(60);
+        } else {
+          child.anims.play('walkLft-s', true);
+          child.setVelocityX(-60);
+        }
+      }
+      if (child.body.checkCollision.right) {
         child.anims.play('walkLft-s', true);
         child.setVelocityX(-60);
+      } else if (child.body.checkCollision.left) {
+        child.anims.play('walkRgt-s', true);
+        child.setVelocityX(60);
       }
+
     });
   };
 
-  const reapear = (group) => {
+  const reappear = (group) => {
     group.children.iterate((child) => {
       if (child.y > 700) {
         child.y = Phaser.Math.Between(-100, 0);
@@ -46,12 +56,11 @@ const gEnemy = (() => {
     });
   };
 
-
   return {
     load,
     createAll,
     keepWalking,
-    reapear,
+    reappear,
   };
 })();
 
