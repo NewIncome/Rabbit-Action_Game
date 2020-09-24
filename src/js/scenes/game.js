@@ -56,7 +56,8 @@ export default class Game extends Phaser.Scene {
     this.spaceKey = this.input.keyboard.addKey('SPACE');
     this.sideFlag = 'right';
 
-    this.add.image(200, 400, 'rabbit-righ-punch').setFrame(4);
+    this.add.image(300, 300, 'rabbit-righ-punch').setFrame(4);
+
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 32, 'lgRock')
@@ -85,7 +86,7 @@ export default class Game extends Phaser.Scene {
 
 
     // ---------- Create Enemies & Player ----------
-    gEnemy.createAll(this, 4);
+    gEnemy.createAll(this, 2);
 
     this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
 
@@ -94,10 +95,26 @@ export default class Game extends Phaser.Scene {
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
     this.player.body.checkCollision.up = false;
-    this.player.body.checkCollision.left = false;
-    this.player.body.checkCollision.right = false;
+    // this.player.body.checkCollision.left = false;
+    // this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
+    // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
+    //   // console.log(enemy);
+    //   // console.log(gnd);
+
+    //   if (enemy.body.touching.left) {
+    //     console.log(('collided left'));
+    //     enemy.anims.play('walkRgt-s', true);
+    //     enemy.setVelocityX(60);
+    //   } else if (enemy.body.touching.right) {
+    //     console.log(('collided right'));
+    //     enemy.anims.play('walkLft-s', true);
+    //     enemy.setVelocityX(-60);
+    //   } else if (enemy.body.touching.up) console.log(('collided up'));
+    //   else if (enemy.body.touching.down) console.log(('collided down'));
+    // }, null, this);
+
     // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
     //   console.log('Enemy:');
     //   console.log(enemy);
@@ -106,13 +123,25 @@ export default class Game extends Phaser.Scene {
     // }, null, this);
     // gEnemy.hitWall(this.gEnemies);
 
+    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
+      console.log('inside overlap');
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.anims.play('enemy-hit');
+        enemy.setVelocityY(-50);
+        enemy.disableBody(true, true);
+      }
+    }, null, this);
+
+    this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
+
     // this.player.checkCollision(() => { console.log("collided!"); });
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
     this.cameras.main.centerOnX(this.scale.width / 2);
 
-    this.add.text(200, 400, `camera X: ${this.cameras.main.centerX}`);
+    this.add.text(200, 300, `camera X: ${this.cameras.main.centerX}`);
     // ---------- Movement ----------
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -221,18 +250,10 @@ export default class Game extends Phaser.Scene {
       this.player.anims.play('jump-s-r');
     }
 
-    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      console.log('inside overlap');
-      if (this.spaceKey.isDown) {
-        console.log('it HIT!!');
-        enemy.anims.play('enemy-hit');
-        enemy.setVelocityY(-50);
-        enemy.disableBody(true, true);
-      }
-    }, null, this);
-
     gEnemy.keepWalking(this.gEnemies);
 
     gEnemy.reappear(this.gEnemies);
+
+    this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive()}`;
   }
 }

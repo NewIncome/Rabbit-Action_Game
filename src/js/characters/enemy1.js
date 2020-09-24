@@ -26,6 +26,7 @@ const gEnemy = (() => {
   const keepWalking = (group) => {
     group.children.iterate((child, i) => {
       child.setScale(0.2);
+      console.log('inside iteration');
       if (child.body.speed.x === 0) {
         if (i % 2 === 0) {
           child.anims.play('walkRgt-s', true);
@@ -34,13 +35,6 @@ const gEnemy = (() => {
           child.anims.play('walkLft-s', true);
           child.setVelocityX(-60);
         }
-      }
-      if (child.body.checkCollision.right) {
-        child.anims.play('walkLft-s', true);
-        child.setVelocityX(-60);
-      } else if (child.body.checkCollision.left) {
-        child.anims.play('walkRgt-s', true);
-        child.setVelocityX(60);
       }
 
     });
