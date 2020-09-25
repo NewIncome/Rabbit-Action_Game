@@ -1,23 +1,44 @@
-export default function rabbitLoad(scene) {
-  scene.load.spritesheet('rabbit-nrm-n-hit',
-    '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
-    { frameWidth: 45, frameHeight: 76 });
-  scene.load.spritesheet('rabbit-nrm-n-hit-left',
-    '../assets/player&enemies/rabbit-sprite_l-0(normal&hit).png',
-    { frameWidth: 45, frameHeight: 76 });
-  scene.load.spritesheet('rabbit-right-run',
-    '../assets/player&enemies/rabbit-sprite_r-2(run).png',
-    { frameWidth: 50, frameHeight: 76 });
-  scene.load.spritesheet('rabbit-right-jump',
-    '../assets/player&enemies/rabbit-sprite_r-3(jump).png',
-    { frameWidth: 61, frameHeight: 78 });
-  scene.load.spritesheet('rabbit-left-run',
-    '../assets/player&enemies/rabbit-sprite_l-1 (run).png',
-    { frameWidth: 51, frameHeight: 76 });
-  scene.load.spritesheet('rabbit-righ-punch',
-    '../assets/player&enemies/rabbit-sprite_r-4(punch).png',
-    { frameWidth: 60, frameHeight: 76 });
-  scene.load.spritesheet('rabbit-left-jump',
-    '../assets/player&enemies/rabbit-sprite_l-2 (jump).png',
-    { frameWidth: 42, frameHeight: 77 });
+/* eslint-disable no-undef */
+import Entity from './entity';
+
+export default class Player extends Entity {
+  constructor(scene, x, y, key) {
+    super(scene, x, y, key, 'Player');
+
+    this.setData('velocity', 200);
+    this.setData('lives', 3);
+  }
+
+  moveUp() { this.body.velocity.y = -this.getData('velocity'); }
+
+  moveDown() { this.body.velocity.y = this.getData('velocity'); }
+
+  moveLeft() { this.body.velocity.x = -this.getData('velocity'); }
+
+  moveRight() { this.body.velocity.x = this.getData('velocity'); }
+
+  onHit() {
+    this.scene.time.addEvent({
+      delay: 100,
+      callback() {
+
+      },
+      callbackScope: this,
+      loop: false,
+    });
+  }
+
+  update() {
+    this.body.setVelocity(0, 0);
+
+    this.x = this.scene.game.config.width * 0.07;
+    this.y = this.scene.game.config.height * 0.45;
+
+    this.setCollideWorldBounds(true);
+    this.body.checkCollision.up = false;
+    this.body.checkCollision.left = false;
+    this.body.checkCollision.right = false;
+
+    scene.add.text(this.x + 50, this.y, 'Speed:');
+  }
 }

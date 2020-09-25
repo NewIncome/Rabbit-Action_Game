@@ -2,11 +2,11 @@ import Phaser, { Cameras, GameObjects } from 'phaser';
 
 import preLoadBar from '../helpers/loading-bar';
 
-import tileLoader from '../helpers/groundLoader';
+import ImgLoader from '../helpers/loader';
 
 import GndCreate from '../helpers/groundMaker';
 
-import rabbitLoad from '../characters/rabbit';
+import Player from '../characters/rabbit';
 
 import gEnemy from '../characters/enemy1';
 
@@ -21,17 +21,13 @@ export default class Game extends Phaser.Scene {
     // preLoadBar(this, asset, 'game-bg');
 
     // ---------- Loading the Land ----------
-    this.load.image('land-s', '../assets/bg&objects/land-sm.png');
-    this.load.image('land-lg', '../assets/bg&objects/land-lg.png');
-    this.load.image('land-flat', '../assets/bg&objects/land-ss.png');
-
-    tileLoader(this, 'tile-flat-', ['l', 'm', 'r'],
+    ImgLoader.tiles(this, 'tile-flat-', ['l', 'm', 'r'],
       '../assets/bg&objects/Tile_', 10, 3, '.png');
 
-    tileLoader(this, 'tile-md-', ['t', 'm', 'b'],
+    ImgLoader.tiles(this, 'tile-md-', ['t', 'm', 'b'],
       '../assets/bg&objects/Tile_', 13, 3, '.png');
 
-    tileLoader(this, 'tile-lg-',
+    ImgLoader.tiles(this, 'tile-lg-',
       ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'bl', 'bm', 'br'],
       '../assets/bg&objects/Tile_', 1, 9, '.png');
 
@@ -43,8 +39,14 @@ export default class Game extends Phaser.Scene {
     this.load.image('smRock', '../assets/bg&objects/Objects/Object_3.png');
 
     // ---------- Loading Animated Objects ----------
-    rabbitLoad(this);
-    gEnemy.load(this);
+    // rabbitLoad(this);
+    ImgLoader.player(this);
+
+    ImgLoader.enemy1(this);
+
+    // this.load.spritesheet('rabbit-nrm-n-hit',
+    //   '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
+    //   { frameWidth: 45, frameHeight: 76 });
   }
 
   create() {
@@ -88,16 +90,22 @@ export default class Game extends Phaser.Scene {
     // ---------- Create Enemies & Player ----------
     gEnemy.createAll(this, 2);
 
-    this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
+    // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
+    this.player = new Player(
+      this,
+      this.game.config.width * 0.5,
+      this.game.config.height * 0.5,
+      'rabbit-nrm-n-hit',
+    );
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
-    this.player.setCollideWorldBounds(true);
+    // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
-    this.player.body.checkCollision.up = false;
-    this.player.body.checkCollision.left = false;
-    this.player.body.checkCollision.right = false;
+    // this.player.body.checkCollision.up = false;
+    // this.player.body.checkCollision.left = false;
+    // this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
     // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
@@ -177,9 +185,10 @@ export default class Game extends Phaser.Scene {
     });
     this.anims.create({
       key: 'punch-left',
-      frames: [{ key: 'rabbit-left-punch', frame: 0 }],
-      frameRate: 1,
-      repeat: 1,
+      frames: this.anims.generateFrameNumbers('rabbit-left-punch',
+        { start: 0, end: 4 }),
+      frameRate: 10,
+      repeat: -1,
     });
     this.anims.create({
       key: 'punch-right',
@@ -187,7 +196,7 @@ export default class Game extends Phaser.Scene {
         { start: 4, end: 0 }),
       // frames: [{ key: 'rabbit-right-punch', frame: 4 }],
       frameRate: 10,
-      repeat: 1,
+      repeat: -1,
     });
     this.anims.create({
       key: 'walkLft-s',
@@ -229,7 +238,13 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.spaceKey.isDown) {
-      this.player.anims.play('punch-right');
+      if (this.sideFlag === 'left') {
+        this.player.anims.play('punch-left');
+        this.player.body.setVelocityX(-10);
+      } else {
+        this.player.anims.play('punch-right');
+        this.player.body.setVelocityX(10);
+      }
     }
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
