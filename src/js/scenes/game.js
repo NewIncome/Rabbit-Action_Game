@@ -101,7 +101,7 @@ export default class Game extends Phaser.Scene {
         stepX: 200,
         stepY: -100,
       },
-      setSize: { width: 50, height: 50 },
+      setSize: { x: 50, y: 50 },
       runChildUpdate: true,
     });
     // this.gEnemies.scaleXY(0.2, 0.2);

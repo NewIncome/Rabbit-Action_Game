@@ -7,7 +7,6 @@ export default class Enemy extends Entity {
 
     this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('lives', 1);
-    // this.setSize(50, 50);
   }
 
   onKill() {
@@ -15,6 +14,8 @@ export default class Enemy extends Entity {
   }
 
   update() {
+    this.scaleX = 0.25;
+    this.scaleY = 0.25;
     this.body.velocity.x = this.getData('velocity');
 
     if (this.body.y > 700) {
