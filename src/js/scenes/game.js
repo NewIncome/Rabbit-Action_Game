@@ -13,9 +13,29 @@ import Enemy from '../characters/enemy1';
 import Movement from '../helpers/animations';
 
 
+const GamePhaseCycle = (cycle, enemycount) => {
+  if (enemycount === 0 && cycle === 0) {
+    return 1;
+  }
+  if (enemycount === 0 && cycle === 1) {
+    return 2;
+  }
+  if (enemycount === 0 && cycle === 2) {
+    // createBoss();
+    return 3;
+  }
+  if (enemycount === 0 && cycle === 2) return 'Win';
+
+  return 'Game Over';
+};
+
 export default class Game extends Phaser.Scene {
   constructor() {
     super('game');
+  }
+
+  init() {
+    this.gamePhase = 0;
   }
 
   preload() {
@@ -49,6 +69,20 @@ export default class Game extends Phaser.Scene {
     // this.load.spritesheet('rabbit-nrm-n-hit',
     //   '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
     //   { frameWidth: 45, frameHeight: 76 });
+
+    this.createEnemy = (type, qnt) => this.physics.add.group({
+      classType: Enemy,
+      key: type,
+      repeat: qnt - 1,
+      setXY: {
+        x: 150,
+        y: 400,
+        stepX: 200,
+        stepY: -100,
+      },
+      setSize: { x: 50, y: 50 },
+      runChildUpdate: true,
+    });
   }
 
   create() {
@@ -97,20 +131,20 @@ export default class Game extends Phaser.Scene {
 
     // ---------- Create Enemies & Player ----------
     // gEnemy.createAll(this, 2);
-    this.gEnemies = this.physics.add.group({
-      classType: Enemy,
-      key: 'enemy1',
-      repeat: 2,
-      setXY: {
-        x: 150,
-        y: 400,
-        stepX: 200,
-        stepY: -100,
-      },
-      setSize: { x: 50, y: 50 },
-      runChildUpdate: true,
-    });
-    // this.gEnemies.scaleXY(0.2, 0.2);
+    this.gEnemies = this.createEnemy('enemy1', 5);
+    // this.gEnemies = this.physics.add.group({
+    //   classType: Enemy,
+    //   key: 'enemy1',
+    //   repeat: 2,
+    //   setXY: {
+    //     x: 150,
+    //     y: 400,
+    //     stepX: 200,
+    //     stepY: -100,
+    //   },
+    //   setSize: { x: 50, y: 50 },
+    //   runChildUpdate: true,
+    // });
 
     // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
     this.player = new Player(
@@ -178,6 +212,12 @@ export default class Game extends Phaser.Scene {
     Movement.player(this);
 
     Movement.enemy(this);
+
+    // Check to start Enemy Round 2
+    if (this.enemyCount === 0) {
+
+
+    }
   }
 
   update() {
@@ -217,6 +257,7 @@ export default class Game extends Phaser.Scene {
       }
     }
 
+    this.gamePhase = GamePhaseCycle(this.gamePhase, this.enemyCount);
 
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
