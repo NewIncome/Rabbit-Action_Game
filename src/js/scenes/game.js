@@ -10,8 +10,6 @@ import Player from '../characters/rabbit';
 
 import Enemy from '../characters/enemy1';
 
-import Entity from '../characters/entity';
-
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -109,8 +107,8 @@ export default class Game extends Phaser.Scene {
     // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
     this.player = new Player(
       this,
-      this.game.config.width * 0.5,
-      this.game.config.height * 0.5,
+      this.game.config.width * 0.07,
+      this.game.config.height * 0.45,
       'rabbit-nrm-n-hit',
     );
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
@@ -148,6 +146,15 @@ export default class Game extends Phaser.Scene {
     // }, null, this);
     // gEnemy.hitWall(this.gEnemies);
 
+    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
+      console.log('inside OverLap');
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.anims.play('enemy-hit');
+        enemy.body.velocity.y = -50;
+        enemy.onKill();
+      }
+    }, null, this);
 
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
@@ -238,53 +245,40 @@ export default class Game extends Phaser.Scene {
   update() {
     // ---------- Cursor Movement ----------
     if (this.cursors.left.isDown) {
-      this.player.body.setVelocityX(-160);
-      this.player.anims.play('left-run', true);
-      this.sideFlag = 'left';
+      this.player.moveLeft();
     } else if (this.cursors.right.isDown) {
-      this.player.body.setVelocityX(160);
-      this.player.anims.play('right-run', true);
-      this.sideFlag = 'right';
+      this.player.moveRight();
     } else {
       this.player.body.setVelocityX(0);
-      if (this.sideFlag === 'left') {
-        this.player.anims.play('normal-l', true);
-      } else this.player.anims.play('normal-r', true);
+    }
+
+    if (this.player.getVelX() === 0 && this.player.getVelY() === 0) {
+      if (this.player.getData('side') === 'left') {
+        this.player.turnLeft();
+      } else this.player.turnRight();
     }
 
     if (this.spaceKey.isDown) {
-      if (this.sideFlag === 'left') {
-        this.player.anims.play('punch-left');
-        this.player.body.setVelocityX(-10);
+      if (this.player.getData('side') === 'left') {
+        this.player.punchLeft();
       } else {
-        this.player.anims.play('punch-right');
-        this.player.body.setVelocityX(10);
+        this.player.punchRight();
       }
     }
 
-    if (this.cursors.up.isDown && this.player.body.touching.down) {
-      this.player.body.setVelocityY(-350);
-      this.player.anims.play('jump-s-r');
-    }
-    if (this.cursors.up.isDown && this.cursors.left.isDown) this.player.anims.play('jump-s-l');
-    else if (this.cursors.up.isDown && this.cursors.right.isDown) this.player.anims.play('jump-s-r');
-    else if (this.cursors.up.isDown && !this.cursors.right.isDown && !this.cursors.right.isDown) {
-      this.player.anims.play('jump-s-r');
-    }
-
-    // gEnemy.keepWalking(this.gEnemies);
-
-    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      console.log('inside OverLap');
-      if (this.spaceKey.isDown) {
-        console.log('it HIT!!');
-        enemy.anims.play('enemy-hit');
-        enemy.setVelocityY(-50);
-        enemy.disableBody(true, true);
+    if (this.cursors.up.isDown) {
+      if (this.player.body.touching.down) {
+        if (this.player.getData('side') === 'left') this.player.jumpLeft();
+        else this.player.jumpRight();
       }
-    }, null, this);
 
-    // gEnemy.reappear(this.gEnemies);
+      // if (this.cursors.left.isDown) this.player.anims.play('jump-s-l');
+      // else if (this.cursors.right.isDown) this.player.anims.play('jump-s-r');
+      // else if (!this.cursors.right.isDown && !this.cursors.right.isDown) {
+      //   this.player.anims.play('jump-s-r');
+      // }
+    }
+
 
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
@@ -292,7 +286,3 @@ export default class Game extends Phaser.Scene {
     this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive()}`;
   }
 }
-
-const variable = 0;
-
-function prueba() {};
