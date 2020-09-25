@@ -8,7 +8,9 @@ import GndCreate from '../helpers/groundMaker';
 
 import Player from '../characters/rabbit';
 
-import gEnemy from '../characters/enemy1';
+import Enemy from '../characters/enemy1';
+
+import Entity from '../characters/entity';
 
 
 export default class Game extends Phaser.Scene {
@@ -56,7 +58,7 @@ export default class Game extends Phaser.Scene {
     this.earthGrounds = this.physics.add.staticGroup();
 
     this.spaceKey = this.input.keyboard.addKey('SPACE');
-    const sideFlag = 'right';
+    this.sideFlag = 'right';
 
     this.add.image(300, 300, 'rabbit-righ-punch').setFrame(4);
 
@@ -88,7 +90,21 @@ export default class Game extends Phaser.Scene {
 
 
     // ---------- Create Enemies & Player ----------
-    gEnemy.createAll(this, 2);
+    // gEnemy.createAll(this, 2);
+    this.gEnemies = this.physics.add.group({
+      classType: Enemy,
+      key: 'enemy1',
+      repeat: 2,
+      setXY: {
+        x: 150,
+        y: 400,
+        stepX: 200,
+        stepY: -100,
+      },
+      setSize: { width: 50, height: 50 },
+      runChildUpdate: true,
+    });
+    // this.gEnemies.scaleXY(0.2, 0.2);
 
     // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
     this.player = new Player(
@@ -132,7 +148,6 @@ export default class Game extends Phaser.Scene {
     // }, null, this);
     // gEnemy.hitWall(this.gEnemies);
 
-    
 
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
@@ -257,7 +272,7 @@ export default class Game extends Phaser.Scene {
       this.player.anims.play('jump-s-r');
     }
 
-    gEnemy.keepWalking(this.gEnemies);
+    // gEnemy.keepWalking(this.gEnemies);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');
@@ -269,7 +284,7 @@ export default class Game extends Phaser.Scene {
       }
     }, null, this);
 
-    gEnemy.reappear(this.gEnemies);
+    // gEnemy.reappear(this.gEnemies);
 
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
