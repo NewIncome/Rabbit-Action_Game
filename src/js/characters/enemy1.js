@@ -20,10 +20,10 @@ export default class Enemy extends Entity {
 
   onKill() {
     this.anims.play('enemy-hit');
-    this.body.velocity.y = -50;
-    this.scene.time.addEvent({ delay: 1000 });
-    this.body.velocity.x = -50;
-    this.scene.time.addEvent({ delay: 500 });
+    this.body.velocity.y = -200;
+    this.scene.time.addEvent({ delay: 2000 });
+    this.body.velocity.x = -200;
+    this.scene.time.addEvent({ delay: 2000 });
     this.destroy();
   }
 

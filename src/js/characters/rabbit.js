@@ -9,9 +9,9 @@ export default class Player extends Entity {
     this.setData('lives', 3);
     this.setData('side', 'right');
     this.body.gravityScale = 500;
-    this.body.checkCollision.up = false;
-    this.body.checkCollision.left = false;
-    this.body.checkCollision.right = false;
+    // this.body.checkCollision.up = false;
+    // this.body.checkCollision.left = false;
+    // this.body.checkCollision.right = false;
   }
 
   moveLeft() {

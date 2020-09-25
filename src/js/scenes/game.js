@@ -74,7 +74,7 @@ export default class Game extends Phaser.Scene {
     GndCreate.makeMdLand(900, 170, this, this.earthGrounds, 2); // .earthGroundsMd
     GndCreate.makeLgLand2(650, 270, this, this.earthGrounds);
 
-    this.earthGrounds.create(570, 340, 'land-flat');
+    GndCreate.makeFlatLand(570, 360, this, this.earthGrounds, 1);
 
     this.add.image(900, 380, 'smRock').setScale(0.8);
 
@@ -85,6 +85,12 @@ export default class Game extends Phaser.Scene {
     GndCreate.makeMdLand(320, 120, this, this.earthGrounds, 2);
 
     this.add.image(700, 505, 'flower').setScale(0.5);
+
+    this.earthGrounds.children.iterate((earthChild) => {
+      earthChild.body.checkCollision.down = false;
+      earthChild.body.checkCollision.left = false;
+      earthChild.body.checkCollision.right = false;
+    });
 
 
     // ---------- Create Enemies & Player ----------
@@ -272,11 +278,11 @@ export default class Game extends Phaser.Scene {
         else this.player.jumpRight();
       }
 
-      // if (this.cursors.left.isDown) this.player.anims.play('jump-s-l');
-      // else if (this.cursors.right.isDown) this.player.anims.play('jump-s-r');
-      // else if (!this.cursors.right.isDown && !this.cursors.right.isDown) {
-      //   this.player.anims.play('jump-s-r');
-      // }
+      if (this.cursors.left.isDown) this.player.anims.play('jump-s-l');
+      else if (this.cursors.right.isDown) this.player.anims.play('jump-s-r');
+      else if (!this.cursors.right.isDown && !this.cursors.right.isDown) {
+        this.player.anims.play('jump-s-r');
+      }
     }
 
 
