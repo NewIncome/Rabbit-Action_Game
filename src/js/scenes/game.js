@@ -8,7 +8,9 @@ import GndCreate from '../helpers/groundMaker';
 
 import Player from '../characters/rabbit';
 
-import Enemy from '../characters/enemy1';
+import Enemy1 from '../characters/enemy1';
+
+import Enemy2 from '../characters/enemy2';
 
 import Movement from '../helpers/animations';
 
@@ -61,17 +63,15 @@ export default class Game extends Phaser.Scene {
     this.load.image('smRock', '../assets/bg&objects/Objects/Object_3.png');
 
     // ---------- Loading Animated Objects ----------
-    // rabbitLoad(this);
     ImgLoader.player(this);
 
     ImgLoader.enemy1(this);
 
-    // this.load.spritesheet('rabbit-nrm-n-hit',
-    //   '../assets/player&enemies/rabbit-sprite_r-1(normal&hit).png',
-    //   { frameWidth: 45, frameHeight: 76 });
+    ImgLoader.enemy2(this);
 
-    this.createEnemy = (type, qnt) => this.physics.add.group({
-      classType: Enemy,
+    // helper function to create Enemy Groups
+    this.createEnemy = (className, type, qnt) => this.physics.add.group({
+      classType: className,
       key: type,
       repeat: qnt - 1,
       setXY: {
@@ -93,8 +93,6 @@ export default class Game extends Phaser.Scene {
 
     this.spaceKey = this.input.keyboard.addKey('SPACE');
     this.sideFlag = 'right';
-
-    this.add.image(300, 300, 'rabbit-righ-punch').setFrame(4);
 
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
@@ -131,20 +129,10 @@ export default class Game extends Phaser.Scene {
 
     // ---------- Create Enemies & Player ----------
     // gEnemy.createAll(this, 2);
-    this.gEnemies = this.createEnemy('enemy1', 5);
-    // this.gEnemies = this.physics.add.group({
-    //   classType: Enemy,
-    //   key: 'enemy1',
-    //   repeat: 2,
-    //   setXY: {
-    //     x: 150,
-    //     y: 400,
-    //     stepX: 200,
-    //     stepY: -100,
-    //   },
-    //   setSize: { x: 50, y: 50 },
-    //   runChildUpdate: true,
-    // });
+    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 5);
+
+    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 3);
+
 
     // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
     this.player = new Player(
@@ -157,6 +145,7 @@ export default class Game extends Phaser.Scene {
 
     // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
+
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
     // this.player.body.checkCollision.up = false;
@@ -164,6 +153,9 @@ export default class Game extends Phaser.Scene {
     // this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
+
+    this.physics.add.collider(this.pEnemies, this.earthGrounds);
+
     // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
     //   // console.log(enemy);
     //   // console.log(gnd);
@@ -200,6 +192,8 @@ export default class Game extends Phaser.Scene {
 
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
+    // this.player.anims.getCurrentKey();
+
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
@@ -211,13 +205,14 @@ export default class Game extends Phaser.Scene {
 
     Movement.player(this);
 
-    Movement.enemy(this);
+    Movement.enemy1(this);
+
+    Movement.enemy2(this);
 
     // Check to start Enemy Round 2
-    if (this.enemyCount === 0) {
+    // if (this.enemyCount === 0) {
 
-
-    }
+    // }
   }
 
   update() {
@@ -262,6 +257,6 @@ export default class Game extends Phaser.Scene {
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
     this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
-    this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive()}`;
+    this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive() + this.pEnemies.countActive()}`;
   }
 }

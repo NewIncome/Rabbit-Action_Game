@@ -41,10 +41,20 @@ const Loader = (() => {
       { frameWidth: 217, frameHeight: 172 });
   };
 
+  const enemy2 = (scene) => {
+    scene.load.spritesheet('enemy2',
+      '../assets/player&enemies/pink_monster.png',
+      { frameWidth: 205, frameHeight: 174 });
+    scene.load.spritesheet('enemy2-lft',
+      '../assets/player&enemies/pink_monster-left.png',
+      { frameWidth: 205, frameHeight: 174 });
+  };
+
   return {
     tiles,
     player,
     enemy1,
+    enemy2,
   };
 })();
 

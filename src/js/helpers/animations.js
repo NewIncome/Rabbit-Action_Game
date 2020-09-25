@@ -56,7 +56,7 @@ const movement = (() => {
     });
   };
 
-  const enemy = (scene) => {
+  const enemy1 = (scene) => {
     scene.anims.create({
       key: 'walkLft-s',
       frames: scene.anims.generateFrameNumbers('enemy1-lft',
@@ -79,9 +79,33 @@ const movement = (() => {
     });
   };
 
+  const enemy2 = (scene) => {
+    scene.anims.create({
+      key: 'walkLft-s_2',
+      frames: scene.anims.generateFrameNumbers('enemy2-lft',
+        { start: 0, end: 1 }),
+      frameRate: 2,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: 'walkRgt-s_2',
+      frames: scene.anims.generateFrameNumbers('enemy2',
+        { start: 1, end: 2 }),
+      frameRate: 2,
+      repeat: -1,
+    });
+
+    scene.anims.create({
+      key: 'enemy-hit_2',
+      frames: [{ key: 'enemy2', frame: 2 }],
+      frameRate: 10,
+    });
+  };
+
   return {
     player,
-    enemy,
+    enemy1,
+    enemy2,
   };
 })();
 

@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
 import Entity from './entity';
 
-export default class Enemy extends Entity {
+export default class Enemy1 extends Entity {
   constructor(scene, x, y, key) {
-    super(scene, x, y, key, 'Enemy');
+    super(scene, x, y, key, 'Enemy1');
 
     this.setData('velocity', Phaser.Math.Between(-80, 80));
+    this.setData('enemyRank', 10);
     this.setData('lives', 1);
   }
 
@@ -61,35 +62,3 @@ export default class Enemy extends Entity {
     this.keepWalking();
   }
 }
-
-// const keepWalking = (group) => {
-//   group.children.iterate((child, i) => {
-//     child.setScale(0.2);
-//   //   if (child.body.velocity.x === 0) {
-//   //     if (i % 2 === 0) {
-//   //       child.anims.play('walkRgt-s', true);
-//   //       child.setVelocityX(60);
-//   //     } else {
-//   //       child.anims.play('walkLft-s', true);
-//   //       child.setVelocityX(-60);
-//   //     }
-//   //   }
-//   //   if (child.body.touching.right) {
-//   //     child.anims.play('walkLft-s', true);
-//   //     child.setVelocityX(-60);
-//   //   } else if (child.body.touching.left) {
-//   //     child.anims.play('walkRgt-s', true);
-//   //     child.setVelocityX(60);
-//   //   }
-//   });
-// };
-
-// const reappear = (group) => {
-//   group.children.iterate((child) => {
-//     if (child.y > 700) {
-//       child.y = Phaser.Math.Between(-100, 0);
-//       child.x = Phaser.Math.Between(30, 800);
-//       // child.body.updateFromGameObject();
-//     }
-//   });
-// }
