@@ -92,6 +92,7 @@ export default class Game extends Phaser.Scene {
     this.earthGrounds = this.physics.add.staticGroup();
 
     this.spaceKey = this.input.keyboard.addKey('SPACE');
+
     this.sideFlag = 'right';
 
     // Creating background objects
@@ -126,7 +127,7 @@ export default class Game extends Phaser.Scene {
       earthChild.body.checkCollision.right = false;
     });
 
-
+    // this.add.image(200, 400, 'enemy2').setFrame(0);
     // ---------- Create Enemies & Player ----------
     // gEnemy.createAll(this, 2);
     this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 5);
@@ -148,37 +149,10 @@ export default class Game extends Phaser.Scene {
 
     // ---------- Collisions ----------
     this.physics.add.collider(this.player, this.earthGrounds);
-    // this.player.body.checkCollision.up = false;
-    // this.player.body.checkCollision.left = false;
-    // this.player.body.checkCollision.right = false;
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
 
     this.physics.add.collider(this.pEnemies, this.earthGrounds);
-
-    // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
-    //   // console.log(enemy);
-    //   // console.log(gnd);
-
-    //   if (enemy.body.touching.left) {
-    //     console.log(('collided left'));
-    //     enemy.anims.play('walkRgt-s', true);
-    //     enemy.setVelocityX(60);
-    //   } else if (enemy.body.touching.right) {
-    //     console.log(('collided right'));
-    //     enemy.anims.play('walkLft-s', true);
-    //     enemy.setVelocityX(-60);
-    //   } else if (enemy.body.touching.up) console.log(('collided up'));
-    //   else if (enemy.body.touching.down) console.log(('collided down'));
-    // }, null, this);
-
-    // this.physics.add.collider(this.gEnemies, this.earthGrounds, (enemy, gnd) => {
-    //   console.log('Enemy:');
-    //   console.log(enemy);
-    //   console.log('Ground:');
-    //   console.log(gnd);
-    // }, null, this);
-    // gEnemy.hitWall(this.gEnemies);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');
@@ -187,6 +161,15 @@ export default class Game extends Phaser.Scene {
         enemy.anims.play('enemy-hit');
         enemy.body.velocity.y = -50;
         enemy.onKill();
+      }
+    }, null, this);
+
+    this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.anims.play('enemy-hit_2');
+        enemy.body.velocity.y = -50;
+        enemy.onHit();
       }
     }, null, this);
 
@@ -258,5 +241,7 @@ export default class Game extends Phaser.Scene {
     this.playerSpeed.y = this.player.y - 50;
     this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
     this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive() + this.pEnemies.countActive()}`;
+
+    if (this.player.y > 900) this.scene.start('game');
   }
 }

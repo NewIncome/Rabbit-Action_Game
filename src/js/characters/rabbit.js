@@ -27,10 +27,12 @@ export default class Player extends Entity {
   }
 
   turnLeft() {
+    this.body.velocity.y = 0;
     this.anims.play('normal-l', true);
   }
 
   turnRight() {
+    this.body.velocity.y = 0;
     this.anims.play('normal-r', true);
   }
 

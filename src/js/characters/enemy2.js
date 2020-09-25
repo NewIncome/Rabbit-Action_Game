@@ -6,8 +6,9 @@ export default class Enemy2 extends Entity {
     super(scene, x, y, key, 'Enemy2');
 
     this.setData('velocity', Phaser.Math.Between(-100, 100));
+    this.setData('side', 'right');
     this.setData('enemyRank', 30);
-    this.setData('lives', 1);
+    this.setData('lives', 3);
   }
 
   setAnim() {
@@ -16,16 +17,29 @@ export default class Enemy2 extends Entity {
     }
     if (this.body.velocity.x > 0) {
       this.anims.play('walkRgt-s_2', true);
-    } else this.anims.play('walkLft-s_2', true);
+      this.setData('side', 'right');
+    } else {
+      this.anims.play('walkLft-s_2', true);
+      this.setData('side', 'left');
+    }
+    this.hitSide();
   }
 
-  onKill() {
-    this.anims.play('enemy-hit_2');
+  hitSide() {
+    if (this.body.velocity.y !== 0) {
+      if (this.getData('side') === 'left') this.setFrame(2);
+      else this.setFrame(0);
+    }
+  }
+
+  onHit() {
     this.body.velocity.y = -200;
-    this.scene.time.addEvent({ delay: 2000 });
+    this.hitSide();
+    this.scene.time.addEvent({ delay: 5000 });
     this.body.velocity.x = -200;
-    this.scene.time.addEvent({ delay: 2000 });
-    this.destroy();
+    this.scene.time.addEvent({ delay: 5000 });
+    this.setData('lives', this.getData('lives') - 1);
+    if (this.getData('lives') === 0) this.destroy();
   }
 
   reappear() {
@@ -47,8 +61,8 @@ export default class Enemy2 extends Entity {
   }
 
   update() {
-    this.scaleX = 0.27;
-    this.scaleY = 0.27;
+    this.scaleX = 0.3;
+    this.scaleY = 0.3;
 
     this.setAnim();
 
