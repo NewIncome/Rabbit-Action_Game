@@ -54,7 +54,7 @@ export default class Game extends Phaser.Scene {
     this.earthGrounds = this.physics.add.staticGroup();
 
     this.spaceKey = this.input.keyboard.addKey('SPACE');
-    this.sideFlag = 'right';
+    const sideFlag = 'right';
 
     this.add.image(300, 300, 'rabbit-righ-punch').setFrame(4);
 
@@ -124,14 +124,7 @@ export default class Game extends Phaser.Scene {
     // }, null, this);
     // gEnemy.hitWall(this.gEnemies);
 
-    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      if (this.spaceKey.isDown) {
-        console.log('it HIT!!');
-        enemy.anims.play('enemy-hit');
-        enemy.setVelocityY(-50);
-        enemy.disableBody(true, true);
-      }
-    }, null, this);
+    
 
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
@@ -186,7 +179,7 @@ export default class Game extends Phaser.Scene {
       key: 'punch-left',
       frames: [{ key: 'rabbit-left-punch', frame: 0 }],
       frameRate: 1,
-      repeat: 0,
+      repeat: 1,
     });
     this.anims.create({
       key: 'punch-right',
@@ -251,6 +244,16 @@ export default class Game extends Phaser.Scene {
 
     gEnemy.keepWalking(this.gEnemies);
 
+    this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
+      console.log('inside OverLap');
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.anims.play('enemy-hit');
+        enemy.setVelocityY(-50);
+        enemy.disableBody(true, true);
+      }
+    }, null, this);
+
     gEnemy.reappear(this.gEnemies);
 
     this.playerSpeed.x = this.player.x;
@@ -259,3 +262,7 @@ export default class Game extends Phaser.Scene {
     this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive()}`;
   }
 }
+
+const variable = 0;
+
+function prueba() {};

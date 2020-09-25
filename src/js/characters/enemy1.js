@@ -26,16 +26,22 @@ const gEnemy = (() => {
   const keepWalking = (group) => {
     group.children.iterate((child, i) => {
       child.setScale(0.2);
-      if (child.body.speed.x === 0) {
-        if (i % 2 === 0) {
-          child.anims.play('walkRgt-s', true);
-          child.setVelocityX(60);
-        } else {
-          child.anims.play('walkLft-s', true);
-          child.setVelocityX(-60);
-        }
-      }
-
+    //   if (child.body.velocity.x === 0) {
+    //     if (i % 2 === 0) {
+    //       child.anims.play('walkRgt-s', true);
+    //       child.setVelocityX(60);
+    //     } else {
+    //       child.anims.play('walkLft-s', true);
+    //       child.setVelocityX(-60);
+    //     }
+    //   }
+    //   if (child.body.touching.right) {
+    //     child.anims.play('walkLft-s', true);
+    //     child.setVelocityX(-60);
+    //   } else if (child.body.touching.left) {
+    //     child.anims.play('walkRgt-s', true);
+    //     child.setVelocityX(60);
+    //   }
     });
   };
 
