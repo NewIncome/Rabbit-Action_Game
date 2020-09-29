@@ -8,7 +8,6 @@ export default class Player extends Entity {
     this.setData('velocity', 200);
     this.setData('lives', 3);
     this.setData('side', 'right');
-    this.body.gravityScale = 500;
     // this.body.checkCollision.up = false;
     // this.body.checkCollision.left = false;
     // this.body.checkCollision.right = false;
@@ -27,12 +26,10 @@ export default class Player extends Entity {
   }
 
   turnLeft() {
-    this.body.velocity.y = 0;
     this.anims.play('normal-l', true);
   }
 
   turnRight() {
-    this.body.velocity.y = 0;
     this.anims.play('normal-r', true);
   }
 

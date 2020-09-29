@@ -144,6 +144,8 @@ export default class Game extends Phaser.Scene {
     );
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
+    this.player.setGravityY = 500;
+
     // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
 

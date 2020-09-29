@@ -8,7 +8,9 @@ export default class Enemy2 extends Entity {
     this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
-    this.setData('lives', 3);
+    this.setData('lives', 10);
+
+    this.life = this.scene.add.text(this.x, this.y + 50, 'life');
   }
 
   setAnim() {
@@ -32,12 +34,18 @@ export default class Enemy2 extends Entity {
     }
   }
 
+  timeDelay() {
+    this.scene.time.addEvent({
+      delay: 10000,
+      loop: true,
+    });
+  }
+
   onHit() {
     this.body.velocity.y = -200;
     this.hitSide();
-    this.scene.time.addEvent({ delay: 5000 });
     this.body.velocity.x = -200;
-    this.scene.time.addEvent({ delay: 5000 });
+    this.timeDelay();
     this.setData('lives', this.getData('lives') - 1);
     if (this.getData('lives') === 0) this.destroy();
   }
@@ -74,5 +82,9 @@ export default class Enemy2 extends Entity {
     this.reappear();
 
     this.keepWalking();
+
+    this.life.x = this.x;
+    this.life.y = this.y - 50;
+    this.life.text = `life: ${this.getData('lives')}`;
   }
 }
