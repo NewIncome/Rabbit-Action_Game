@@ -69,6 +69,8 @@ export default class Game extends Phaser.Scene {
 
     ImgLoader.enemy2(this);
 
+    ImgLoader.boss(this);
+
     // helper function to create Enemy Groups
     this.createEnemy = (className, type, qnt) => this.physics.add.group({
       classType: className,
@@ -145,6 +147,13 @@ export default class Game extends Phaser.Scene {
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
     this.player.setGravityY = 500;
+
+    this.Boss = new this.Boss(
+      this,
+      this.game.config.width * 0.07,
+      this.game.config.height * 0.45,
+      'boss-walk-left',
+    );
 
     // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
