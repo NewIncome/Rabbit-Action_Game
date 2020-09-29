@@ -102,10 +102,34 @@ const movement = (() => {
     });
   };
 
+  const boss = (scene) => {
+    scene.anims.create({
+      key: 'walk-left',
+      frames: scene.anims.generateFrameNumbers('boss-walk-left',
+        { start: 0, end: 18 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+    scene.anims.create({
+      key: 'walk-right',
+      frames: scene.anims.generateFrameNumbers('boss-walk-right',
+        { start: 18, end: 0 }),
+      frameRate: 5,
+      repeat: -1,
+    });
+
+    // scene.anims.create({
+    //   key: 'boss-hit-left',
+    //   frames: [{ key: 'enemy2', frame: 2 }],
+    //   frameRate: 10,
+    // });
+  };
+
   return {
     player,
     enemy1,
     enemy2,
+    boss,
   };
 })();
 

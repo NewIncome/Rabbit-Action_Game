@@ -74,11 +74,6 @@ export default class Enemy2 extends Entity {
 
     this.setAnim();
 
-    if (this.body.y > 700) {
-      this.body.y = Phaser.Math.Between(-100, 0);
-      this.body.x = Phaser.Math.Between(30, 800);
-    }
-
     this.reappear();
 
     this.keepWalking();

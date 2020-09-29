@@ -210,6 +210,8 @@ export default class Game extends Phaser.Scene {
 
     Movement.enemy2(this);
 
+    Movement.boss(this);
+
     // Check to start Enemy Round 2
     // if (this.enemyCount === 0) {
 
