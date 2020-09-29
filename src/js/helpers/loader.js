@@ -53,10 +53,10 @@ const Loader = (() => {
   const boss = (scene) => {
     scene.load.spritesheet('boss-walk-left',
       '../assets/player&enemies/skeleton_walking_spritesheet-left (251x502).png',
-      { frameWidth: 502, frameHeight: 251 });
+      { frameWidth: 192, frameHeight: 109 });
     scene.load.spritesheet('boss-walk-right',
       '../assets/player&enemies/skeleton_walking_spritesheet (251x502).png',
-      { frameWidth: 502, frameHeight: 251 });
+      { frameWidth: 192, frameHeight: 109 });
   };
 
   return {

@@ -12,6 +12,8 @@ import Enemy1 from '../characters/enemy1';
 
 import Enemy2 from '../characters/enemy2';
 
+import Boss from '../characters/boss';
+
 import Movement from '../helpers/animations';
 
 
@@ -97,6 +99,9 @@ export default class Game extends Phaser.Scene {
 
     this.sideFlag = 'right';
 
+    console.log(Phaser.Renderer.WebGL.WebGLRenderer.getMaxTextures);
+    console.log(Phaser.getMaxTextures);
+
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 32, 'lgRock')
@@ -148,9 +153,9 @@ export default class Game extends Phaser.Scene {
 
     this.player.setGravityY = 500;
 
-    this.Boss = new this.Boss(
+    this.Boss = new Boss(
       this,
-      this.game.config.width * 0.07,
+      this.game.config.width * 0.3,
       this.game.config.height * 0.45,
       'boss-walk-left',
     );
@@ -164,6 +169,8 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
 
     this.physics.add.collider(this.pEnemies, this.earthGrounds);
+
+    this.physics.add.collider(this.Boss, this.earthGrounds);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');

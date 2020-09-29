@@ -12,10 +12,5 @@ export default class Boss extends Entity {
   }
 
   update() {
-    this.scaleX = 0.5;
-    this.scaleY = 0.5;
-
-    this.x = 100;
-    this.y = 250;
   }
 }
