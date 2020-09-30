@@ -191,6 +191,15 @@ export default class Game extends Phaser.Scene {
       }
     }, null, this);
 
+    this.physics.add.overlap(this.player, this.boss, (player, boss) => {
+      if (this.spaceKey.isDown) {
+        console.log('HIT Boss!!');
+        // boss.anims.play('boss-hit_2');
+        boss.body.velocity.y = -50;
+        boss.onHit();
+      }
+    }, null, this);
+
     this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
 
     // this.player.anims.getCurrentKey();

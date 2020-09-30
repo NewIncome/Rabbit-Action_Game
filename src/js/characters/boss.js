@@ -5,7 +5,7 @@ export default class Boss extends Entity {
   constructor(scene, x, y, key) {
     super(scene, x, y, key, 'Boss');
 
-    this.setData('velocity', 30);
+    this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
     this.setData('lives', 100);
@@ -41,7 +41,7 @@ export default class Boss extends Entity {
 
   onHit() {
     this.body.velocity.y = -200;
-    this.hitSide();
+    // this.hitSide();
     this.body.velocity.x = -200;
     this.timeDelay();
     this.setData('lives', this.getData('lives') - 1);
@@ -52,6 +52,7 @@ export default class Boss extends Entity {
     if (this.y > 700) {
       this.y = Phaser.Math.Between(-100, 0);
       this.x = Phaser.Math.Between(30, 800);
+      this.body.velocity.x = this.getData('velocity');
       // child.body.updateFromGameObject();
     }
   }
