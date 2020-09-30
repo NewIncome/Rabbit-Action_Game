@@ -106,15 +106,15 @@ const movement = (() => {
     scene.anims.create({
       key: 'walk-left',
       frames: scene.anims.generateFrameNumbers('boss-walk-left',
-        { start: 0, end: 18 }),
-      frameRate: 5,
+        { start: 0, end: 18, forward: true }),
+      frameRate: 10,
       repeat: -1,
     });
     scene.anims.create({
       key: 'walk-right',
       frames: scene.anims.generateFrameNumbers('boss-walk-right',
-        { start: 18, end: 0 }),
-      frameRate: 5,
+        { start: 0, end: 18 }),
+      frameRate: 10,
       repeat: -1,
     });
 

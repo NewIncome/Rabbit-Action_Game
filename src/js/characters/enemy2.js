@@ -63,7 +63,7 @@ export default class Enemy2 extends Entity {
       this.anims.play('walkLft-s_2', true);
       this.body.velocity.x = Phaser.Math.Between(-80, -30);
     } else if (this.body.touching.left) {
-      this.anims.play('walkRgt-s_2', true);
+      this.anims.playReverse('walkRgt-s_2', true);
       this.body.velocity.x = Phaser.Math.Between(30, 80);
     }
   }

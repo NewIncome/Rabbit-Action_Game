@@ -5,7 +5,7 @@ export default class Boss extends Entity {
   constructor(scene, x, y, key) {
     super(scene, x, y, key, 'Boss');
 
-    this.setData('velocity', 70);
+    this.setData('velocity', 30);
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
     this.setData('lives', 100);
@@ -19,7 +19,7 @@ export default class Boss extends Entity {
       this.anims.play('walk-right', true);
       this.setData('side', 'right');
     } else {
-      this.anims.play('walk-left', true);
+      this.anims.playReverse('walk-left', true);
       this.setData('side', 'left');
     }
     // this.hitSide();
@@ -67,6 +67,9 @@ export default class Boss extends Entity {
   // }
 
   update() {
+    this.scaleX = 1;
+    this.scaleY = 1;
+
     // this.keepWalking();
     this.setAnim();
 

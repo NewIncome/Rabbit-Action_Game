@@ -151,9 +151,9 @@ export default class Game extends Phaser.Scene {
     );
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
-    this.player.setGravityY = 500;
+    // this.player.setGravityY = 500;
 
-    this.Boss = new Boss(
+    this.boss = new Boss(
       this,
       this.game.config.width * 0.3,
       this.game.config.height * 0.45,
@@ -170,7 +170,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.collider(this.pEnemies, this.earthGrounds);
 
-    this.physics.add.collider(this.Boss, this.earthGrounds);
+    this.physics.add.collider(this.boss, this.earthGrounds);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');
@@ -254,6 +254,8 @@ export default class Game extends Phaser.Scene {
         this.player.anims.play('jump-s-r');
       }
     }
+
+    this.boss.update();
 
     this.gamePhase = GamePhaseCycle(this.gamePhase, this.enemyCount);
 
