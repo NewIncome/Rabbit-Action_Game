@@ -188,6 +188,10 @@ export default class Game extends Phaser.Scene {
         enemy.anims.play('enemy-hit_2');
         enemy.body.velocity.y = -50;
         enemy.onHit();
+      } else if (enemy.body.touching.up) {
+        console.log('Ouch my head!');
+      } else {
+        console.log('Hit to Rab');
       }
     }, null, this);
 
