@@ -16,21 +16,48 @@ import Boss from '../characters/boss';
 
 import Movement from '../helpers/animations';
 
+let phase;
 
-const GamePhaseCycle = (cycle, enemycount) => {
-  if (enemycount === 0 && cycle === 0) {
-    return 1;
-  }
-  if (enemycount === 0 && cycle === 1) {
-    return 2;
-  }
-  if (enemycount === 0 && cycle === 2) {
-    // createBoss();
-    return 3;
-  }
-  if (enemycount === 0 && cycle === 2) return 'Win';
+const GamePhaseCycle = (cycle, enemy1, enemy2, boss, enemycount, phaseTx) => {
+  new Promise((resolve) => {
+    if (cycle === 0) {
+      phase = 1;
+      phaseTx.text = 'Phase: 1';
 
-  return 'Game Over';
+      return phase;
+    }
+    return resolve('success');
+  })
+    .then(() => {
+      setTimeout(() => {
+        if (enemy1.countActive() === 0 && cycle === 1) {
+          phase = 2;
+          phaseTx.text = 'Phase: 2';
+          setTimeout(() => {
+            enemy2.children.iterate((child) => {
+              child.active = true;
+              child.visible = true;
+            });
+          }, 1000);
+        }
+        return phase;
+      }, 1500);
+    })
+    .then(() => {
+      setTimeout(() => {
+        if (enemy2.countActive() === 0 && cycle === 2) {
+          phase = 3;
+          phaseTx.text = 'Phase: Final';
+          boss.active = true;
+          boss.visible = true;
+          return phase;
+        }
+        return phase;
+      }, 1500);
+    })
+    .catch(() => phase);
+
+  return phase;
 };
 
 export default class Game extends Phaser.Scene {
@@ -38,8 +65,9 @@ export default class Game extends Phaser.Scene {
     super('game');
   }
 
+  // eslint-disable-next-line class-methods-use-this
   init() {
-    this.gamePhase = 0;
+    phase = 0;
   }
 
   preload() {
@@ -99,15 +127,12 @@ export default class Game extends Phaser.Scene {
 
     this.sideFlag = 'right';
 
-    console.log(Phaser.Renderer.WebGL.WebGLRenderer.getMaxTextures);
-    console.log(Phaser.getMaxTextures);
-
     // Creating background objects
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 32, 'lgRock')
       .setSize(120, 75);
 
-    // Creating the Land
+    // ---------- Creating the Land ----------
     GndCreate.makeLgLand2(-100, 100, this, this.earthGrounds);
     this.add.image(150, 280, 'light-tree').setScale(0.9);
     GndCreate.makeLgLand1(350, 30, this, this.earthGrounds);
@@ -123,7 +148,6 @@ export default class Game extends Phaser.Scene {
     GndCreate.makeFlatLand(670, 120, this, this.earthGrounds, 2);
     GndCreate.makeFlatLand(730, 490, this, this.earthGrounds, 4);
     GndCreate.makeFlatLand(820, 400, this, this.earthGrounds, 4);
-
     GndCreate.makeMdLand(320, 120, this, this.earthGrounds, 2);
 
     this.add.image(700, 505, 'flower').setScale(0.5);
@@ -134,15 +158,15 @@ export default class Game extends Phaser.Scene {
       earthChild.body.checkCollision.right = false;
     });
 
-    // this.add.image(200, 400, 'enemy2').setFrame(0);
     // ---------- Create Enemies & Player ----------
-    // gEnemy.createAll(this, 2);
     this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 5);
 
     this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 3);
+    this.pEnemies.children.iterate((child) => {
+      child.active = false;
+      child.visible = false;
+    });
 
-
-    // this.player = this.physics.add.sprite(70, 300, 'rabbit-nrm-n-hit');
     this.player = new Player(
       this,
       this.game.config.width * 0.07,
@@ -159,6 +183,9 @@ export default class Game extends Phaser.Scene {
       this.game.config.height * 0.45,
       'boss-walk-left',
     );
+    this.boss.active = false;
+    this.boss.visible = false;
+    this.boss.disableInteractive();
 
     // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
@@ -204,7 +231,7 @@ export default class Game extends Phaser.Scene {
       }
     }, null, this);
 
-    this.enemyCount = this.add.text(100, 400, 'EnemyCount:');
+    this.enemyCountText = this.add.text(100, 400, 'EnemyCount:');
 
     // this.player.anims.getCurrentKey();
 
@@ -225,10 +252,7 @@ export default class Game extends Phaser.Scene {
 
     Movement.boss(this);
 
-    // Check to start Enemy Round 2
-    // if (this.enemyCount === 0) {
-
-    // }
+    this.phaseNum = this.add.text(this.game.config.width / 2, 100, 'Phase: 0');
   }
 
   update() {
@@ -270,12 +294,15 @@ export default class Game extends Phaser.Scene {
 
     this.boss.update();
 
-    this.gamePhase = GamePhaseCycle(this.gamePhase, this.enemyCount);
+    this.enemyCount = this.gEnemies.countActive() + this.pEnemies.countActive();
+
+    // ---------- Game Logic ----------
+    this.gamePhase = GamePhaseCycle(this.gamePhase, this.gEnemies, this.pEnemies, this.boss, this.enemyCount, this.phaseNum);
 
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
     this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
-    this.enemyCount.text = `EnemyCount: ${this.gEnemies.countActive() + this.pEnemies.countActive()}`;
+    this.enemyCountText.text = `EnemyCount: ${this.enemyCount}`;
 
     if (this.player.y > 900) this.scene.start('game');
   }

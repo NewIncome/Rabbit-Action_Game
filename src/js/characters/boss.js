@@ -52,7 +52,7 @@ export default class Boss extends Entity {
     if (this.y > 700) {
       this.y = Phaser.Math.Between(-100, 0);
       this.x = Phaser.Math.Between(30, 800);
-      this.body.velocity.x = this.getData('velocity');
+      this.body.velocity.x = Phaser.Math.Between(-100, 100);
       // child.body.updateFromGameObject();
     }
   }
