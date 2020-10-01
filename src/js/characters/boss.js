@@ -45,7 +45,10 @@ export default class Boss extends Entity {
     this.body.velocity.x = -200;
     this.timeDelay();
     this.setData('lives', this.getData('lives') - 1);
-    if (this.getData('lives') === 0) this.destroy();
+    if (this.getData('lives') === 0) {
+      this.destroy();
+      this.scene.start('gameOver');
+    }
   }
 
   reappear() {

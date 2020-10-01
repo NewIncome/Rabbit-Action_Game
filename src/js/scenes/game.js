@@ -264,6 +264,6 @@ export default class Game extends Phaser.Scene {
     this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
     this.enemyCountText.text = `EnemyCount: ${this.enemyCount}`;
 
-    if (this.player.y > 900) this.scene.start('game');
+    if (this.player.y > 900 || this.player.x < -250 || this.player.x < -1200) this.scene.start('gameOver');
   }
 }
