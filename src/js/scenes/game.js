@@ -144,10 +144,10 @@ export default class Game extends Phaser.Scene {
     );
     this.boss.active = false;
     this.boss.visible = false;
+    this.boss.body.checkCollision.up = false;
     this.boss.disableInteractive();
-    // this.boss.dis
 
-    // this.player.setCollideWorldBounds(true);
+    // this.player.setCollideWorldBounds = true;
     this.physics.world.setBounds(0, -700, 1030, 1600);
 
     // ---------- Collisions ----------

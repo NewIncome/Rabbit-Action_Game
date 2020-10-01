@@ -20,6 +20,7 @@ const GameLogic = (() => {
               enemy2.children.iterate((child) => {
                 child.active = true;
                 child.visible = true;
+                child.body.checkCollision.up = true;
               });
             }, 1000);
           }
@@ -33,6 +34,7 @@ const GameLogic = (() => {
             phaseTx.text = 'Phase: Final';
             boss.active = true;
             boss.visible = true;
+            boss.body.checkCollision.up = true;
             return phase;
           }
           return phase;

@@ -74,8 +74,6 @@ export default class Player extends Entity {
     this.x = this.scene.game.config.width * 0.5;
     this.y = this.scene.game.config.height * 0.5;
 
-    this.setCollideWorldBounds(true);
-
     scene.add.text(this.x + 50, this.y, 'Speed:');
   }
 }
