@@ -16,49 +16,8 @@ import Boss from '../characters/boss';
 
 import Movement from '../helpers/animations';
 
-let phase;
+import GameLogic from '../control/gameLogic';
 
-const GamePhaseCycle = (cycle, enemy1, enemy2, boss, enemycount, phaseTx) => {
-  new Promise((resolve) => {
-    if (cycle === 0) {
-      phase = 1;
-      phaseTx.text = 'Phase: 1';
-
-      return phase;
-    }
-    return resolve('success');
-  })
-    .then(() => {
-      setTimeout(() => {
-        if (enemy1.countActive() === 0 && cycle === 1) {
-          phase = 2;
-          phaseTx.text = 'Phase: 2';
-          setTimeout(() => {
-            enemy2.children.iterate((child) => {
-              child.active = true;
-              child.visible = true;
-            });
-          }, 1000);
-        }
-        return phase;
-      }, 1500);
-    })
-    .then(() => {
-      setTimeout(() => {
-        if (enemy2.countActive() === 0 && cycle === 2) {
-          phase = 3;
-          phaseTx.text = 'Phase: Final';
-          boss.active = true;
-          boss.visible = true;
-          return phase;
-        }
-        return phase;
-      }, 1500);
-    })
-    .catch(() => phase);
-
-  return phase;
-};
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -67,7 +26,7 @@ export default class Game extends Phaser.Scene {
 
   // eslint-disable-next-line class-methods-use-this
   init() {
-    phase = 0;
+    GameLogic.phase = 0;
   }
 
   preload() {
@@ -159,9 +118,9 @@ export default class Game extends Phaser.Scene {
     });
 
     // ---------- Create Enemies & Player ----------
-    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 5);
+    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 2);
 
-    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 3);
+    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 1);
     this.pEnemies.children.iterate((child) => {
       child.active = false;
       child.visible = false;
@@ -186,6 +145,7 @@ export default class Game extends Phaser.Scene {
     this.boss.active = false;
     this.boss.visible = false;
     this.boss.disableInteractive();
+    // this.boss.dis
 
     // this.player.setCollideWorldBounds(true);
     this.physics.world.setBounds(0, -700, 1030, 1600);
@@ -297,7 +257,7 @@ export default class Game extends Phaser.Scene {
     this.enemyCount = this.gEnemies.countActive() + this.pEnemies.countActive();
 
     // ---------- Game Logic ----------
-    this.gamePhase = GamePhaseCycle(this.gamePhase, this.gEnemies, this.pEnemies, this.boss, this.enemyCount, this.phaseNum);
+    GameLogic.phase = GameLogic.gameCycle(GameLogic.phase, this.gEnemies, this.pEnemies, this.boss, this.enemyCount, this.phaseNum);
 
     this.playerSpeed.x = this.player.x;
     this.playerSpeed.y = this.player.y - 50;
