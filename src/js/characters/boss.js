@@ -8,7 +8,7 @@ export default class Boss extends Entity {
     this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
-    this.setData('lives', 100);
+    this.setData('lives', 10);
   }
 
   setAnim() {
@@ -32,25 +32,6 @@ export default class Boss extends Entity {
   //   }
   // }
 
-  timeDelay() {
-    this.scene.time.addEvent({
-      delay: 10000,
-      loop: true,
-    });
-  }
-
-  onHit() {
-    this.body.velocity.y = -200;
-    // this.hitSide();
-    this.body.velocity.x = -200;
-    this.timeDelay();
-    this.setData('lives', this.getData('lives') - 1);
-    if (this.getData('lives') === 0) {
-      this.destroy();
-      this.scene.start('gameOver');
-    }
-  }
-
   reappear() {
     if (this.y > 700) {
       this.y = Phaser.Math.Between(-100, 0);
@@ -58,6 +39,39 @@ export default class Boss extends Entity {
       this.body.velocity.x = Phaser.Math.Between(-100, 100);
       // child.body.updateFromGameObject();
     }
+  }
+
+  timeDelay() {
+    this.scene.time.addEvent({
+      delay: 10000,
+      loop: true,
+    });
+  }
+
+  onHit(actScene) {
+    this.body.velocity.y = -200;
+    // this.hitSide();
+    this.body.velocity.x = -200;
+    this.timeDelay();
+    this.setData('lives', this.getData('lives') - 1);
+    if (this.getData('lives') === 0) {
+      this.destroy();
+      // this.onDestroy();
+      actScene.scene.start('gameOver');
+      console.log('GameOver');
+    }
+    return this.getData('lives');
+  }
+
+  onDestroy() {
+    this.scene.time.addEvent({
+      delay: 1000,
+      callback() {
+        this.scene.start('gameOver');
+      },
+      callbackScope: this,
+      loop: false,
+    });
   }
 
   // keepWalking() {

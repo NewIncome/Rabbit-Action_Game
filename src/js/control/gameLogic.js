@@ -35,6 +35,8 @@ const GameLogic = (() => {
             boss.active = true;
             boss.visible = true;
             boss.body.checkCollision.up = true;
+            boss.body.checkCollision.left = true;
+            boss.body.checkCollision.right = true;
             return phase;
           }
           return phase;

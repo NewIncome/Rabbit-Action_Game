@@ -134,6 +134,8 @@ export default class Game extends Phaser.Scene {
     );
     this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
+    this.isPlayerOut = () => this.player.y > 900 || this.player.x < -250 || this.player.x > 1200;
+
     // this.player.setGravityY = 500;
 
     this.boss = new Boss(
@@ -145,6 +147,8 @@ export default class Game extends Phaser.Scene {
     this.boss.active = false;
     this.boss.visible = false;
     this.boss.body.checkCollision.up = false;
+    this.boss.body.checkCollision.left = false;
+    this.boss.body.checkCollision.right = false;
     this.boss.disableInteractive();
 
     // this.player.setCollideWorldBounds = true;
@@ -161,12 +165,16 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');
-      if (this.spaceKey.isDown) {
-        console.log('it HIT!!');
-        enemy.anims.play('enemy-hit');
-        enemy.body.velocity.y = -50;
-        enemy.onKill();
-      }
+      setTimeout(() => {
+        if (this.spaceKey.isDown) {
+          console.log('it HIT!!');
+          enemy.anims.play('enemy-hit');
+          enemy.body.velocity.y = -50;
+          enemy.onKill();
+        } else {
+          this.player.onHit();
+        }
+      }, 100);
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
@@ -186,8 +194,11 @@ export default class Game extends Phaser.Scene {
       if (this.spaceKey.isDown) {
         console.log('HIT Boss!!');
         // boss.anims.play('boss-hit_2');
-        boss.body.velocity.y = -50;
-        boss.onHit();
+        if (boss.onHit(this) > 1) boss.body.velocity.y = -50;
+        else {
+          this.scene.start('gameOver');
+          // this.game.destroy();
+        }
       }
     }, null, this);
 
@@ -252,18 +263,27 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    this.boss.update();
+    if (this.boss.getData('lives') > 1 || !this.isPlayerOut) {
+      this.boss.update();
 
-    this.enemyCount = this.gEnemies.countActive() + this.pEnemies.countActive();
+      this.enemyCount = this.gEnemies.countActive() + this.pEnemies.countActive();
 
-    // ---------- Game Logic ----------
-    GameLogic.phase = GameLogic.gameCycle(GameLogic.phase, this.gEnemies, this.pEnemies, this.boss, this.enemyCount, this.phaseNum);
+      // ---------- Game Logic ----------
+      GameLogic.phase = GameLogic.gameCycle(GameLogic.phase,
+        this.gEnemies,
+        this.pEnemies,
+        this.boss,
+        this.enemyCount,
+        this.phaseNum);
 
-    this.playerSpeed.x = this.player.x;
-    this.playerSpeed.y = this.player.y - 50;
-    this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
-    this.enemyCountText.text = `EnemyCount: ${this.enemyCount}`;
 
-    if (this.player.y > 900 || this.player.x < -250 || this.player.x < -1200) this.scene.start('gameOver');
+      this.playerSpeed.x = this.player.x;
+      this.playerSpeed.y = this.player.y - 50;
+      this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
+      this.enemyCountText.text = `EnemyCount: ${this.enemyCount}`;
+    }
+
+
+    if (this.isPlayerOut()) this.scene.start('gameOver');
   }
 }

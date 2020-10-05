@@ -6,7 +6,7 @@ export default class Player extends Entity {
     super(scene, x, y, key, 'Player');
 
     this.setData('velocity', 200);
-    this.setData('lives', 3);
+    this.setData('lives', 30);
     this.setData('side', 'right');
     // this.body.checkCollision.up = false;
     // this.body.checkCollision.left = false;
@@ -53,15 +53,30 @@ export default class Player extends Entity {
     this.body.setVelocityX(10);
   }
 
-  onHit() {
-    this.scene.time.addEvent({
-      delay: 100,
-      callback() {
+  hitSide() {
+    if (this.body.velocity.y !== 0) {
+      if (this.getData('side') === 'left') {
+        this.setFrame(2);
+        this.body.velocity.x = 10;
+      } else {
+        this.setFrame(0);
+        this.body.velocity.x = -10;
+      }
+    }
+  }
 
-      },
-      callbackScope: this,
-      loop: false,
-    });
+  onHit() {
+    this.body.velocity.y = -200;
+    this.hitSide();
+    this.body.velocity.x = -200;
+    this.setData('lives', this.getData('lives') - 1);
+    if (this.getData('lives') === 0) {
+      this.destroy();
+      // this.onDestroy();
+      actScene.scene.start('gameOver');
+      console.log('GameOver');
+    }
+    return this.getData('lives');
   }
 
   getVelX() { return this.body.velocity.x; }
