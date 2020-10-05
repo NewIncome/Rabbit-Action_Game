@@ -17,15 +17,24 @@ export default class Enemy1 extends Entity {
     if (this.body.velocity.x > 0) {
       this.anims.play('walkRgt-s', true);
     } else this.anims.play('walkLft-s', true);
+    this.hitSide();
+  }
+
+  hitSide() {
+    if (this.body.velocity.y !== 0) {
+      if (this.getData('side') === 'left') this.setFrame(2);
+      else this.setFrame(0);
+    }
   }
 
   onKill() {
-    this.anims.play('enemy-hit');
     this.body.velocity.y = -200;
-    this.scene.time.addEvent({ delay: 2000 });
+    this.hitSide();
     this.body.velocity.x = -200;
-    this.scene.time.addEvent({ delay: 2000 });
-    this.destroy();
+    setTimeout(() => {
+      this.setData('lives', this.getData('lives') - 1);
+      if (this.getData('lives') === 0) this.destroy();
+    }, 1000);
   }
 
   reappear() {

@@ -65,14 +65,12 @@ export default class Player extends Entity {
     }
   }
 
-  onHit() {
-    this.body.velocity.y = -200;
+  onHit(actScene) {
+    console.log('Ouch');
     this.hitSide();
-    this.body.velocity.x = -200;
     this.setData('lives', this.getData('lives') - 1);
     if (this.getData('lives') === 0) {
       this.destroy();
-      // this.onDestroy();
       actScene.scene.start('gameOver');
       console.log('GameOver');
     }

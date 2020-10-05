@@ -165,23 +165,20 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       console.log('inside OverLap');
-      setTimeout(() => {
-        if (this.spaceKey.isDown) {
-          console.log('it HIT!!');
-          enemy.anims.play('enemy-hit');
-          enemy.body.velocity.y = -50;
-          enemy.onKill();
-        } else {
-          this.player.onHit();
-        }
-      }, 100);
+      if (this.spaceKey.isDown) {
+        console.log('it HIT!!');
+        enemy.body.velocity.y = -50;
+        enemy.onKill();
+      }
+      // if ((player.body.checkCollision.left && player.getData('side') === 'right') ||
+      // (player.body.checkCollision.right && player.getData('side') === 'left')) player.onHit(this);
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
       if (this.spaceKey.isDown) {
         console.log('it HIT!!');
-        enemy.anims.play('enemy-hit_2');
-        enemy.body.velocity.y = -50;
+        // enemy.anims.play('enemy-hit_2');
+        // enemy.body.velocity.y = -50;
         enemy.onHit();
       } else if (enemy.body.touching.up) {
         console.log('Ouch my head!');
@@ -194,7 +191,7 @@ export default class Game extends Phaser.Scene {
       if (this.spaceKey.isDown) {
         console.log('HIT Boss!!');
         // boss.anims.play('boss-hit_2');
-        if (boss.onHit(this) > 1) boss.body.velocity.y = -50;
+        if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
         else {
           this.scene.start('gameOver');
           // this.game.destroy();
