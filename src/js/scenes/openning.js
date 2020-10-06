@@ -1,5 +1,11 @@
 import Phaser from 'phaser';
 
+import ImgLoader from '../helpers/loader';
+
+import Movement from '../helpers/animations';
+
+import { center, hover } from '../helpers/position-n-buttons';
+
 export default class Openning extends Phaser.Scene {
   constructor() {
     super('openning');
@@ -48,14 +54,9 @@ export default class Openning extends Phaser.Scene {
       },
     }).setOrigin(0.5, 0.5);
 
-    this.load.spritesheet('rabbit',
-      '../assets/player&enemies/rabbit-sprite.png',
-      { frameWidth: 54, frameHeight: 90 });
-    for (let i = 0; i < 500; i += 1) {
-      this.load.spritesheet(`rabbit ${Math.round(i / 5)}`,
-        '../assets/player&enemies/rabbit-sprite.png',
-        { frameWidth: 54, frameHeight: 90 });
-    }
+    this.load.image('background', '../assets/bg&objects/op-background.jpg')
+
+    ImgLoader.player(this);
 
     // Event listeners from Phaser's LoaderPlugin
     this.load.on('progress', (value) => { // gives a value between 0-1
@@ -81,8 +82,43 @@ export default class Openning extends Phaser.Scene {
   }
 
   create() {
-    this.add.sprite(400, 300, 'rabbit');
-    // this.add.image(400, 300, 'rock-b');
+    this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.52);
+
+    const playBtn = this.add.text(this.game.config.width /2,
+      this.game.config.height / 4, 'PLAY', {
+        fontSize: '30px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#22fa',
+        padding: {
+          left: 50,
+          right: 50,
+          top: 20,
+          bottom: 20,
+        },
+      });
+    const playBtnHvr = this.add.text(this.game.config.width /2,
+      this.game.config.height / 4, 'PLAY', {
+        fontSize: '31px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#22fc',
+        padding: {
+          left: 51,
+          right: 51,
+          top: 21,
+          bottom: 21,
+        },
+      }).setVisible(false);
+
+    hover(playBtn, playBtnHvr);
+
+    // Running rabbit
+    const player = this.add.sprite(395, 470, 'rabbit-nrm-n-hit');
+
+    Movement.player(this);
+
+    player.anims.play('right-run');
   }
 
   update() {
