@@ -1,11 +1,13 @@
 const GameLogic = (() => {
   let phase;
+  let time;
 
   const gameCycle = (cycle, enemy1, enemy2, boss, enemycount, phaseTx) => {
     new Promise((resolve) => {
       if (cycle === 0) {
         phase = 1;
         phaseTx.text = 'Phase: 1';
+        time = new Date();
 
         return phase;
       }
@@ -47,9 +49,17 @@ const GameLogic = (() => {
     return phase;
   };
 
+  const koTime = () => {
+    const tm = time - new Date();
+    if (tm >= 60000) return `${tm / 60000} min`;
+    else return `${tm / 1000} sec`;
+  };
+
   return {
     phase,
     gameCycle,
+    time,
+    koTime,
   };
 })();
 
