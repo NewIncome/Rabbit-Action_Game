@@ -10,13 +10,17 @@ export default class Openning extends Phaser.Scene {
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect(240, 270, 320, 50);
+    progressBox.fillRect((this.game.config.width / 2) - 160,
+      (this.game.config.height / 4) * 1.5, 320, 50);
+    // progressBox.x -= progressBox.width / 2;
+    // progressBox.fillRect(240, 270, 320, 50);
+
     // To Make Loading... text
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
     const loadingText = this.make.text({
       x: width / 2,
-      y: height / 2 - 50,
+      y: height / 2 - 100,
       text: 'Loading...',
       style: {
         font: '20px monospace',
@@ -58,7 +62,8 @@ export default class Openning extends Phaser.Scene {
 
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
-      progressBar.fillRect(250, 280, 300 * value, 30);
+      progressBar.fillRect((this.game.config.width / 2) - 150,
+        (this.game.config.height / 4) * 1.55, 300 * value, 30);
       percentText.setText(`${Math.round(value * 100)}%`);
     });
 
@@ -83,7 +88,7 @@ export default class Openning extends Phaser.Scene {
   update() {
     this.input.on('pointerdown', () => {
       if (!this.assetText.active) {
-        this.scene.start('game');
+        this.scene.start('openning');
       }
     });
   }
