@@ -1,9 +1,9 @@
-/* eslint-disable no-new */
+/* eslint-disable no-undef */
 import './styles/style.scss';
 
 import Phaser from 'phaser';
 
-// import Openning from './js/scenes/openning';
+import Openning from './js/scenes/openning';
 
 import Game from './js/scenes/game';
 
@@ -23,5 +23,9 @@ export default new Phaser.Game({
       gravity: { y: 300 },
       debug: true,
     },
+  },
+  parent: bodyId,
+  dom: {
+    createContainer: true,
   },
 });

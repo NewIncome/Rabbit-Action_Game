@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 import GameLogic from '../control/gameLogic';
 
-import center from '../helpers/position';
+import { center, hover } from '../helpers/position-n-buttons';
 
 export default class GameOver extends Phaser.Scene {
   constructor() {
@@ -10,6 +10,7 @@ export default class GameOver extends Phaser.Scene {
   }
 
   create() {
+    // ----- The Texts -----
     const title = this.add.text(this.game.config.width / 2,
       this.game.config.height / 3,
       'GAME OVER',
@@ -49,38 +50,54 @@ export default class GameOver extends Phaser.Scene {
       }).setVisible(false);
     center(rankBtnHvr);
 
+    // --- Submit Button ---
+    const submitBtn = this.add.text(this.game.config.width / 2,
+      this.game.config.height / 3 + 50,
+      'SUBMIT', {
+        fontSize: '24px',
+        color: '#000',
+        backgroundColor: 'grey',
+        padding: 5,
+      });
+    center(submitBtn);
+    const submitBtnHvr = this.add.text(this.game.config.width / 2,
+      this.game.config.height / 3 + 50,
+      'SUBMIT', {
+        fontSize: '24px',
+        fontStyle: 'bold',
+        color: '#000',
+        backgroundColor: 'grey',
+        padding: 5,
+      }).setVisible(false);
+    center(submitBtnHvr);
+
     // ----- Name Imput -----
-    const inputElm = this.add.dom(400, this.game.config.height / 3).createFromHTML('div');
-    inputElm.style = 'border: 5px solid blue; width: 300px; height: 100px';
-//     inputElm.innerHTML = `
-// <input type="text" id="inputName" placeholder="Type your name to submit" style="width: 300px;  height: 30px; margin-bottom: 30px; padding: 3px; text-align: center; border: 1px darkcyan solid; font: 20px Calibri; font-weight: 900; background-color: transparent; color: darkcyan"><br>
-//     `;
-//     const inputStyle = 'text-align: center';
-    // this.add.dom(400, this.game.config.height / 3, inputElm);
+    const inputElm = document.createElement('div');
+    // inputElm.style = 'border: 5px solid green; width: 300px; height: 100px;';
+    inputElm.innerHTML = `
+      <input type="text" id="inputName" placeholder="What's your name Winner?" style="width: 336px;  height: 30px; margin-bottom: 30px; padding: 15px; text-align: center; border: 2px green solid; border-radius: 5px; font: 20px Calibri; font-weight: 900; background-color: transparent; color: green"><br>
+    `;
+    const domObj = this.add.dom(this.game.config.width / 2,
+      this.game.config.height / 3, inputElm);
 
-    if (GameLogic.endStat === 'win') ;
+    if (GameLogic.endStat === 'win') {
+      title.setVisible(false);
+      domObj.setVisible(true);
+      submitBtn.setVisible(true);
+    } else {
+      title.setVisible(true);
+      domObj.setVisible(false);
+      submitBtn.setVisible(false);
+    }
+
+    // ----- Submit bttn actions -----
+    hover(submitBtn, submitBtnHvr);
+
+    // ----- Rank bttn actions -----
+    hover(rankBtn, rankBtnHvr);
 
     // ----- Retry bttn actions -----
-    rankBtn.setInteractive();
-
-    rankBtn.on('pointerover', () => {
-      rankBtnHvr.setVisible(true);
-    });
-
-    rankBtn.on('pointerout', () => {
-      rankBtnHvr.setVisible(false);
-    });
-
-    // ----- Retry bttn actions -----
-    retryBtn.setInteractive();
-
-    retryBtn.on('pointerover', () => {
-      retryBtnHvr.setVisible(true);
-    });
-
-    retryBtn.on('pointerout', () => {
-      retryBtnHvr.setVisible(false);
-    });
+    hover(retryBtn, retryBtnHvr);
 
     retryBtn.on('pointerup', () => {
       this.scene.start('game');
