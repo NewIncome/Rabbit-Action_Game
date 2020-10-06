@@ -27,6 +27,7 @@ export default class Game extends Phaser.Scene {
   // eslint-disable-next-line class-methods-use-this
   init() {
     GameLogic.phase = 0;
+    GameLogic.endStat = '';
   }
 
   preload() {
@@ -193,6 +194,7 @@ export default class Game extends Phaser.Scene {
         // boss.anims.play('boss-hit_2');
         if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
         else {
+          GameLogic.endStat = 'win';
           this.scene.start('gameOver');
           // this.game.destroy();
         }
@@ -281,6 +283,9 @@ export default class Game extends Phaser.Scene {
     }
 
 
-    if (this.isPlayerOut()) this.scene.start('gameOver');
+    if (this.isPlayerOut()) {
+      GameLogic.endStat = 'lost';
+      this.scene.start('gameOver');
+    }
   }
 }

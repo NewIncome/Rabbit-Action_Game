@@ -1,6 +1,7 @@
 const GameLogic = (() => {
   let phase;
   let time;
+  let endStat;
 
   const gameCycle = (cycle, enemy1, enemy2, boss, enemycount, phaseTx) => {
     new Promise((resolve) => {
@@ -60,6 +61,7 @@ const GameLogic = (() => {
     gameCycle,
     time,
     koTime,
+    endStat,
   };
 })();
 
