@@ -16,14 +16,14 @@ export default class Openning extends Phaser.Scene {
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
-    progressBox.fillRect((this.game.config.width / 2) - 160,
-      (this.game.config.height / 4) * 1.5, 320, 50);
-    // progressBox.x -= progressBox.width / 2;
-    // progressBox.fillRect(240, 270, 320, 50);
 
-    // To Make Loading... text
     const { width } = this.cameras.main;
     const { height } = this.cameras.main;
+
+    progressBox.fillRect((width / 2) - 160,
+      (height / 4) * 1.5, 320, 50);
+
+    // To Make Loading... text
     const loadingText = this.make.text({
       x: width / 2,
       y: height / 2 - 100,
@@ -73,19 +73,24 @@ export default class Openning extends Phaser.Scene {
     });
     // 'complete' will only be emitted once all files are done loading
     this.load.on('complete', () => {
-      progressBar.destroy();
-      progressBox.destroy();
-      loadingText.destroy();
-      percentText.destroy();
-      this.assetText.destroy();
+      setTimeout(() => {
+        progressBar.destroy();
+        progressBox.destroy();
+        loadingText.destroy();
+        percentText.destroy();
+        this.assetText.destroy();
+      }, 1500);
     });
   }
 
   create() {
-    this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.52);
+    const { width } = this.game.config;
+    const { height } = this.game.config;
 
-    const playBtn = this.add.text(this.game.config.width /2,
-      this.game.config.height / 4, 'PLAY', {
+    this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.52).setDepth(0);
+
+    const playBtn = this.add.text(width / 2,
+      height / 4, 'PLAY', {
         fontSize: '30px',
         color: '#000',
         fontStyle: 'bold',
@@ -96,9 +101,9 @@ export default class Openning extends Phaser.Scene {
           top: 20,
           bottom: 20,
         },
-      });
-    const playBtnHvr = this.add.text(this.game.config.width /2,
-      this.game.config.height / 4, 'PLAY', {
+      }).setOrigin(0.5, 0.5);
+    const playBtnHvr = this.add.text(width / 2,
+      height / 4, 'PLAY', {
         fontSize: '31px',
         color: '#000',
         fontStyle: 'bold',
@@ -109,16 +114,20 @@ export default class Openning extends Phaser.Scene {
           top: 21,
           bottom: 21,
         },
-      }).setVisible(false);
+      }).setOrigin(0.5, 0.5).setVisible(false);
 
     hover(playBtn, playBtnHvr);
+
+    // this.add.graphics().fillRoundedRect();
 
     // Running rabbit
     const player = this.add.sprite(395, 470, 'rabbit-nrm-n-hit');
 
     Movement.player(this);
 
-    player.anims.play('right-run');
+    setTimeout(() => {
+      player.anims.play('right-run');
+    }, 2000);
   }
 
   update() {
