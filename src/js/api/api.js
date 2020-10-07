@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+// eslint-disable-next-line import/no-extraneous-dependencies
+import '@babel/polyfill';
 
 const gameName = {
   name: 'Rabbit vs The Aliens',
@@ -44,24 +45,19 @@ async function getScores() {
     method: 'GET',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
   };
-  await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/20n0xhB0lcNUfPpfJzUj/scores/',
-    options)
-    .then(response => response.json())
-    .then(data => {
-      dat = data;
-      return dat;
-    })
-    .catch(err => err);
+  const getResp = await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/20n0xhB0lcNUfPpfJzUj/scores/',
+    options);
+  const data = await getResp.json();
 
-  let sortDat = [];
-  sortDat = Object.entries(dat).sort((a, b) => {
+  let sortData = [];
+  sortData = Object.entries(data).sort((a, b) => {
     if (b[1].score > a[1].score) return 1;
     if (b[1].score < a[1].score) return -1;
     return 0;
   });
-
-  console.log(sortDat);
-  return sortDat;
+  console.log(data);
+  console.log(sortData);
+  return sortData;
 }
 
 
