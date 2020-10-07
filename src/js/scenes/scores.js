@@ -48,6 +48,41 @@ export default class Scores extends Phaser.Scene {
     })
       .setOrigin(0.5, 0.5);
 
+    const scoreTable = document.createElement('table');
+    // inputElm.style = 'border: 5px solid green; width: 300px; height: 100px;';
+    scoreTable.style = 'width:80%; text-align:center; color:#fff; font-size:24px; border: 2px solid #fff';
+    scoreTable.innerHTML = `
+      <tbody style="width:100%; text-align:center; color:#fff; font-size:24px; border: 2px solid #fff; display: flex'">
+        <tr>
+          <th>Name</th>
+          <th>Time (min)</th>
+        </tr>
+        <tr>
+          <td>1.- </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2.- </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>3.- </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>4.- </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>5.- </td>
+          <td></td>
+        </tr>
+      </tbody>
+    `;
+
+    const tableDomObj = this.add.dom(width / 2,
+      height / 3, scoreTable);
+
     const DataStyle = 'font: 23px Calibri; color: white; width: 250px; height: 40px; font-weight: 700;';
     let j = 170;
 
@@ -59,12 +94,15 @@ export default class Scores extends Phaser.Scene {
       const scoreArr = resp[0][1];
       // const qnt = scoreArr.length < 11 ? scoreArr.length : 10;
       const qnt = scoreArr.length;
+      // for (let i = 0; i < qnt; i += 1) {
+      //   this.add.dom(125, j, 'div', `${DataStyle}`, `${i + 1}.-  ${scoreArr[i].user}  ${scoreArr[i].score}`).setOrigin(0, 0);
+      //   if (qnt > 5) {
+      //     this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.-  ${scoreArr[i + 5].user}  ${scoreArr[i + 5].score}`).setOrigin(0, 0);
+      //   }
+      //   j += 40;
+      // }
       for (let i = 0; i < qnt; i += 1) {
-        this.add.dom(125, j, 'div', `${DataStyle}`, `${i + 1}.-  ${scoreArr[i].user}  ${scoreArr[i].score}`).setOrigin(0, 0);
-        if (qnt > 5) {
-          this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.-  ${scoreArr[i + 5].user}  ${scoreArr[i + 5].score}`).setOrigin(0, 0);
-        }
-        j += 40;
+
       }
     });
   }
