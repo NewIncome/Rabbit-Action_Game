@@ -11,10 +11,6 @@ export default class GameOver extends Phaser.Scene {
     super('gameOver');
   }
 
-  init() {
-    GameLogic.endStat = 'win';
-  }
-
   preload() {
     this.load.image('bg', '../assets/bg&objects/game-over-bg.png');
   }
@@ -117,8 +113,7 @@ export default class GameOver extends Phaser.Scene {
 
       if (nameVal !== '') {
         pushScore(nameVal, GameLogic.koTime());
-        this.music.stop();
-        this.scene.start('leaderBoardScene');
+        this.scene.start('scores');
       } else if (nameVal === '') {
         errorMssg.setVisible(true);
       }

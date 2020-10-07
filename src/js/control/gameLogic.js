@@ -51,8 +51,8 @@ const GameLogic = (() => {
   };
 
   const koTime = () => {
-    const tm = time - new Date();
-    return tm / 60000;
+    const tm = new Date() - time;
+    return tm / 1000;
   };
 
   return {

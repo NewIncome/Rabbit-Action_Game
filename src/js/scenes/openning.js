@@ -153,7 +153,7 @@ export default class Openning extends Phaser.Scene {
     });
 
     rankBtn.on('pointerdown', () => {
-      this.scene.start('ranks');
+      this.scene.start('scores');
     });
 
     // this.add.graphics().fillRoundedRect((width / 2) - 150, (height / 4) - 50, 300, 100, {
