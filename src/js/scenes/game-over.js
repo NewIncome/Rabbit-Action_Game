@@ -15,9 +15,15 @@ export default class GameOver extends Phaser.Scene {
     GameLogic.endStat = 'win';
   }
 
+  preload() {
+    this.load.image('bg', '../assets/bg&objects/game-over-bg.png');
+  }
+
   create() {
     const { width } = this.game.config;
     const { height } = this.game.config;
+
+    this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
     // ----- The Texts -----
     const title = this.add.text(width / 2,
       height / 3,
@@ -63,7 +69,7 @@ export default class GameOver extends Phaser.Scene {
       height / 3 + 50,
       'SUBMIT', {
         fontSize: '24px',
-        color: '#000',
+        color: '#aea',
         backgroundColor: 'grey',
         padding: 6,
       });
@@ -73,7 +79,7 @@ export default class GameOver extends Phaser.Scene {
       'SUBMIT', {
         fontSize: '24px',
         fontStyle: 'bold',
-        color: '#000',
+        color: '#aea',
         backgroundColor: 'grey',
         padding: {
           top: 7, bottom: 7, left: 7, right: 7,
@@ -85,7 +91,7 @@ export default class GameOver extends Phaser.Scene {
     const inputElm = document.createElement('div');
     // inputElm.style = 'border: 5px solid green; width: 300px; height: 100px;';
     inputElm.innerHTML = `
-      <input type="text" id="name" placeholder="What's your name Winner?" style="width: 336px;  height: 30px; margin-bottom: 30px; padding: 15px; text-align: center; border: 2px green solid; border-radius: 5px; font: 20px Calibri; font-weight: 900; background-color: transparent; color: green"><br>
+      <input type="text" id="name" placeholder="What's your name Winner?" style="width: 336px;  height: 30px; margin-bottom: 30px; padding: 15px; text-align: center; border: 2px #aea solid; border-radius: 5px; font: 20px Calibri; font-weight: 900; background-color: transparent; color: #8e8"><br>
     `;
     const domObj = this.add.dom(width / 2,
       height / 3, inputElm);
