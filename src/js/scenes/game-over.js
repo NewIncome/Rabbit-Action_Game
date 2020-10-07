@@ -127,6 +127,10 @@ export default class GameOver extends Phaser.Scene {
     // ----- Rank bttn actions -----
     hover(rankBtn, rankBtnHvr);
 
+    rankBtn.on('pointerup', () => {
+      this.scene.start('scores');
+    });
+
     // ----- Retry bttn actions -----
     hover(retryBtn, retryBtnHvr);
 
