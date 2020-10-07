@@ -1,5 +1,6 @@
 const fetch = require("node-fetch");
 
+
 const gameName = {
   name: 'Rabbit vs The Aliens',
 };
@@ -15,10 +16,10 @@ async function getScoreAPI() {
     .catch(err => console.log(err));
 }
 
-getScoreAPI();
+async function pushScores() {
+  
+}
 
-console.log('Hey, it is working eh');
 
-// For name: Test1, key: 20n0xhB0lcNUfPpfJzUj
 
 // For this project name, key: TZYfRdsiWsUoxdQNKoTy

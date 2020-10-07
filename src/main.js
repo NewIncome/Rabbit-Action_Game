@@ -15,8 +15,8 @@ export default new Phaser.Game({
   height: 700,
   scene: [
     Openning,
-    // Game,
-    // GameOver,
+    Game,
+    GameOver,
   ],
   physics: {
     default: 'arcade',
