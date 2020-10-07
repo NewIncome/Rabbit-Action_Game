@@ -52,8 +52,7 @@ const GameLogic = (() => {
 
   const koTime = () => {
     const tm = time - new Date();
-    if (tm >= 60000) return `${tm / 60000} min`;
-    return `${tm / 1000} sec`;
+    return tm / 60000;
   };
 
   return {

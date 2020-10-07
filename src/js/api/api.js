@@ -1,5 +1,4 @@
-// const fetch = require('node-fetch');
-
+const fetch = require('node-fetch');
 
 const gameName = {
   name: 'Rabbit vs The Aliens',
@@ -17,7 +16,7 @@ async function getScoreAPI() {
     .catch(err => console.log(err));
 }
 
-async function pushScores(userName, scoreVal) {
+async function pushScore(userName, scoreVal) {
   let dat;
   const jsonScore = JSON.stringify({ user: userName, score: scoreVal });
   const options = {
@@ -66,7 +65,7 @@ async function getScores() {
 }
 
 
-// export { pushScores, getScores };
+export { pushScore, getScores };
 
 // For name: Test1, key: 20n0xhB0lcNUfPpfJzUj
 // For this project name, key: TZYfRdsiWsUoxdQNKoTy

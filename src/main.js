@@ -14,8 +14,8 @@ export default new Phaser.Game({
   width: 1030,
   height: 700,
   scene: [
-    Openning,
-    Game,
+    // Openning,
+    // Game,
     GameOver,
   ],
   physics: {
