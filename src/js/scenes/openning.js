@@ -107,7 +107,34 @@ export default class Openning extends Phaser.Scene {
         fontSize: '31px',
         color: '#000',
         fontStyle: 'bold',
-        backgroundColor: '#22fc',
+        backgroundColor: '#22fb',
+        padding: {
+          left: 51,
+          right: 51,
+          top: 21,
+          bottom: 21,
+        },
+      }).setOrigin(0.5, 0.5).setVisible(false);
+
+    const rankBtn = this.add.text(width / 2,
+      (height / 4) * 2, 'RANK', {
+        fontSize: '30px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#22fa',
+        padding: {
+          left: 50,
+          right: 50,
+          top: 20,
+          bottom: 20,
+        },
+      }).setOrigin(0.5, 0.5);
+    const rankBtnHvr = this.add.text(width / 2,
+      (height / 4) * 2, 'RANK', {
+        fontSize: '31px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#22fb',
         padding: {
           left: 51,
           right: 51,
@@ -118,7 +145,20 @@ export default class Openning extends Phaser.Scene {
 
     hover(playBtn, playBtnHvr);
 
-    // this.add.graphics().fillRoundedRect();
+    hover(rankBtn, rankBtnHvr);
+
+    // Check for clicks
+    playBtn.on('pointerdown', () => {
+      this.scene.start('game');
+    });
+
+    rankBtn.on('pointerdown', () => {
+      this.scene.start('ranks');
+    });
+
+    // this.add.graphics().fillRoundedRect((width / 2) - 150, (height / 4) - 50, 300, 100, {
+    //   tl: 10, tr: 10, br: 0, bl: 0,
+    // }).fillStyle('#eee');
 
     // Running rabbit
     const player = this.add.sprite(395, 470, 'rabbit-nrm-n-hit');
@@ -128,13 +168,5 @@ export default class Openning extends Phaser.Scene {
     setTimeout(() => {
       player.anims.play('right-run');
     }, 2000);
-  }
-
-  update() {
-    this.input.on('pointerdown', () => {
-      if (!this.assetText.active) {
-        this.scene.start('openning');
-      }
-    });
   }
 }
