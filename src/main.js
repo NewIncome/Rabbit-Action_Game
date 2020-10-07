@@ -9,6 +9,8 @@ import Game from './js/scenes/game';
 
 import GameOver from './js/scenes/game-over';
 
+import Scores from './js/scenes/scores';
+
 export default new Phaser.Game({
   type: Phaser.AUTO,
   width: 1030,
@@ -17,6 +19,7 @@ export default new Phaser.Game({
     // Openning,
     // Game,
     GameOver,
+    Scores,
   ],
   physics: {
     default: 'arcade',
