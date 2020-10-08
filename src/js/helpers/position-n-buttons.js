@@ -15,4 +15,16 @@ function hover(obj, hovObj) {
   });
 }
 
-export { center, hover };
+function setTimeVal(secs) {
+  if (secs > 60) {
+    return `${(secs / 60).toFixed(2)} mins`;
+  }
+  return `${secs.toFixed(2)} secs`;
+}
+
+function is(elem) {
+  if (typeof elem === 'number') return setTimeVal(elem);
+  return elem || ''; // used instead of ternary operator
+}
+
+export { center, hover, is };

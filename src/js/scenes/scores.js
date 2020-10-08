@@ -1,4 +1,4 @@
-import { center, hover } from '../helpers/position-n-buttons';
+import { center, hover, is } from '../helpers/position-n-buttons';
 
 import { getScores } from '../api/api';
 
@@ -52,19 +52,6 @@ export default class Scores extends Phaser.Scene {
     const DataStyle = 'font: 26px Courier; color: white; width: 380px; height: 40px; font-weight: 700;';
     let j = 170;
 
-    // const scoreArr = getScores();
-
-    function setTimeVal(secs) {
-      if (secs > 60) {
-        return `${(secs / 60).toFixed(2)} mins`;
-      }
-      return `${secs.toFixed(2)} secs`;
-    }
-
-    function is(elem) {
-      if (typeof elem === 'number') return setTimeVal(elem);
-      return elem || ''; // used instead of ternary operator
-    }
 
     getScores().then((scoreArr) => {
       const qnt = scoreArr.length > 10 ? 10 : scoreArr.length;

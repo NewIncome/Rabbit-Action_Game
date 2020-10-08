@@ -1,6 +1,4 @@
-import Phaser, { Cameras, GameObjects } from 'phaser';
-
-import preLoadBar from '../helpers/loading-bar';
+import Phaser from 'phaser';
 
 import ImgLoader from '../helpers/loader';
 
@@ -31,9 +29,6 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    const asset = this.load.image('game-bg', '../assets/bg&objects/Background.png');
-    // preLoadBar(this, asset, 'game-bg');
-
     // ---------- Loading the Land ----------
     ImgLoader.tiles(this, 'tile-flat-', ['l', 'm', 'r'],
       '../assets/bg&objects/Tile_', 10, 3, '.png');
@@ -171,8 +166,6 @@ export default class Game extends Phaser.Scene {
         enemy.body.velocity.y = -50;
         enemy.onKill();
       }
-      // if ((player.body.checkCollision.left && player.getData('side') === 'right') ||
-      // (player.body.checkCollision.right && player.getData('side') === 'left')) player.onHit(this);
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {

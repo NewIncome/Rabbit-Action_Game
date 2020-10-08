@@ -1,7 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import Phaser from 'phaser';
 
-export default function preLoadBar(scene, asset, key) {
+export default function preLoadBar(scene) {
   console.log('Scene');
   console.log(scene);
   const progressBar = scene.add.graphics();

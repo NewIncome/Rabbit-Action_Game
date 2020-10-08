@@ -39,8 +39,6 @@ async function pushScore(userName, scoreVal) {
 }
 
 async function getScores() {
-  let dat;
-
   const options = {
     method: 'GET',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },

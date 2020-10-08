@@ -4,7 +4,7 @@ import ImgLoader from '../helpers/loader';
 
 import Movement from '../helpers/animations';
 
-import { center, hover } from '../helpers/position-n-buttons';
+import { hover } from '../helpers/position-n-buttons';
 
 export default class Openning extends Phaser.Scene {
   constructor() {
@@ -54,13 +54,13 @@ export default class Openning extends Phaser.Scene {
       },
     }).setOrigin(0.5, 0.5);
 
-    this.load.image('background', '../assets/bg&objects/op-background.jpg')
+    this.load.image('background', '../assets/bg&objects/op-background.jpg');
 
     ImgLoader.player(this);
 
     // Event listeners from Phaser's LoaderPlugin
-    this.load.on('progress', (value) => { // gives a value between 0-1
-
+    this.load.on('progress', (value) => {
+      // gives a value between 0-1
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect((this.game.config.width / 2) - 150,
