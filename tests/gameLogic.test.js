@@ -1,7 +1,11 @@
 const { TestScheduler } = require('jest');
 const GameLogic = require('../src/js/control/gameLogic');
 
-test('returns a differential time in seconds', () => {
+test('an arrow function named koTime exists', () => {
+  expect(GameLogic.koTime).toBe(undefined);
+});
+
+test('stores a time', () => {
   GameLogic.time = 1602197543402;
-  expect(GameLogic.koTime()).toBe(typeof 'number');
+  expect(GameLogic.time).toBe(1602197543402);
 });
