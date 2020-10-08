@@ -24,6 +24,8 @@ const GameLogic = (() => {
                 child.active = true;
                 child.visible = true;
                 child.body.checkCollision.up = true;
+                child.body.checkCollision.left = true;
+                child.body.checkCollision.right = true;
               });
             }, 1000);
           }

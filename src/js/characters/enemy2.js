@@ -8,7 +8,7 @@ export default class Enemy2 extends Entity {
     this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
-    this.setData('lives', 10);
+    this.setData('lives', 30);
 
     this.life = this.scene.add.text(this.x, this.y + 50, 'life');
   }

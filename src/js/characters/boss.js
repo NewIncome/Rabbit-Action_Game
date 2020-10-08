@@ -8,7 +8,7 @@ export default class Boss extends Entity {
     this.setData('velocity', Phaser.Math.Between(-100, 100));
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
-    this.setData('lives', 10);
+    this.setData('lives', 80);
   }
 
   setAnim() {

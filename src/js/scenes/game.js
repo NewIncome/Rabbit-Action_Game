@@ -29,6 +29,8 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('game-bg', '../assets/bg&objects/Background.png');
+
     // ---------- Loading the Land ----------
     ImgLoader.tiles(this, 'tile-flat-', ['l', 'm', 'r'],
       '../assets/bg&objects/Tile_', 10, 3, '.png');
@@ -114,12 +116,15 @@ export default class Game extends Phaser.Scene {
     });
 
     // ---------- Create Enemies & Player ----------
-    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 2);
+    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 10);
 
-    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 1);
+    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 5);
     this.pEnemies.children.iterate((child) => {
       child.active = false;
       child.visible = false;
+      child.body.checkCollision.up = false;
+      child.body.checkCollision.left = false;
+      child.body.checkCollision.right = false;
     });
 
     this.player = new Player(
@@ -169,7 +174,7 @@ export default class Game extends Phaser.Scene {
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
-      if (this.spaceKey.isDown) {
+      if (this.spaceKey.isDown && enemy.body.checkCollision.up === true) {
         console.log('it HIT!!');
         // enemy.anims.play('enemy-hit_2');
         // enemy.body.velocity.y = -50;
@@ -182,7 +187,7 @@ export default class Game extends Phaser.Scene {
     }, null, this);
 
     this.physics.add.overlap(this.player, this.boss, (player, boss) => {
-      if (this.spaceKey.isDown) {
+      if (this.spaceKey.isDown && boss.body.checkCollision.up === true) {
         console.log('HIT Boss!!');
         // boss.anims.play('boss-hit_2');
         if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
