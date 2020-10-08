@@ -57,7 +57,12 @@ export default class Scores extends Phaser.Scene {
       if (secs > 60) {
         return `${(secs / 60).toFixed(2)} mins`;
       }
-      return `${secs} secs`;
+      return `${secs.toFixed(2)} secs`;
+    }
+
+    function is(elem) {
+      if (typeof elem === 'number') return setTimeVal(elem);
+      return elem || ''; // used instead of ternary operator
     }
 
     getScores().then((resp) => {
@@ -65,13 +70,12 @@ export default class Scores extends Phaser.Scene {
       console.log(resp);
       console.log(resp.result);
       const scoreArr = resp;
-      const qnt = scoreArr.length;
+      const qnt = scoreArr.length > 10 ? 10 : scoreArr.length;
       for (let i = 0; i < qnt; i += 1) {
-        this.add.dom(125, j, 'div', `${DataStyle}`, `${i + 1}.  ${scoreArr[i].user}  - ${setTimeVal(scoreArr[i].score)}`).setOrigin(0, 0);
-        if (qnt > 5) {
-          this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.  ${scoreArr[i].user}  - ${setTimeVal(scoreArr[i].score)}`).setOrigin(0, 0);
-        }
-        j += 40;
+        this.add.dom(i < 5 ? 125 : 525, j, 'div', `${DataStyle}`, `${i + 1}.  ${is(scoreArr[i].user)}  - ${is(scoreArr[i].score)}`).setOrigin(0, 0);
+        // this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.  ${is(scoreArr[i].user)}  - ${is(scoreArr[i + 5].score)}`).setOrigin(0, 0);
+        j += 60;
+        if (i === 4) j = 170;
       }
     });
   }
