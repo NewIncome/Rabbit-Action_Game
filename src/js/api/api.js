@@ -51,21 +51,11 @@ async function getScores() {
 
   let sortData = [];
   sortData = Object.entries(data)[0][1].sort((a, b) => {
-    console.log(`a: ${Object.keys(a)}, b: ${Object.keys(b)}`);
-    console.log(`${a}, ${b}`);
-    console.log(a);
-    console.log(b);
-    if (b.score > a.score) return 1;
-    if (b.score < a.score) return -1;
+    if (b.score > a.score) return -1;
+    if (b.score < a.score) return 1;
     return 0;
   });
-  // sortData = Object.entries(data)[0].sort((a, b) => a.score - b.score);
   console.log(data);
-  console.log('Object.entries(data)[0]:');
-  // console.log(data.result);
-  console.log(Object.entries(data)[0].result);
-  console.log(Object.entries(data)[0][0]);
-  console.log(Object.entries(data)[0][1]);
   console.log(sortData);
   return sortData;
 }
