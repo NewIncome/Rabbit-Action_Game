@@ -55,7 +55,7 @@ export default class Scores extends Phaser.Scene {
       .setOrigin(0.5, 0.5);
 
     const DataStyle = 'font: 26px Courier; color: white; width: 380px; height: 40px; font-weight: 700;';
-    let j = 170;
+    let j = 140;
 
 
     getScores().then((scoreArr) => {
@@ -63,7 +63,7 @@ export default class Scores extends Phaser.Scene {
       for (let i = 0; i < qnt; i += 1) {
         this.add.dom(i < 5 ? 135 : 545, j, 'div', `${DataStyle}`, `${i + 1}.  ${strIs(scoreArr[i].user)}: ${numIs(scoreArr[i].score)}`).setOrigin(0, 0);
         j += 80;
-        if (i === 4) j = 170;
+        if (i === 4) j = 140;
       }
     });
     this.add.text(width / 1.5,
