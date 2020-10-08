@@ -52,7 +52,7 @@ const GameLogic = (() => {
 
   const koTime = () => {
     const tm = new Date() - time;
-    return tm / 1000;
+    return (tm / 1000).toFixed(2);
   };
 
   return {

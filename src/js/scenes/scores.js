@@ -54,8 +54,10 @@ export default class Scores extends Phaser.Scene {
     // const scoreArr = getScores();
 
     function setTimeVal(secs) {
-      if (secs > 60)
-      return 
+      if (secs > 60) {
+        return `${(secs / 60).toFixed(2)} mins`;
+      }
+      return `${secs} secs`;
     }
 
     getScores().then((resp) => {
@@ -65,9 +67,9 @@ export default class Scores extends Phaser.Scene {
       const scoreArr = resp;
       const qnt = scoreArr.length;
       for (let i = 0; i < qnt; i += 1) {
-        this.add.dom(125, j, 'div', `${DataStyle}`, `${i + 1}.  ${scoreArr[i].user}  - ${scoreArr[i].score}`).setOrigin(0, 0);
+        this.add.dom(125, j, 'div', `${DataStyle}`, `${i + 1}.  ${scoreArr[i].user}  - ${setTimeVal(scoreArr[i].score)}`).setOrigin(0, 0);
         if (qnt > 5) {
-          this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.  ${scoreArr[i].user}  - ${scoreArr[i].score}`).setOrigin(0, 0);
+          this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.  ${scoreArr[i].user}  - ${setTimeVal(scoreArr[i].score)}`).setOrigin(0, 0);
         }
         j += 40;
       }
