@@ -48,7 +48,7 @@ export default class Scores extends Phaser.Scene {
     })
       .setOrigin(0.5, 0.5);
 
-    const DataStyle = 'font: 23px Calibri; color: white; width: 250px; height: 40px; font-weight: 700;';
+    const DataStyle = 'font: 26px Courier; color: white; width: 380px; height: 40px; font-weight: 700;';
     let j = 170;
 
     // const scoreArr = getScores();
@@ -72,9 +72,9 @@ export default class Scores extends Phaser.Scene {
       const scoreArr = resp;
       const qnt = scoreArr.length > 10 ? 10 : scoreArr.length;
       for (let i = 0; i < qnt; i += 1) {
-        this.add.dom(i < 5 ? 125 : 525, j, 'div', `${DataStyle}`, `${i + 1}.  ${is(scoreArr[i].user)}  - ${is(scoreArr[i].score)}`).setOrigin(0, 0);
-        // this.add.dom(525, j, 'div', `${DataStyle}`, `${i + 6}.  ${is(scoreArr[i].user)}  - ${is(scoreArr[i + 5].score)}`).setOrigin(0, 0);
-        j += 60;
+        this.add.dom(i < 5 ? 135 : 545, j, 'div', `${DataStyle}`, `${i + 1}.  ${is(scoreArr[i].user)}: ${is(scoreArr[i].score)}`).setOrigin(0, 0);
+        // this.add.dom(i < 5 ? 125 : 525, j, 'div', `${DataStyle}`, `${i + 6}.  ${is(scoreArr[i].user)}  - ${is(scoreArr[i + 5].score)}`).setOrigin(0, 0);
+        j += 80;
         if (i === 4) j = 170;
       }
     });
