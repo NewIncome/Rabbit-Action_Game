@@ -4,7 +4,7 @@
   "description": "Rabbit-Action is a game made with Phaser and NPM with vertical movement and only one level for Capstone proyect dueDate compiance.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack-dev-server"
@@ -30,6 +30,7 @@
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "file-loader": "^6.1.0",
+    "jest": "^26.5.2",
     "sass": "^1.26.11",
     "sass-loader": "^10.0.2",
     "style-loader": "^1.2.1",
