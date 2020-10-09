@@ -48,8 +48,8 @@ async function getScores() {
 
   let sortData = [];
   sortData = Object.entries(data)[0][1].sort((a, b) => {
-    if (b.score > a.score) return -1;
-    if (b.score < a.score) return 1;
+    if (b.score > a.score) return 1;
+    if (b.score < a.score) return -1;
     return 0;
   });
 

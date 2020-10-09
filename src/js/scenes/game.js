@@ -133,7 +133,6 @@ export default class Game extends Phaser.Scene {
       this.game.config.height * 0.45,
       'rabbit-nrm-n-hit',
     );
-    this.playerSpeed = this.add.text(this.player.x + 50, this.player.y, 'Speed:');
 
     this.isPlayerOut = () => this.player.y > 900 || this.player.x < -250 || this.player.x > 1200;
 
@@ -185,14 +184,11 @@ export default class Game extends Phaser.Scene {
       }
     }, null, this);
 
-    this.enemyCountText = this.add.text(100, 400, 'EnemyCount:');
-
 
     this.cameras.main.startFollow(this.player);
     this.cameras.main.setDeadzone(this.scale.width);
     this.cameras.main.centerOnX(this.scale.width / 2);
 
-    this.add.text(200, 300, `camera X: ${this.cameras.main.centerX}`);
     // ---------- Movement ----------
     this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -204,7 +200,7 @@ export default class Game extends Phaser.Scene {
 
     Movement.boss(this);
 
-    this.phaseNum = this.add.text(this.game.config.width / 2, 100, 'Phase: 0');
+    this.phaseNum = this.add.text(this.game.config.width / 2, -150, 'Stage: 0');
   }
 
   update() {
@@ -256,12 +252,6 @@ export default class Game extends Phaser.Scene {
         this.boss,
         this.enemyCount,
         this.phaseNum);
-
-
-      this.playerSpeed.x = this.player.x;
-      this.playerSpeed.y = this.player.y - 50;
-      this.playerSpeed.text = `Velocity X, Y: ${this.player.body.velocity.x}, ${this.player.body.velocity.y}`;
-      this.enemyCountText.text = `EnemyCount: ${this.enemyCount}`;
     }
 
 

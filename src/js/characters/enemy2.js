@@ -9,8 +9,6 @@ export default class Enemy2 extends Entity {
     this.setData('side', 'right');
     this.setData('enemyRank', 30);
     this.setData('lives', 30);
-
-    this.life = this.scene.add.text(this.x, this.y + 50, 'life');
   }
 
   setAnim() {
@@ -76,9 +74,5 @@ export default class Enemy2 extends Entity {
     this.reappear();
 
     this.keepWalking();
-
-    this.life.x = this.x;
-    this.life.y = this.y - 50;
-    this.life.text = `life: ${this.getData('lives')}`;
   }
 }
