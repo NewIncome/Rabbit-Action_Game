@@ -56,6 +56,9 @@ export default class Openning extends Phaser.Scene {
 
     this.load.image('background', '../assets/bg&objects/op-background.jpg');
 
+    this.load.image('Title', '../assets/RAbbitVsTheAliens-title.png');
+
+
     ImgLoader.player(this);
 
     // Event listeners from Phaser's LoaderPlugin
@@ -89,12 +92,14 @@ export default class Openning extends Phaser.Scene {
 
     this.add.image(0, 0, 'background').setOrigin(0, 0).setScale(1.52).setDepth(0);
 
+    this.add.image(width / 2, 100, 'Title').setOrigin(0.5, 0.5);
+
     const playBtn = this.add.text(width / 2,
-      height / 4, 'PLAY', {
+      height / 2.8, 'PLAY', {
         fontSize: '30px',
         color: '#000',
         fontStyle: 'bold',
-        backgroundColor: '#22fa',
+        backgroundColor: '#e38100aa',
         padding: {
           left: 50,
           right: 50,
@@ -103,11 +108,11 @@ export default class Openning extends Phaser.Scene {
         },
       }).setOrigin(0.5, 0.5);
     const playBtnHvr = this.add.text(width / 2,
-      height / 4, 'PLAY', {
+      height / 2.8, 'PLAY', {
         fontSize: '31px',
-        color: '#000',
+        color: '#22d',
         fontStyle: 'bold',
-        backgroundColor: '#22fb',
+        backgroundColor: '#e38100bb',
         padding: {
           left: 51,
           right: 51,
@@ -117,7 +122,7 @@ export default class Openning extends Phaser.Scene {
       }).setOrigin(0.5, 0.5).setVisible(false);
 
     const rankBtn = this.add.text(width / 2,
-      (height / 4) * 2, 'RANK', {
+      (height / 4) * 2.2, 'RANK', {
         fontSize: '30px',
         color: '#000',
         fontStyle: 'bold',
@@ -130,9 +135,9 @@ export default class Openning extends Phaser.Scene {
         },
       }).setOrigin(0.5, 0.5);
     const rankBtnHvr = this.add.text(width / 2,
-      (height / 4) * 2, 'RANK', {
+      (height / 4) * 2.2, 'RANK', {
         fontSize: '31px',
-        color: '#000',
+        color: '#e38100',
         fontStyle: 'bold',
         backgroundColor: '#22fb',
         padding: {
@@ -157,7 +162,7 @@ export default class Openning extends Phaser.Scene {
     });
 
     // Running rabbit
-    const player = this.add.sprite(395, 470, 'rabbit-nrm-n-hit');
+    const player = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
 
     Movement.player(this);
 
