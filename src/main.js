@@ -32,4 +32,7 @@ export default new Phaser.Game({
   dom: {
     createContainer: true,
   },
+  input: {
+    activePointers: 2,
+  },
 });
