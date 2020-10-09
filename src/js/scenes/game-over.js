@@ -85,7 +85,6 @@ export default class GameOver extends Phaser.Scene {
 
     // ----- Name Imput -----
     const inputElm = document.createElement('div');
-    // inputElm.style = 'border: 5px solid green; width: 300px; height: 100px;';
     inputElm.innerHTML = `
       <input type="text" id="name" placeholder="What's your name Winner?" style="width: 336px;  height: 30px; margin-bottom: 30px; padding: 15px; text-align: center; border: 2px #aea solid; border-radius: 5px; font: 20px Calibri; font-weight: 900; background-color: transparent; color: #8e8"><br>
     `;

@@ -137,7 +137,6 @@ export default class Game extends Phaser.Scene {
 
     this.isPlayerOut = () => this.player.y > 900 || this.player.x < -250 || this.player.x > 1200;
 
-    // this.player.setGravityY = 500;
 
     this.boss = new Boss(
       this,
@@ -152,7 +151,6 @@ export default class Game extends Phaser.Scene {
     this.boss.body.checkCollision.right = false;
     this.boss.disableInteractive();
 
-    // this.player.setCollideWorldBounds = true;
     this.physics.world.setBounds(0, -700, 1030, 1600);
 
     // ---------- Collisions ----------
@@ -165,9 +163,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.boss, this.earthGrounds);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      console.log('inside OverLap');
       if (this.spaceKey.isDown) {
-        console.log('it HIT!!');
         enemy.body.velocity.y = -50;
         enemy.onKill();
       }
@@ -175,33 +171,21 @@ export default class Game extends Phaser.Scene {
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
       if (this.spaceKey.isDown && enemy.body.checkCollision.up === true) {
-        console.log('it HIT!!');
-        // enemy.anims.play('enemy-hit_2');
-        // enemy.body.velocity.y = -50;
         enemy.onHit();
-      } else if (enemy.body.touching.up) {
-        console.log('Ouch my head!');
-      } else {
-        console.log('Hit to Rab');
       }
     }, null, this);
 
     this.physics.add.overlap(this.player, this.boss, (player, boss) => {
       if (this.spaceKey.isDown && boss.body.checkCollision.up === true) {
-        console.log('HIT Boss!!');
-        // boss.anims.play('boss-hit_2');
         if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
         else {
           GameLogic.endStat = 'win';
           this.scene.start('gameOver');
-          // this.game.destroy();
         }
       }
     }, null, this);
 
     this.enemyCountText = this.add.text(100, 400, 'EnemyCount:');
-
-    // this.player.anims.getCurrentKey();
 
 
     this.cameras.main.startFollow(this.player);

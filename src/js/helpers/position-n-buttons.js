@@ -16,8 +16,6 @@ function hover(obj, hovObj) {
 }
 
 function setTimeVal(secs) {
-  console.log(secs);
-  console.log(typeof secs);
   if (secs > 60) {
     return `${(parseFloat(secs) / 60).toFixed(2)} mins`;
   }

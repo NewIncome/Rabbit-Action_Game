@@ -8,9 +8,6 @@ export default class Player extends Entity {
     this.setData('velocity', 200);
     this.setData('lives', 30);
     this.setData('side', 'right');
-    // this.body.checkCollision.up = false;
-    // this.body.checkCollision.left = false;
-    // this.body.checkCollision.right = false;
   }
 
   moveLeft() {
@@ -66,13 +63,11 @@ export default class Player extends Entity {
   }
 
   onHit(actScene) {
-    console.log('Ouch');
     this.hitSide();
     this.setData('lives', this.getData('lives') - 1);
     if (this.getData('lives') === 0) {
       this.destroy();
       actScene.scene.start('gameOver');
-      console.log('GameOver');
     }
     return this.getData('lives');
   }

@@ -13,8 +13,8 @@ async function getScoreAPI() {
     headers: { 'Content-Type': 'application/json' },
   })
     .then(response => response.json())
-    .then(json => console.log(json))
-    .catch(err => console.log(err));
+    .then(json => json)
+    .catch(err => err);
 }
 
 async function pushScore(userName, scoreVal) {
@@ -25,7 +25,7 @@ async function pushScore(userName, scoreVal) {
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
     body: jsonScore,
   };
-  await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/20n0xhB0lcNUfPpfJzUj/scores/',
+  await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/TZYfRdsiWsUoxdQNKoTy/scores/',
     options)
     .then(response => response.json())
     .then(data => {
@@ -34,7 +34,6 @@ async function pushScore(userName, scoreVal) {
     })
     .catch(err => err);
 
-  console.log(dat);
   return dat;
 }
 
@@ -43,7 +42,7 @@ async function getScores() {
     method: 'GET',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
   };
-  const getResp = await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/20n0xhB0lcNUfPpfJzUj/scores/',
+  const getResp = await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/TZYfRdsiWsUoxdQNKoTy/scores/',
     options);
   const data = await getResp.json();
 
@@ -53,8 +52,7 @@ async function getScores() {
     if (b.score < a.score) return 1;
     return 0;
   });
-  console.log(data);
-  console.log(sortData);
+
   return sortData;
 }
 

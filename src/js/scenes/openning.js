@@ -156,10 +156,6 @@ export default class Openning extends Phaser.Scene {
       this.scene.start('scores');
     });
 
-    // this.add.graphics().fillRoundedRect((width / 2) - 150, (height / 4) - 50, 300, 100, {
-    //   tl: 10, tr: 10, br: 0, bl: 0,
-    // }).fillStyle('#eee');
-
     // Running rabbit
     const player = this.add.sprite(395, 470, 'rabbit-nrm-n-hit');
 

@@ -2,15 +2,12 @@
 import Phaser from 'phaser';
 
 export default function preLoadBar(scene) {
-  console.log('Scene');
-  console.log(scene);
   const progressBar = scene.add.graphics();
   const progressBox = scene.add.graphics();
   progressBox.fillStyle(0x222222, 0.8);
   // To Make Loading... text
   const { width } = scene.cameras.main;
   const { height } = scene.cameras.main;
-  console.log(`WxH: ${width}x${height}`);
   progressBox.fillRect(width / 2.8, height / 2.15, 320, 50);
 
   const loadingText = scene.make.text({
@@ -43,10 +40,6 @@ export default function preLoadBar(scene) {
     },
   }).setOrigin(0.5, 0.5);
 
-  // for (let i = 0; i < 500; i += 1) {
-  //   scene.load.image(`${key} ${Math.round(i / 5)}`,
-  //     '../assets/bg&objects/Background.png');
-  // }
 
   // Event listeners from Phaser's LoaderPlugin
   scene.load.on('progress', (value) => {

@@ -50,7 +50,6 @@ const movement = (() => {
       key: 'punch-right',
       frames: scene.anims.generateFrameNumbers('rabbit-righ-punch',
         { start: 4, end: 0 }),
-      // frames: [{ key: 'rabbit-right-punch', frame: 4 }],
       frameRate: 10,
       repeat: -1,
     });
@@ -117,12 +116,6 @@ const movement = (() => {
       frameRate: 10,
       repeat: -1,
     });
-
-    // scene.anims.create({
-    //   key: 'boss-hit-left',
-    //   frames: [{ key: 'enemy2', frame: 2 }],
-    //   frameRate: 10,
-    // });
   };
 
   return {

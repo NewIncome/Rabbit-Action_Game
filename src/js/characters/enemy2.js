@@ -54,7 +54,6 @@ export default class Enemy2 extends Entity {
     if (this.y > 700) {
       this.y = Phaser.Math.Between(-100, 0);
       this.x = Phaser.Math.Between(30, 800);
-      // child.body.updateFromGameObject();
     }
   }
 
