@@ -172,14 +172,6 @@ export default class Openning extends Phaser.Scene {
 
     Movement.player(this);
 
-    console.log('Active Scene: ');
-    console.log(this.scene.isActive('openning'));
-    console.log(this.scene.isActive('game'));
-    console.log(this.scene.isActive('gameOver'));
-    console.log(this.scene.get('openning'));
-    console.log(this.scene.systems.config);
-    console.log(typeof this.scene.systems.config);
-
     if (!this.stop) {
       setTimeout(() => {
         this.rabbit.anims.play('right-run');

@@ -248,26 +248,11 @@ export default class Game extends Phaser.Scene {
 
     if (this.isPlayerOut()) {
       GameLogic.endStat = 'lost';
-      console.log(this.scene.systems.config);
-      console.log(this.scene.systems.game.scene.isProcessing);
-      // this.scene.pause('game');
-      this.scene.sleep('game');
-      // this.scene.stop('game');
-      // this.scene.scene.events.removeAllListeners();
-      console.log(this.scene.systems.config);
       this.scene.start('gameOver');
-      console.log('Active Scene: ');
-      console.log(this.scene.isActive('openning'));
-      console.log(this.scene.get('game'));
-      console.log(this.scene.isActive('gameOver'));
-      console.log(this.scene.systems.config);
-      console.log(this.scene.systems.game.scene.isProcessing);
-      console.log(this.scene.isActive('game'));
-      console.log(this.scene.isVisible('game'));
-      console.log('-----end-----');
 
       this.end = false;
     }
+
 
     if (this.end) {
       this.boss.update();

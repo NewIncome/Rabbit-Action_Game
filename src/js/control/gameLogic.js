@@ -19,7 +19,6 @@ const GameLogic = (() => {
           setTimeout(() => {
             if (enemy1.children !== undefined) {
               if (enemy1.countActive() === 0 && cycle === 1) {
-                console.log('Inside Phase 2');
                 phase = 2;
                 phaseTx.text = 'Phase: 2';
                 setTimeout(() => {
