@@ -5,8 +5,7 @@ const gameName = {
   name: 'Rabbit vs The Aliens',
 };
 
-// eslint-disable-next-line no-unused-vars
-async function getScoreAPI() {
+async function getScoreAPI(fetch) {
   await fetch('https://us-central1-js-capstone-backend.cloudfunctions.net/api/games', {
     method: 'post',
     body: JSON.stringify(gameName),
@@ -17,7 +16,7 @@ async function getScoreAPI() {
     .catch(err => err);
 }
 
-async function pushScore(userName, scoreVal) {
+async function pushScore(userName, scoreVal, fetch) {
   let dat;
   const jsonScore = JSON.stringify({ user: userName, score: scoreVal });
   const options = {
@@ -37,7 +36,7 @@ async function pushScore(userName, scoreVal) {
   return dat;
 }
 
-async function getScores() {
+async function getScores(fetch) {
   const options = {
     method: 'GET',
     headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
@@ -57,7 +56,7 @@ async function getScores() {
 }
 
 
-export { pushScore, getScores };
+export { pushScore, getScores, getScoreAPI };
 
 // For name: Test1, key: 20n0xhB0lcNUfPpfJzUj
 // For this project name, key: TZYfRdsiWsUoxdQNKoTy
