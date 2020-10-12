@@ -173,9 +173,11 @@ export default class Openning extends Phaser.Scene {
     Movement.player(this);
 
     if (!this.stop) {
-      setTimeout(() => {
-        this.rabbit.anims.play('right-run');
-      }, 2000);
+      if (this.rabbit.anims !== undefined) {
+        setTimeout(() => {
+          this.rabbit.anims.play('right-run');
+        }, 2000);
+      }
     }
   }
 }
