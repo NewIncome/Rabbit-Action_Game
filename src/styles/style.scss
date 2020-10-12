@@ -10,4 +10,6 @@ body {
   width: 100vw;
 }
 
-canvas { width: 70%; }
+@media (max-width: 600px) {
+  canvas { width: 70%; }
+}
