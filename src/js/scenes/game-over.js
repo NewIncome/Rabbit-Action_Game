@@ -131,5 +131,12 @@ export default class GameOver extends Phaser.Scene {
     retryBtn.on('pointerup', () => {
       this.scene.start('game');
     });
+
+    console.log('Active Scene: ');
+    console.log(this.scene.isActive('openning'));
+    console.log(this.scene.isActive('game'));
+    console.log(this.scene.isActive('gameOver'));
+    console.log(this.scene.get('gameOver'));
+    console.log(this.scene.systems.config);
   }
 }

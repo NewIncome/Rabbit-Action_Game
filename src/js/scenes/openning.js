@@ -11,6 +11,10 @@ export default class Openning extends Phaser.Scene {
     super('openning');
   }
 
+  init() {
+    this.stop = false;
+  }
+
   preload() {
     // To Makes the Progress Bar
     const progressBar = this.add.graphics();
@@ -152,8 +156,12 @@ export default class Openning extends Phaser.Scene {
 
     hover(rankBtn, rankBtnHvr);
 
+    // Running rabbit
+    this.rabbit = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
+
     // Check for clicks
     playBtn.on('pointerdown', () => {
+      this.stop = true;
       this.scene.start('game');
     });
 
@@ -161,13 +169,21 @@ export default class Openning extends Phaser.Scene {
       this.scene.start('scores');
     });
 
-    // Running rabbit
-    const player = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
 
     Movement.player(this);
 
-    setTimeout(() => {
-      player.anims.play('right-run');
-    }, 2000);
+    console.log('Active Scene: ');
+    console.log(this.scene.isActive('openning'));
+    console.log(this.scene.isActive('game'));
+    console.log(this.scene.isActive('gameOver'));
+    console.log(this.scene.get('openning'));
+    console.log(this.scene.systems.config);
+    console.log(typeof this.scene.systems.config);
+
+    if (!this.stop) {
+      setTimeout(() => {
+        this.rabbit.anims.play('right-run');
+      }, 2000);
+    }
   }
 }

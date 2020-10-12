@@ -26,6 +26,7 @@ export default class Game extends Phaser.Scene {
   init() {
     GameLogic.phase = 0;
     GameLogic.endStat = '';
+    this.end = true;
   }
 
   preload() {
@@ -116,9 +117,9 @@ export default class Game extends Phaser.Scene {
     });
 
     // ---------- Create Enemies & Player ----------
-    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 10);
+    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 1);
 
-    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 5);
+    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 2);
     this.pEnemies.children.iterate((child) => {
       child.active = false;
       child.visible = false;
@@ -201,6 +202,11 @@ export default class Game extends Phaser.Scene {
     Movement.boss(this);
 
     this.phaseNum = this.add.text(this.game.config.width / 2, -150, 'Stage: 0');
+
+    this.enemyCount = () => this.gEnemies.countActive() + this.pEnemies.countActive();
+
+    console.log('Scene: ');
+    console.log(this.scene);
   }
 
   update() {
@@ -240,10 +246,33 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    if (this.boss.getData('lives') > 1 || !this.isPlayerOut) {
+    if (this.isPlayerOut()) {
+      GameLogic.endStat = 'lost';
+      console.log(this.scene.systems.config);
+      console.log(this.scene.systems.game.scene.isProcessing);
+      // this.scene.pause('game');
+      this.scene.sleep('game');
+      // this.scene.stop('game');
+      // this.scene.scene.events.removeAllListeners();
+      console.log(this.scene.systems.config);
+      this.scene.start('gameOver');
+      console.log('Active Scene: ');
+      console.log(this.scene.isActive('openning'));
+      console.log(this.scene.get('game'));
+      console.log(this.scene.isActive('gameOver'));
+      console.log(this.scene.systems.config);
+      console.log(this.scene.systems.game.scene.isProcessing);
+      console.log(this.scene.isActive('game'));
+      console.log(this.scene.isVisible('game'));
+      console.log('-----end-----');
+
+      this.end = false;
+    }
+
+    if (this.end) {
       this.boss.update();
 
-      this.enemyCount = this.gEnemies.countActive() + this.pEnemies.countActive();
+      // this.enemyCount();
 
       // ---------- Game Logic ----------
       GameLogic.phase = GameLogic.gameCycle(GameLogic.phase,
@@ -251,13 +280,8 @@ export default class Game extends Phaser.Scene {
         this.pEnemies,
         this.boss,
         this.enemyCount,
-        this.phaseNum);
-    }
-
-
-    if (this.isPlayerOut()) {
-      GameLogic.endStat = 'lost';
-      this.scene.start('gameOver');
+        this.phaseNum,
+        this.end);
     }
   }
 }
