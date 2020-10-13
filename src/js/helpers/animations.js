@@ -1,6 +1,5 @@
 const movement = (() => {
   const player = (scene) => {
-    // Animations-movement
     scene.anims.create({
       key: 'normal-l',
       frames: scene.anims.generateFrameNumbers('rabbit-nrm-n-hit-left',
@@ -30,12 +29,12 @@ const movement = (() => {
       repeat: -1,
     });
     scene.anims.create({
-      key: 'jump-s-l', // simple jump
+      key: 'jump-s-l',
       frames: [{ key: 'rabbit-left-jump', frame: 2 }],
       frameRate: 10,
     });
     scene.anims.create({
-      key: 'jump-s-r', // simple jump
+      key: 'jump-s-r',
       frames: [{ key: 'rabbit-right-jump', frame: 3 }],
       frameRate: 10,
     });

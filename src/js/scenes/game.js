@@ -32,7 +32,7 @@ export default class Game extends Phaser.Scene {
   preload() {
     this.load.image('game-bg', '../assets/bg&objects/Background.png');
 
-    // ---------- Loading the Land ----------
+
     ImgLoader.tiles(this, 'tile-flat-', ['l', 'm', 'r'],
       '../assets/bg&objects/Tile_', 10, 3, '.png');
 
@@ -43,14 +43,14 @@ export default class Game extends Phaser.Scene {
       ['tl', 'tm', 'tr', 'ml', 'mm', 'mr', 'bl', 'bm', 'br'],
       '../assets/bg&objects/Tile_', 1, 9, '.png');
 
-    // ---------- Loading Objects ----------
+
     this.load.image('light-tree', '../assets/bg&objects/Objects/Object_16.png');
     this.load.image('lessLgt-tree', '../assets/bg&objects/Objects/Object_18.png');
     this.load.image('flower', '../assets/bg&objects/Objects/Object_1.png');
     this.load.image('lgRock', '../assets/bg&objects/Objects/Object_2.png');
     this.load.image('smRock', '../assets/bg&objects/Objects/Object_3.png');
 
-    // ---------- Loading Animated Objects ----------
+
     ImgLoader.player(this);
 
     ImgLoader.enemy1(this);
@@ -59,7 +59,7 @@ export default class Game extends Phaser.Scene {
 
     ImgLoader.boss(this);
 
-    // helper function to create Enemy Groups
+
     this.createEnemy = (className, type, qnt) => this.physics.add.group({
       classType: className,
       key: type,
@@ -85,18 +85,18 @@ export default class Game extends Phaser.Scene {
 
     this.sideFlag = 'right';
 
-    // Creating background objects
+
     this.add.image(750, 130, 'lessLgt-tree').setScale(0.5);
     this.earthGrounds.create(50, 32, 'lgRock')
       .setSize(120, 75);
 
-    // ---------- Creating the Land ----------
+
     GndCreate.makeLgLand2(-100, 100, this, this.earthGrounds);
     this.add.image(150, 280, 'light-tree').setScale(0.9);
     GndCreate.makeLgLand1(350, 30, this, this.earthGrounds);
     GndCreate.makeLgLand2(550, 600, this, this.earthGrounds);
-    GndCreate.makeLgLand3(0, 500, this, this.earthGrounds); // 45.earthGrounds0~
-    GndCreate.makeMdLand(900, 170, this, this.earthGrounds, 2); // .earthGroundsMd
+    GndCreate.makeLgLand3(0, 500, this, this.earthGrounds);
+    GndCreate.makeMdLand(900, 170, this, this.earthGrounds, 2);
     GndCreate.makeLgLand2(650, 270, this, this.earthGrounds);
 
     GndCreate.makeFlatLand(570, 360, this, this.earthGrounds, 1);
@@ -116,7 +116,7 @@ export default class Game extends Phaser.Scene {
       earthChild.body.checkCollision.right = false;
     });
 
-    // ---------- Create Enemies & Player ----------
+
     this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 1);
 
     this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 2);
@@ -153,7 +153,7 @@ export default class Game extends Phaser.Scene {
 
     this.physics.world.setBounds(0, -700, 1030, 1600);
 
-    // ---------- Collisions ----------
+
     this.physics.add.collider(this.player, this.earthGrounds);
 
     this.physics.add.collider(this.gEnemies, this.earthGrounds);
@@ -190,7 +190,7 @@ export default class Game extends Phaser.Scene {
     this.cameras.main.setDeadzone(this.scale.width);
     this.cameras.main.centerOnX(this.scale.width / 2);
 
-    // ---------- Movement ----------
+
     this.cursors = this.input.keyboard.createCursorKeys();
 
     Movement.player(this);
@@ -204,13 +204,9 @@ export default class Game extends Phaser.Scene {
     this.phaseNum = this.add.text(this.game.config.width / 2, -150, 'Stage: 0');
 
     this.enemyCount = () => this.gEnemies.countActive() + this.pEnemies.countActive();
-
-    console.log('Scene: ');
-    console.log(this.scene);
   }
 
   update() {
-    // ---------- Cursor Movement ----------
     if (this.cursors.left.isDown) {
       this.player.moveLeft();
     } else if (this.cursors.right.isDown) {
@@ -257,9 +253,8 @@ export default class Game extends Phaser.Scene {
     if (this.end) {
       this.boss.update();
 
-      // this.enemyCount();
+      this.enemyCount();
 
-      // ---------- Game Logic ----------
       GameLogic.phase = GameLogic.gameCycle(GameLogic.phase,
         this.gEnemies,
         this.pEnemies,

@@ -2,7 +2,6 @@ const GndCreate = (() => {
   const topTiles = ['tile-flat-l', 'tile-flat-m', 'tile-flat-r',
     'tile-md-t', 'tile-lg-tl', 'tile-lg-tm', 'tile-lg-tr'];
 
-  // helper functions to minimize code
   const repeatTileOnX = (x, y, scene, statGrp, tile, n) => {
     for (let i = 50; i <= n * 50; i += 50) {
       if (topTiles.includes(tile)) statGrp.create(x + i, y, tile);
@@ -36,17 +35,17 @@ const GndCreate = (() => {
     }
   };
 
-  // ---------- FLAT Lands ----------
+
   const makeFlatLand = (xPos, yPos, scene, staticGroup, size) => {
     layerYextRepeater(xPos, yPos, scene, staticGroup, 'tile-flat-l', 'tile-flat-m', 'tile-flat-r', size, 1);
   };
 
-  // ---------- MEDIUM Lands ----------
+
   const makeMdLand = (xPos, yPos, scene, staticGroup, size) => {
     layerXextRepeater(xPos, yPos, scene, staticGroup, 'tile-md-t', 'tile-md-m', 'tile-md-b', size, 1);
   };
 
-  // ---------- LARGE Lands ----------
+
   const makeLgLand1 = (xPos, yPos, scene, staticGroup, size = 3) => {
     layerYextRepeater(xPos, yPos, scene, staticGroup, 'tile-lg-tl', 'tile-lg-tm', 'tile-lg-tr', size, 1);
 

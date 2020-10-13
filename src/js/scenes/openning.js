@@ -16,7 +16,6 @@ export default class Openning extends Phaser.Scene {
   }
 
   preload() {
-    // To Makes the Progress Bar
     const progressBar = this.add.graphics();
     const progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
@@ -27,7 +26,7 @@ export default class Openning extends Phaser.Scene {
     progressBox.fillRect((width / 2) - 160,
       (height / 4) * 1.5, 320, 50);
 
-    // To Make Loading... text
+
     const loadingText = this.make.text({
       x: width / 2,
       y: height / 2 - 100,
@@ -37,7 +36,7 @@ export default class Openning extends Phaser.Scene {
         fill: '#ffffff',
       },
     }).setOrigin(0.5, 0.5);
-    // To Make the Progress Percentage
+
     const percentText = this.make.text({
       x: width / 2,
       y: height / 2 - 5,
@@ -47,7 +46,7 @@ export default class Openning extends Phaser.Scene {
         fill: '#ffffff',
       },
     }).setOrigin(0.5, 0.5);
-    // To Make the Name of Files Being loaded
+
     this.assetText = this.make.text({
       x: width / 2,
       y: height / 2 + 50,
@@ -65,9 +64,8 @@ export default class Openning extends Phaser.Scene {
 
     ImgLoader.player(this);
 
-    // Event listeners from Phaser's LoaderPlugin
+
     this.load.on('progress', (value) => {
-      // gives a value between 0-1
       progressBar.clear();
       progressBar.fillStyle(0xffffff, 1);
       progressBar.fillRect((this.game.config.width / 2) - 150,
@@ -78,7 +76,7 @@ export default class Openning extends Phaser.Scene {
     this.load.on('fileprogress', (file) => {
       this.assetText.setText(`Loading asset: ${file.key}`);
     });
-    // 'complete' will only be emitted once all files are done loading
+
     this.load.on('complete', () => {
       setTimeout(() => {
         progressBar.destroy();
@@ -156,10 +154,10 @@ export default class Openning extends Phaser.Scene {
 
     hover(rankBtn, rankBtnHvr);
 
-    // Running rabbit
+
     this.rabbit = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
 
-    // Check for clicks
+
     playBtn.on('pointerdown', () => {
       this.stop = true;
       this.scene.start('game');
@@ -175,7 +173,9 @@ export default class Openning extends Phaser.Scene {
     if (!this.stop) {
       if (this.rabbit.anims !== undefined) {
         setTimeout(() => {
-          this.rabbit.anims.play('right-run');
+          if (this.rabbit.anims !== undefined) {
+            this.rabbit.anims.play('right-run');
+          }
         }, 2000);
       }
     }

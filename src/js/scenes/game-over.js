@@ -20,14 +20,14 @@ export default class GameOver extends Phaser.Scene {
     const { height } = this.game.config;
 
     this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
-    // ----- The Texts -----
+
     const title = this.add.text(width / 2,
       height / 3,
       'GAME OVER',
       { fontSize: '26px' });
     center(title);
 
-    // this.add.text(100, 100, `${title.width}`);
+
     const retryBtn = this.add.text(width / 4,
       height / 1.5,
       'RETRY', {
@@ -60,7 +60,7 @@ export default class GameOver extends Phaser.Scene {
       }).setVisible(false);
     center(rankBtnHvr);
 
-    // --- Submit Button ---
+
     const submitBtn = this.add.text(width / 2,
       height / 3 + 50,
       'SUBMIT', {
@@ -83,7 +83,7 @@ export default class GameOver extends Phaser.Scene {
       }).setVisible(false);
     center(submitBtnHvr);
 
-    // ----- Name Imput -----
+
     const inputElm = document.createElement('div');
     inputElm.innerHTML = `
       <input type="text" id="name" placeholder="What's your name Winner?" style="width: 336px;  height: 30px; margin-bottom: 30px; padding: 15px; text-align: center; border: 2px #aea solid; border-radius: 5px; font: 20px Calibri; font-weight: 900; background-color: transparent; color: #8e8"><br>
@@ -104,28 +104,26 @@ export default class GameOver extends Phaser.Scene {
     const errorMssg = this.add.dom(width / 2, (height / 2) - 100, 'div', 'padding: 3px 7px; border: 1px solid red; border-radius: 20px; font: 15px Calibri; color: red', 'Input name cannot be empty');
     errorMssg.setVisible(false);
 
-    // ----- Submit bttn actions -----
+
     hover(submitBtn, submitBtnHvr);
 
     submitBtn.on('pointerup', () => {
       const nameVal = document.getElementById('name').value;
 
       if (nameVal !== '') {
-        pushScore(nameVal, GameLogic.koTime());
+        pushScore(nameVal, GameLogic.koTime(), fetch);
         this.scene.start('scores');
       } else if (nameVal === '') {
         errorMssg.setVisible(true);
       }
     });
 
-    // ----- Rank bttn actions -----
     hover(rankBtn, rankBtnHvr);
 
     rankBtn.on('pointerup', () => {
       this.scene.start('scores');
     });
 
-    // ----- Retry bttn actions -----
     hover(retryBtn, retryBtnHvr);
 
     retryBtn.on('pointerup', () => {

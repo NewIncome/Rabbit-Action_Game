@@ -23,7 +23,6 @@ export default class Scores extends Phaser.Scene {
 
     this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
 
-    // ----- Menu Bttn Setup and Action -----
     const menu = this.add.text(width / 2,
       height / 1.2,
       'MENU', {
@@ -46,7 +45,6 @@ export default class Scores extends Phaser.Scene {
       this.scene.start('openning');
     });
 
-    // ----- Get and Display Scores -----
     this.add.text(width / 2, 60, 'SCORE-BOARD', {
       fontSize: '40px',
       fontStyle: 'bold',
@@ -63,7 +61,7 @@ export default class Scores extends Phaser.Scene {
     let j = 140;
 
 
-    getScores().then((scoreArr) => {
+    getScores(fetch).then((scoreArr) => {
       const qnt = scoreArr.length > 10 ? 10 : scoreArr.length;
       for (let i = 0; i < qnt; i += 1) {
         this.add.text(i < 5 ? 135 : 545, j,

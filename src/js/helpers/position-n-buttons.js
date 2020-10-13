@@ -3,7 +3,6 @@ function center(obj) {
 }
 
 function hover(obj, hovObj) {
-  // ----- Submit bttn actions -----
   obj.setInteractive();
 
   obj.on('pointerover', () => {
@@ -23,7 +22,7 @@ function setTimeVal(secs) {
 }
 
 function numIs(elem) {
-  return setTimeVal(elem) || ''; // used instead of ternary operator
+  return setTimeVal(elem) || '';
 }
 
 function strIs(elem) {
