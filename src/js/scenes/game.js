@@ -221,9 +221,10 @@ export default class Game extends Phaser.Scene {
       // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
       // forceMin: 16,
       // enable: true
-    });
+    }).setVisible(false);
 
-    this.punchBttn = this.add.sprite(850, 540, 'bttn').setScrollFactor(0, 0);
+    this.punchBttn = this.add.sprite(850, 540, 'bttn')
+      .setScrollFactor(0, 0).setVisible(false);
 
     this.punchBttn.setInteractive().on('pointerdown', () => {
       this.punchBttn.setFrame(1);
@@ -234,6 +235,12 @@ export default class Game extends Phaser.Scene {
     });
 
     this.punched = () => this.spaceKey.isDown || this.punchBttnDown;
+
+    // eslint-disable-next-line no-restricted-globals
+    if (screen.width < 1200) {
+      this.joystick.visible = false;
+      this.punchBttn.visible = false;
+    }
   }
 
   update() {
