@@ -80,6 +80,8 @@ export default class Game extends Phaser.Scene {
     this.load.plugin('rexvirtualjoystickplugin', url, true);
 
     this.load.spritesheet('bttn', '../assets/bg&objects/bttn-g(65op).png', { frameWidth: 200, frameHeight: 200 });
+
+    this.input.addPointer(2);
   }
 
   create() {
