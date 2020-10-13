@@ -238,8 +238,8 @@ export default class Game extends Phaser.Scene {
 
     // eslint-disable-next-line no-restricted-globals
     if (screen.width < 1200) {
-      this.joystick.visible = false;
-      this.punchBttn.visible = false;
+      this.joystick.visible = true;
+      this.punchBttn.visible = true;
     }
   }
 
