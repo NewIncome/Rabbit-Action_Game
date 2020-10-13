@@ -42,7 +42,6 @@ export default function preLoadBar(scene) {
 
 
   scene.load.on('progress', (value) => {
-
     progressBar.clear();
     progressBar.fillStyle(0xffffff, 1);
     progressBar.fillRect(width / 2.65, height / 2.1, 300 * value, 30);
