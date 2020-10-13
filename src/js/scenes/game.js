@@ -27,6 +27,7 @@ export default class Game extends Phaser.Scene {
     GameLogic.phase = 0;
     GameLogic.endStat = '';
     this.end = true;
+    this.punchBttnDown = false;
   }
 
   preload() {
@@ -73,6 +74,12 @@ export default class Game extends Phaser.Scene {
       setSize: { x: 50, y: 50 },
       runChildUpdate: true,
     });
+
+
+    const url = 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexvirtualjoystickplugin.min.js';
+    this.load.plugin('rexvirtualjoystickplugin', url, true);
+
+    this.load.spritesheet('bttn', '../assets/bg&objects/bttn-g(65op).png', { frameWidth: 200, frameHeight: 200 });
   }
 
   create() {
@@ -117,9 +124,9 @@ export default class Game extends Phaser.Scene {
     });
 
 
-    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 1);
+    this.gEnemies = this.createEnemy(Enemy1, 'enemy1', 12);
 
-    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 2);
+    this.pEnemies = this.createEnemy(Enemy2, 'enemy2', 6);
     this.pEnemies.children.iterate((child) => {
       child.active = false;
       child.visible = false;
@@ -163,20 +170,20 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.boss, this.earthGrounds);
 
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
-      if (this.spaceKey.isDown) {
+      if (this.punched()) {
         enemy.body.velocity.y = -50;
         enemy.onKill();
       }
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
-      if (this.spaceKey.isDown && enemy.body.checkCollision.up === true) {
+      if (this.punched() && enemy.body.checkCollision.up === true) {
         enemy.onHit();
       }
     }, null, this);
 
     this.physics.add.overlap(this.player, this.boss, (player, boss) => {
-      if (this.spaceKey.isDown && boss.body.checkCollision.up === true) {
+      if (this.punched() && boss.body.checkCollision.up === true) {
         if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
         else {
           GameLogic.endStat = 'win';
@@ -204,12 +211,35 @@ export default class Game extends Phaser.Scene {
     this.phaseNum = this.add.text(this.game.config.width / 2, -150, 'Stage: 0');
 
     this.enemyCount = () => this.gEnemies.countActive() + this.pEnemies.countActive();
+
+    this.joystick = this.plugins.get('rexvirtualjoystickplugin').add(this, {
+      x: 150,
+      y: 550,
+      radius: 100,
+      base: this.add.circle(0, 0, 100, 0x888888, 0.4),
+      thumb: this.add.circle(0, 0, 50, 0xbbbbbb, 0.4),
+      // dir: '8dir',   // 'up&down'|0|'left&right'|1|'4dir'|2|'8dir'|3
+      // forceMin: 16,
+      // enable: true
+    });
+
+    this.punchBttn = this.add.sprite(850, 540, 'bttn').setScrollFactor(0, 0);
+
+    this.punchBttn.setInteractive().on('pointerdown', () => {
+      this.punchBttn.setFrame(1);
+      this.punchBttnDown = true;
+    }).on('pointerup', () => {
+      this.punchBttn.setFrame(0);
+      this.punchBttnDown = false;
+    });
+
+    this.punched = () => this.spaceKey.isDown || this.punchBttnDown;
   }
 
   update() {
-    if (this.cursors.left.isDown) {
+    if (this.cursors.left.isDown || this.joystick.left) {
       this.player.moveLeft();
-    } else if (this.cursors.right.isDown) {
+    } else if (this.cursors.right.isDown || this.joystick.right) {
       this.player.moveRight();
     } else {
       this.player.body.setVelocityX(0);
@@ -221,7 +251,7 @@ export default class Game extends Phaser.Scene {
       } else this.player.turnRight();
     }
 
-    if (this.spaceKey.isDown) {
+    if (this.punched()) {
       if (this.player.getData('side') === 'left') {
         this.player.punchLeft();
       } else {
@@ -229,15 +259,16 @@ export default class Game extends Phaser.Scene {
       }
     }
 
-    if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown || this.joystick.up) {
       if (this.player.body.touching.down) {
         if (this.player.getData('side') === 'left') this.player.jumpLeft();
         else this.player.jumpRight();
       }
 
-      if (this.cursors.left.isDown) this.player.anims.play('jump-s-l');
-      else if (this.cursors.right.isDown) this.player.anims.play('jump-s-r');
-      else if (!this.cursors.right.isDown && !this.cursors.right.isDown) {
+      if (this.cursors.left.isDown || this.joystick.left) this.player.anims.play('jump-s-l');
+      else if (this.cursors.right.isDown || this.joystick.right) this.player.anims.play('jump-s-r');
+      else if ((!this.cursors.right.isDown && !this.cursors.right.isDown)
+      || (!this.joystick.right && !this.joystick.right)) {
         this.player.anims.play('jump-s-r');
       }
     }

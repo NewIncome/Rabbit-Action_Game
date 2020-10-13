@@ -3,6 +3,8 @@ import './styles/style.scss';
 
 import Phaser from 'phaser';
 
+import VirtualJoystickPlugin from 'phaser3-rex-plugins/plugins/virtualjoystick-plugin';
+
 import Openning from './js/scenes/openning';
 
 import Game from './js/scenes/game';
@@ -10,6 +12,7 @@ import Game from './js/scenes/game';
 import GameOver from './js/scenes/game-over';
 
 import Scores from './js/scenes/scores';
+
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
@@ -34,5 +37,12 @@ export default new Phaser.Game({
   },
   input: {
     activePointers: 2,
+  },
+  plugins: {
+    global: [{
+      key: 'rexVirtualJoystick',
+      plugin: VirtualJoystickPlugin,
+      start: true,
+    }],
   },
 });

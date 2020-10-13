@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "phaser": "^3.24.1"
+    "phaser": "^3.24.1",
+    "phaser3-rex-plugins": "^1.1.31"
   }
 }
