@@ -23,6 +23,9 @@ export default class Scores extends Phaser.Scene {
 
     this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
 
+    this.sys.game.sound.stopAll();
+    this.sys.game.sound.sounds[4].play();
+
     const menu = this.add.text(width / 2,
       height / 1.2,
       'MENU', {

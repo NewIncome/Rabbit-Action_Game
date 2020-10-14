@@ -91,14 +91,18 @@ export default class GameOver extends Phaser.Scene {
     const domObj = this.add.dom(width / 2,
       height / 3, inputElm);
 
+
+    this.sys.game.sound.stopAll();
     if (GameLogic.endStat === 'win') {
       title.setVisible(false);
       domObj.setVisible(true);
       submitBtn.setVisible(true);
+      this.sys.game.sound.sounds[3].play();
     } else {
       title.setVisible(true);
       domObj.setVisible(false);
       submitBtn.setVisible(false);
+      this.sys.game.sound.sounds[6].play();
     }
 
     const errorMssg = this.add.dom(width / 2, (height / 2) - 100, 'div', 'padding: 3px 7px; border: 1px solid red; border-radius: 20px; font: 15px Calibri; color: red', 'Input name cannot be empty');

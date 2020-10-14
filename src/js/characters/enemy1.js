@@ -27,13 +27,16 @@ export default class Enemy1 extends Entity {
     }
   }
 
-  onKill() {
+  onKill(scene) {
     this.body.velocity.y = -200;
     this.hitSide();
     this.body.velocity.x = -200;
     setTimeout(() => {
       this.setData('lives', this.getData('lives') - 1);
-      if (this.getData('lives') === 0) this.destroy();
+      if (this.getData('lives') === 0) {
+        this.destroy();
+        scene.sys.game.sound.sounds[1].play();
+      }
     }, 1000);
   }
 

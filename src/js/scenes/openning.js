@@ -210,12 +210,13 @@ export default class Openning extends Phaser.Scene {
     if (this.sys.game.sound.sounds.length === 0) {
       this.sound.add('0.punchSound').setVolume(0.1);
       this.sound.add('1.enemyDieSound').setVolume(0.1);
-      this.sound.add('2.bossHitSound').setVolume(0.1);
+      this.sound.add('2.bossHitSound').setVolume(0.3);
       this.sound.add('3.winSound').setVolume(0.1);
       this.sound.add('4.sceneSound').setVolume(0.1);
-      this.sound.add('5.gameFlowSound').setVolume(0.1);
+      this.sound.add('5.gameFlowSound', { loop: true }).setVolume(0.1);
       this.sound.add('6.gameOverSound').setVolume(0.1);
     }
+    this.sys.game.sound.stopAll();
 
     Movement.player(this);
 
@@ -224,6 +225,7 @@ export default class Openning extends Phaser.Scene {
         setTimeout(() => {
           if (this.rabbit.anims !== undefined) {
             this.rabbit.anims.play('right-run');
+            this.sys.game.sound.sounds[5].play();
           }
         }, 2000);
       }

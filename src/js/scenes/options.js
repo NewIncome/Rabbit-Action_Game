@@ -21,7 +21,7 @@ export default class OptionsScene extends Phaser.Scene {
     const { height } = this.cameras.main;
     this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
 
-    console.log(this.sys.game.sound.sounds);
+    this.sys.game.sound.stopAll();
     this.sys.game.sound.sounds[4].play();
 
     this.text = this.add.text(width / 2, 100, 'OPTIONS',

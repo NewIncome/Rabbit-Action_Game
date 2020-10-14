@@ -33,6 +33,8 @@ export default class Game extends Phaser.Scene {
   preload() {
     this.load.image('game-bg', '../assets/bg&objects/Background.png');
 
+    this.sys.game.sound.stopAll();
+    this.sys.game.sound.sounds[5].play();
 
     ImgLoader.tiles(this, 'tile-flat-', ['l', 'm', 'r'],
       '../assets/bg&objects/Tile_', 10, 3, '.png');
@@ -174,13 +176,13 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(this.player, this.gEnemies, (player, enemy) => {
       if (this.punched()) {
         enemy.body.velocity.y = -50;
-        enemy.onKill();
+        enemy.onKill(this);
       }
     }, null, this);
 
     this.physics.add.overlap(this.player, this.pEnemies, (player, enemy) => {
       if (this.punched() && enemy.body.checkCollision.up === true) {
-        enemy.onHit();
+        enemy.onHit(this);
       }
     }, null, this);
 
@@ -189,6 +191,7 @@ export default class Game extends Phaser.Scene {
         if (boss.onHit(this) > 1) boss.body.velocity.y = -80;
         else {
           GameLogic.endStat = 'win';
+          this.sys.game.sound.sounds[3].play();
           this.scene.start('gameOver');
         }
       }
@@ -261,6 +264,7 @@ export default class Game extends Phaser.Scene {
     }
 
     if (this.punched()) {
+      this.sys.game.sound.sounds[0].play();
       if (this.player.getData('side') === 'left') {
         this.player.punchLeft();
       } else {
