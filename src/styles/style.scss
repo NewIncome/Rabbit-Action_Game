@@ -8,6 +8,20 @@ body {
   background-color: #e4f0f5;
   text-align: center;
   width: 100vw;
+
+  > div {
+    display: inline !important;
+    height: 30% !important;
+    width: 70% !important;
+    text-align: center;
+
+    > div {
+      margin-top: 10%;
+      position: relative !important;
+      transform: none !important;
+      transform-origin: initial !important;
+    }
+  }
 }
 
 @media (max-width: 1000px) {
