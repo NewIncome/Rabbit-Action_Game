@@ -14,7 +14,6 @@ export default class OptionsScene extends Phaser.Scene {
     this.load.image('bg', '../assets/bg&objects/game-over-bg.png');
     this.load.image('checkedBox', '../assets/bg&objects/checked-box.png');
     this.load.image('unCheckedBox', '../assets/bg&objects/unChecked-box.png');
-    this.load.audio('sceneSound', '../assets/Sounds/SpaceEngine_Start_00(options & score).wav');
   }
 
   create() {
@@ -22,17 +21,11 @@ export default class OptionsScene extends Phaser.Scene {
     const { height } = this.cameras.main;
     this.add.image(width / 2, height / 3, 'bg').setScale(0.4);
 
-    // this.sound.add(key, config);
-    this.sound.add('sceneSound').setVolume(0.1).play();
-    console.log(this.sound.volume);
-
-    console.log(this.sys.game);
-    console.log(Object.keys(this.sys.game));
-    // this.model = this.sys.game.globals;
+    console.log(this.sys.game.sound.sounds);
+    this.sys.game.sound.sounds[4].play();
 
     this.text = this.add.text(width / 2, 100, 'OPTIONS',
       { fontSize: 40, fontStyle: 'bold' }).setOrigin(0.5, 0.5);
-
 
     this.soundText = this.add.text((width / 2) + 20, 240,
       'Sound Enabled', { fontSize: 24 }).setOrigin(0.5, 0);
