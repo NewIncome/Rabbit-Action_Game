@@ -150,10 +150,38 @@ export default class Openning extends Phaser.Scene {
         },
       }).setOrigin(0.5, 0.5).setVisible(false);
 
+    const optionsBttn = this.add.text(width / 2,
+      height / 1.35, 'OPTIONS', {
+        fontSize: '30px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#e38100aa',
+        padding: {
+          left: 23,
+          right: 23,
+          top: 20,
+          bottom: 20,
+        },
+      }).setOrigin(0.5, 0.5);
+    const optionsBttnHvr = this.add.text(width / 2,
+      height / 1.35, 'OPTIONS', {
+        fontSize: '31px',
+        color: '#22d',
+        fontStyle: 'bold',
+        backgroundColor: '#e38100bb',
+        padding: {
+          left: 24,
+          right: 24,
+          top: 21,
+          bottom: 21,
+        },
+      }).setOrigin(0.5, 0.5).setVisible(false);
+
     hover(playBtn, playBtnHvr);
 
     hover(rankBtn, rankBtnHvr);
 
+    hover(optionsBttn, optionsBttnHvr);
 
     this.rabbit = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
 
@@ -165,6 +193,10 @@ export default class Openning extends Phaser.Scene {
 
     rankBtn.on('pointerdown', () => {
       this.scene.start('scores');
+    });
+
+    optionsBttn.on('pointerdown', () => {
+      this.scene.start('options');
     });
 
 

@@ -13,6 +13,8 @@ import GameOver from './js/scenes/game-over';
 
 import Scores from './js/scenes/scores';
 
+import Options from './js/scenes/options';
+
 
 export default new Phaser.Game({
   type: Phaser.AUTO,
@@ -20,6 +22,7 @@ export default new Phaser.Game({
   height: 700,
   scene: [
     Openning,
+    Options,
     Game,
     GameOver,
     Scores,
