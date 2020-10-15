@@ -44,6 +44,7 @@ export default class Boss extends Entity {
     this.body.velocity.x = -200;
     this.timeDelay();
     this.setData('lives', this.getData('lives') - 1);
+    actScene.sys.game.sound.sounds[2].play();
     if (this.getData('lives') === 0) {
       this.destroy();
       actScene.scene.start('gameOver');

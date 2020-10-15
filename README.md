@@ -15,7 +15,7 @@ Rabbit-Action is an HTML browser game made with Phaser3 and NPM. With requiremen
 
 ## Live Demo
 
-[:globe_with_meridians::computer:](https://rabbit-action-game.netlify.app/)
+[:globe_with_meridians::computer:](https://rabbit-action-game.netlify.app/)  <-  **Live Demo link**
 
 
 ## Getting Started

@@ -86,6 +86,14 @@ export default class Openning extends Phaser.Scene {
         this.assetText.destroy();
       }, 1500);
     });
+
+    this.load.audio('0.punchSound', '../assets/Sounds/8(punch).ogg');
+    this.load.audio('1.enemyDieSound', '../assets/Sounds/Shoot 1(enemy die).wav');
+    this.load.audio('2.bossHitSound', '../assets/Sounds/monster-6(boss hit).wav');
+    this.load.audio('3.winSound', '../assets/Sounds/Jingle_Win_Synth_00(win).wav');
+    this.load.audio('4.sceneSound', '../assets/Sounds/SpaceEngine_Start_00(options & score).wav');
+    this.load.audio('5.gameFlowSound', '../assets/Sounds/happy_adveture(game flow).mp3');
+    this.load.audio('6.gameOverSound', '../assets/Sounds/Ambience_Sinister_Electric_Cello_Loop_02(gameOver).wav');
   }
 
   create() {
@@ -150,10 +158,38 @@ export default class Openning extends Phaser.Scene {
         },
       }).setOrigin(0.5, 0.5).setVisible(false);
 
+    const optionsBttn = this.add.text(width / 2,
+      height / 1.35, 'OPTIONS', {
+        fontSize: '30px',
+        color: '#000',
+        fontStyle: 'bold',
+        backgroundColor: '#e38100aa',
+        padding: {
+          left: 23,
+          right: 23,
+          top: 20,
+          bottom: 20,
+        },
+      }).setOrigin(0.5, 0.5);
+    const optionsBttnHvr = this.add.text(width / 2,
+      height / 1.35, 'OPTIONS', {
+        fontSize: '31px',
+        color: '#22d',
+        fontStyle: 'bold',
+        backgroundColor: '#e38100bb',
+        padding: {
+          left: 24,
+          right: 24,
+          top: 21,
+          bottom: 21,
+        },
+      }).setOrigin(0.5, 0.5).setVisible(false);
+
     hover(playBtn, playBtnHvr);
 
     hover(rankBtn, rankBtnHvr);
 
+    hover(optionsBttn, optionsBttnHvr);
 
     this.rabbit = this.add.sprite(270, 554, 'rabbit-nrm-n-hit');
 
@@ -167,6 +203,20 @@ export default class Openning extends Phaser.Scene {
       this.scene.start('scores');
     });
 
+    optionsBttn.on('pointerdown', () => {
+      this.scene.start('options');
+    });
+
+    if (this.sys.game.sound.sounds.length === 0) {
+      this.sound.add('0.punchSound').setVolume(0.1);
+      this.sound.add('1.enemyDieSound').setVolume(0.1);
+      this.sound.add('2.bossHitSound').setVolume(0.3);
+      this.sound.add('3.winSound').setVolume(0.1);
+      this.sound.add('4.sceneSound').setVolume(0.1);
+      this.sound.add('5.gameFlowSound', { loop: true }).setVolume(0.1);
+      this.sound.add('6.gameOverSound').setVolume(0.1);
+    }
+    this.sys.game.sound.stopAll();
 
     Movement.player(this);
 
@@ -175,6 +225,7 @@ export default class Openning extends Phaser.Scene {
         setTimeout(() => {
           if (this.rabbit.anims !== undefined) {
             this.rabbit.anims.play('right-run');
+            this.sys.game.sound.sounds[5].play();
           }
         }, 2000);
       }
